@@ -1,0 +1,32 @@
+os: osx
+language: objective-c
+sudo: required
+
+env:
+  global:
+    - PROJECT="DateTime.xcodeproj"
+    - SCHEME="DateTime"
+  matrix:
+    - SDK="macosx10.12" DESTINATION="arch=x86_64"
+
+install:
+  - gem install xcodeproj
+  - eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
+  - swift --version
+
+before_script:
+  - set -o pipefail
+  - make project
+
+script:
+  - xcodebuild clean build test
+    -project "$PROJECT"
+    -scheme "$SCHEME"
+    -sdk "$SDK"
+    -destination "$DESTINATION"
+    -configuration Debug
+    -enableCodeCoverage YES
+    CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -J 'DateTime'
