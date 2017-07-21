@@ -1,0 +1,2 @@
+swift --version
+swift test
