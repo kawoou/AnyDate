@@ -3,8 +3,8 @@
 import PackageDescription
 
 let package = Package(
-	name: "DateTime",
+	name: "AnyDate",
 	targets: [
-		Target(name: "DateTime")
+		Target(name: "AnyDate")
 	]
 )
