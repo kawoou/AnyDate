@@ -4,7 +4,7 @@ final public class LocalDate {
     
     // MARK: - Constant
     
-    public struct Constant {
+    internal struct Constant {
         /// The pre-summed day of the month.
         static fileprivate let sumMonth = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365]
 
@@ -49,6 +49,9 @@ final public class LocalDate {
     
     /// Obtains an instance of LocalDate from a text string such as "2007-12-03".
     /// If the input text and date format are mismatched, returns nil.
+    public static func parse(_ text: String, clock: Clock) -> LocalDate? {
+        return LocalDate.parse(text, timeZone: clock.toTimeZone())
+    }
     public static func parse(_ text: String, timeZone: TimeZone = TimeZone.current) -> LocalDate? {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -57,13 +60,16 @@ final public class LocalDate {
     
     /// Obtains an instance of LocalDate from a text string using a specific formatter.
     /// If the input text and date format are mismatched, returns nil.
+    public static func parse(_ text: String, formatter: DateFormatter, clock: Clock) -> LocalDate? {
+        return LocalDate.parse(text, formatter: formatter, timeZone: clock.toTimeZone())
+    }
     public static func parse(_ text: String, formatter: DateFormatter, timeZone: TimeZone = TimeZone.current) -> LocalDate? {
         guard let date = formatter.date(from: text) else { return nil }
         formatter.timeZone = timeZone
         return LocalDate(date)
     }
     
-    
+
     // MARK: - Property
     
     /// Gets the year field.
@@ -232,6 +238,9 @@ final public class LocalDate {
     }
     
     /// Returns an instance of Date.
+    public func toDate(clock: Clock) -> Date {
+        return self.toDate(timeZone: clock.toTimeZone())
+    }
     public func toDate(timeZone: TimeZone = TimeZone.current) -> Date {
         self.normalize()
         
@@ -438,6 +447,9 @@ final public class LocalDate {
     // MARK: - Lifecycle
     
     /// Creates the current date from the system clock in the default time-zone.
+    public convenience init(clock: Clock) {
+        self.init(timeZone: clock.toTimeZone())
+    }
     public init(timeZone: TimeZone = TimeZone.current) {
         let now = Date()
         
@@ -450,6 +462,9 @@ final public class LocalDate {
     }
     
     /// Creates a local date from an instance of Date.
+    public convenience init(_ date: Date, clock: Clock) {
+        self.init(date, timeZone: clock.toTimeZone())
+    }
     public init(_ date: Date, timeZone: TimeZone = TimeZone.current) {
         var calendar = Calendar.current
         calendar.timeZone = timeZone

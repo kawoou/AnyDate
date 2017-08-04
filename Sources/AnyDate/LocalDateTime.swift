@@ -15,15 +15,21 @@ final public class LocalDateTime {
     }
     
     /// Obtains an instance of LocalDateTime from a text string such as '2007-12-03T10:15:30.217'.
+    public static func parse(_ text: String, clock: Clock) -> LocalDateTime? {
+        return LocalDateTime.parse(text, timeZone: clock.toTimeZone())
+    }
     public static func parse(_ text: String, timeZone: TimeZone = TimeZone.current) -> LocalDateTime? {
         /// ISO8601 format
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
         
-        return self.parse(text, formatter: formatter, timeZone: timeZone)
+        return LocalDateTime.parse(text, formatter: formatter, timeZone: timeZone)
     }
     
     /// Obtains an instance of LocalDateTime from a text string using a specific formatter.
+    public static func parse(_ text: String, formatter: DateFormatter, clock: Clock) -> LocalDateTime? {
+        return LocalDateTime.parse(text, formatter: formatter, timeZone: clock.toTimeZone())
+    }
     public static func parse(_ text: String, formatter: DateFormatter, timeZone: TimeZone = TimeZone.current) -> LocalDateTime? {
         guard let date = formatter.date(from: text) else { return nil }
         formatter.timeZone = timeZone
@@ -127,6 +133,9 @@ final public class LocalDateTime {
     }
     
     /// Returns an instance of Date.
+    public func toDate(clock: Clock) -> Date {
+        return self.toDate(timeZone: clock.toTimeZone())
+    }
     public func toDate(timeZone: TimeZone = TimeZone.current) -> Date {
         self.normalize()
         
@@ -390,6 +399,9 @@ final public class LocalDateTime {
     }
     
     /// Creates a local date-time from an instance of Date.
+    public convenience init(_ date: Date, clock: Clock) {
+        self.init(date, timeZone: clock.toTimeZone())
+    }
     public init(_ date: Date, timeZone: TimeZone = TimeZone.current) {
         var calendar = Calendar.current
         calendar.timeZone = timeZone
@@ -501,6 +513,7 @@ extension LocalDateTime: CustomStringConvertible, CustomDebugStringConvertible {
 
 // MARK: - Operator
 
+/// LocalDateTime
 public func + (lhs: LocalDateTime, rhs: LocalDateTime) -> LocalDateTime {
     return LocalDateTime(
         date: lhs.internalDate + rhs.internalDate,
@@ -520,4 +533,44 @@ public func - (lhs: LocalDateTime, rhs: LocalDateTime) -> LocalDateTime {
 public func -= (lhs: inout LocalDateTime, rhs: LocalDateTime) {
     lhs.internalDate -= rhs.internalDate
     lhs.internalTime -= rhs.internalTime
+}
+
+/// LocalDate
+public func + (lhs: LocalDateTime, rhs: LocalDate) -> LocalDateTime {
+    return LocalDateTime(
+        date: lhs.internalDate + rhs,
+        time: lhs.internalTime
+    )
+}
+public func += (lhs: inout LocalDateTime, rhs: LocalDate) {
+    lhs.internalDate += rhs
+}
+public func - (lhs: LocalDateTime, rhs: LocalDate) -> LocalDateTime {
+    return LocalDateTime(
+        date: lhs.internalDate - rhs,
+        time: lhs.internalTime
+    )
+}
+public func -= (lhs: inout LocalDateTime, rhs: LocalDate) {
+    lhs.internalDate -= rhs
+}
+
+/// LocalTime
+public func + (lhs: LocalDateTime, rhs: LocalTime) -> LocalDateTime {
+    return LocalDateTime(
+        date: lhs.internalDate,
+        time: lhs.internalTime + rhs
+    )
+}
+public func += (lhs: inout LocalDateTime, rhs: LocalTime) {
+    lhs.internalTime += rhs
+}
+public func - (lhs: LocalDateTime, rhs: LocalTime) -> LocalDateTime {
+    return LocalDateTime(
+        date: lhs.internalDate,
+        time: lhs.internalTime - rhs
+    )
+}
+public func -= (lhs: inout LocalDateTime, rhs: LocalTime) {
+    lhs.internalTime -= rhs
 }

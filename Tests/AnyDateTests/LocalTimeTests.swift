@@ -1,6 +1,6 @@
 import XCTest
 import Foundation
-import DateTime
+import AnyDate
 
 class LocalTimeTests: XCTestCase {
 
