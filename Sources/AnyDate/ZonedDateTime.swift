@@ -15,7 +15,7 @@ final public class ZonedDateTime {
     }
     
     /// Obtains an instance of ZonedDateTime from a text string such as '2007-12-03T10:15:30.217Z'.
-    public static func parse(_ text: String, timeZone: TimeZone = TimeZone.current) -> ZonedDateTime? {
+    public static func parse(_ text: String, clock: Clock = Clock.current) -> ZonedDateTime? {
         let formatter = DateFormatter()
         formatter.calendar = Calendar(identifier: .iso8601)
         formatter.locale = Locale(identifier: "en_US_POSIX")
@@ -23,20 +23,29 @@ final public class ZonedDateTime {
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
         
         guard let date = formatter.date(from: text) else { return nil }
-        return ZonedDateTime(date, timeZone: timeZone)
+        return ZonedDateTime(date, clock: clock)
+    }
+    public static func parse(_ text: String, timeZone: TimeZone) -> ZonedDateTime? {
+        return ZonedDateTime.parse(text, clock: Clock(timeZone))
     }
     
     /// Obtains an instance of ZonedDateTime from a text string using a specific formatter.
-    public static func parse(_ text: String, formatter: DateFormatter, timeZone: TimeZone = TimeZone.current) -> ZonedDateTime? {
+    public static func parse(_ text: String, formatter: DateFormatter, clock: Clock = Clock.current) -> ZonedDateTime? {
         guard let date = formatter.date(from: text) else { return nil }
-        return ZonedDateTime(date, timeZone: timeZone)
+        return ZonedDateTime(date, clock: clock)
+    }
+    public static func parse(_ text: String, formatter: DateFormatter, timeZone: TimeZone) -> ZonedDateTime? {
+        return ZonedDateTime.parse(text, formatter: formatter, clock: Clock(timeZone))
     }
     
     
     // MARK: - Property
     
+    /// Gets the Clock part of this date-time.
+    public var clock: Clock { return self.internalClock }
+
     /// Gets the TimeZone part of this date-time.
-    public var timeZone: TimeZone { return self.internalTimeZone }
+    public var timeZone: TimeZone { return self.internalClock.toTimeZone() }
     
     /// Gets the LocalDateTime part of this date-time.
     public fileprivate(set) var localDateTime: LocalDateTime {
@@ -104,7 +113,7 @@ final public class ZonedDateTime {
     
     // MARK: - Private
     
-    fileprivate var internalTimeZone: TimeZone = TimeZone.current
+    fileprivate var internalClock: Clock = Clock.current
     
     fileprivate var internalDateTime: LocalDateTime
     
@@ -128,10 +137,13 @@ final public class ZonedDateTime {
     }
     
     /// Returns an instance of Date.
+    public func toDate(clock: Clock?) -> Date {
+        return self.toDate(timeZone: clock?.toTimeZone())
+    }
     public func toDate(timeZone: TimeZone? = nil) -> Date {
         /// Specify date components
         var dateComponents = DateComponents()
-        dateComponents.timeZone = self.internalTimeZone
+        dateComponents.timeZone = self.internalClock.toTimeZone()
         dateComponents.year = self.internalDateTime.year
         dateComponents.month = self.internalDateTime.month
         dateComponents.day = self.internalDateTime.day
@@ -142,35 +154,41 @@ final public class ZonedDateTime {
         
         /// Create date from components
         var calendar = Calendar.current
-        calendar.timeZone = timeZone ?? self.internalTimeZone
+        calendar.timeZone = timeZone ?? self.internalClock.toTimeZone()
         
         let date = calendar.date(from: dateComponents)
         assert(date != nil, "Failed to convert Date from LocalTime.")
         
         return date!
     }
-    
+
     /// Returns a copy of this date-time with a different time-zone,
     /// retaining the local date-time if possible.
-    public func with(zoneSameLocal timeZone: TimeZone) -> ZonedDateTime {
+    public func with(zoneSameLocal clock: Clock) -> ZonedDateTime {
         let dateTime = ZonedDateTime(self)
         
-        let oldValue = self.internalTimeZone
-        let offset = timeZone.secondsFromGMT() - oldValue.secondsFromGMT()
+        let oldValue = self.internalClock
+        let offset = clock.offsetSecond - oldValue.offsetSecond
         
         dateTime.internalDateTime.second += offset
-        dateTime.internalTimeZone = timeZone
+        dateTime.internalClock = clock
         
         return dateTime
     }
-    
+    public func with(zoneSameLocal timeZone: TimeZone) -> ZonedDateTime {
+        return self.with(zoneSameLocal: Clock(timeZone))
+    }
+
     /// Returns a copy of this date-time with a different time-zone,
     /// retaining the instant.
-    public func with(zoneSameInstant timeZone: TimeZone) -> ZonedDateTime {
+    public func with(zoneSameInstant clock: Clock) -> ZonedDateTime {
         let dateTime = ZonedDateTime(self)
-        dateTime.internalTimeZone = timeZone
+        dateTime.internalClock = clock
         
         return dateTime
+    }
+    public func with(zoneSameInstant timeZone: TimeZone) -> ZonedDateTime {
+        return self.with(zoneSameInstant: Clock(timeZone))
     }
     
     /// Returns a copy of this ZonedDateTime with the year value altered.
@@ -183,7 +201,7 @@ final public class ZonedDateTime {
             minute: self.internalDateTime.minute,
             second: self.internalDateTime.second,
             nanoOfSecond: self.internalDateTime.nano,
-            timeZone: self.internalTimeZone
+            clock: self.internalClock
         )
     }
     
@@ -197,7 +215,7 @@ final public class ZonedDateTime {
             minute: self.internalDateTime.minute,
             second: self.internalDateTime.second,
             nanoOfSecond: self.internalDateTime.nano,
-            timeZone: self.internalTimeZone
+            clock: self.internalClock
         )
     }
     
@@ -211,7 +229,7 @@ final public class ZonedDateTime {
             minute: self.internalDateTime.minute,
             second: self.internalDateTime.second,
             nanoOfSecond: self.internalDateTime.nano,
-            timeZone: self.internalTimeZone
+            clock: self.internalClock
         )
     }
     
@@ -225,7 +243,7 @@ final public class ZonedDateTime {
             minute: self.internalDateTime.minute,
             second: self.internalDateTime.second,
             nanoOfSecond: self.internalDateTime.nano,
-            timeZone: self.internalTimeZone
+            clock: self.internalClock
         )
     }
     
@@ -239,7 +257,7 @@ final public class ZonedDateTime {
             minute: minute,
             second: self.internalDateTime.second,
             nanoOfSecond: self.internalDateTime.nano,
-            timeZone: self.internalTimeZone
+            clock: self.internalClock
         )
     }
     
@@ -253,7 +271,7 @@ final public class ZonedDateTime {
             minute: self.internalDateTime.minute,
             second: second,
             nanoOfSecond: self.internalDateTime.nano,
-            timeZone: self.internalTimeZone
+            clock: self.internalClock
         )
     }
     
@@ -267,7 +285,7 @@ final public class ZonedDateTime {
             minute: self.internalDateTime.minute,
             second: self.internalDateTime.second,
             nanoOfSecond: nano,
-            timeZone: self.internalTimeZone
+            clock: self.internalClock
         )
     }
     
@@ -275,7 +293,7 @@ final public class ZonedDateTime {
     public func plus(component: Calendar.Component, newValue: Int) -> ZonedDateTime {
         return ZonedDateTime(
             self.internalDateTime.plus(component: component, newValue: newValue),
-            timeZone: timeZone
+            clock: self.internalClock
         )
     }
     
@@ -323,7 +341,7 @@ final public class ZonedDateTime {
     public func minus(component: Calendar.Component, newValue: Int) -> ZonedDateTime {
         return ZonedDateTime(
             self.internalDateTime.minus(component: component, newValue: newValue),
-            timeZone: timeZone
+            clock: self.internalClock
         )
     }
     
@@ -374,7 +392,7 @@ final public class ZonedDateTime {
     
     /// Calculates the amount of time until another ZonedDateTime in terms of the specified unit.
     public func until(endDateTime: ZonedDateTime, component: Calendar.Component) -> Int64 {
-        let timeZoneAmount = endDateTime.internalTimeZone.secondsFromGMT() - self.internalTimeZone.secondsFromGMT()
+        let timeZoneAmount = endDateTime.internalClock.offsetSecond - self.internalClock.offsetSecond
         
         let newDateTime = LocalDateTime(endDateTime.internalDateTime)
         newDateTime.second += timeZoneAmount
@@ -387,7 +405,7 @@ final public class ZonedDateTime {
         let date = self.toDate()
         
         let formatter = formatter
-        formatter.timeZone = self.internalTimeZone
+        formatter.timeZone = self.internalClock.toTimeZone()
         return formatter.string(from: date)
     }
     
@@ -402,34 +420,43 @@ final public class ZonedDateTime {
     }
     
     /// Creates a ZonedDateTime from an instance of Date.
-    public init(_ date: Date, timeZone: TimeZone = TimeZone.current) {
-        self.internalTimeZone = timeZone
-        self.internalDateTime = LocalDateTime(date, timeZone: timeZone)
+    public init(_ date: Date, clock: Clock = Clock.current) {
+        self.internalClock = clock
+        self.internalDateTime = LocalDateTime(date, clock: clock)
+    }
+    public convenience init(_ date: Date, timeZone: TimeZone) {
+        self.init(date, clock: Clock(timeZone))
     }
     
     /// Copies an instance of ZonedDateTime.
     public init(_ dateTime: ZonedDateTime) {
-        self.internalTimeZone = dateTime.internalTimeZone
+        self.internalClock = dateTime.internalClock
         self.internalDateTime = LocalDateTime(dateTime.internalDateTime)
     }
     
     /// Creates an instance of ZonedDateTime from an instance of LocalDateTime.
-    public init(_ dateTime: LocalDateTime, timeZone: TimeZone = TimeZone.current) {
-        self.internalTimeZone = timeZone
+    public init(_ dateTime: LocalDateTime, clock: Clock = Clock.current) {
+        self.internalClock = clock
         self.internalDateTime = LocalDateTime(dateTime)
+    }
+    public convenience init(_ dateTime: LocalDateTime, timeZone: TimeZone) {
+        self.init(dateTime, clock: Clock(timeZone))
     }
     
     /// Returns a copy of this date-time with the new date and time, checking
     /// to see if a new object is in fact required.
-    public init(date: LocalDate, time: LocalTime, timeZone: TimeZone = TimeZone.current) {
-        self.internalTimeZone = timeZone
+    public init(date: LocalDate, time: LocalTime, clock: Clock = Clock.current) {
+        self.internalClock = clock
         self.internalDateTime = LocalDateTime(date: date, time: time)
+    }
+    public convenience init(date: LocalDate, time: LocalTime, timeZone: TimeZone) {
+        self.init(date: date, time: time, clock: Clock(timeZone))
     }
     
     /// Creates an instance of ZonedDateTime from year, month,
     /// day, hour, minute, second and nanosecond.
-    public init(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, nanoOfSecond: Int, timeZone: TimeZone = TimeZone.current) {
-        self.internalTimeZone = timeZone
+    public init(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, nanoOfSecond: Int, clock: Clock = Clock.current) {
+        self.internalClock = clock
         self.internalDateTime = LocalDateTime(
             year: year,
             month: month,
@@ -440,12 +467,27 @@ final public class ZonedDateTime {
             nanoOfSecond: nanoOfSecond
         )
     }
+    public convenience init(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, nanoOfSecond: Int, timeZone: TimeZone) {
+        self.init(
+            year: year,
+            month: month,
+            day: day,
+            hour: hour,
+            minute: minute,
+            second: second,
+            nanoOfSecond: nanoOfSecond,
+            clock: Clock(timeZone)
+        )
+    }
     
     /// Creates an instance of ZonedDateTime using seconds from the
     /// epoch of 1970-01-01T00:00:00Z.
-    public init(epochDay: Int64, nanoOfDay: Int, timeZone: TimeZone = TimeZone.current) {
-        self.internalTimeZone = timeZone
+    public init(epochDay: Int64, nanoOfDay: Int, clock: Clock = Clock.current) {
+        self.internalClock = clock
         self.internalDateTime = LocalDateTime(epochDay: epochDay, nanoOfDay: nanoOfDay)
+    }
+    public convenience init(epochDay: Int64, nanoOfDay: Int, timeZone: TimeZone) {
+        self.init(epochDay: epochDay, nanoOfDay: nanoOfDay, clock: Clock(timeZone))
     }
     
 }
@@ -489,7 +531,7 @@ extension ZonedDateTime: Equatable {
     
     /// Returns a Boolean value indicating whether two values are equal.
     public static func ==(lhs: ZonedDateTime, rhs: ZonedDateTime) -> Bool {
-        return lhs.internalTimeZone == rhs.internalTimeZone && lhs.internalDateTime == rhs.internalDateTime
+        return lhs.internalClock == rhs.internalClock && lhs.internalDateTime == rhs.internalDateTime
     }
     
 }
@@ -497,44 +539,104 @@ extension ZonedDateTime: CustomStringConvertible, CustomDebugStringConvertible {
     
     /// A textual representation of this instance.
     public var description: String {
-        return self.internalDateTime.description + " " + self.internalTimeZone.identifier
+        return self.internalDateTime.description + " " + self.internalClock.description
     }
     
     /// A textual representation of this instance, suitable for debugging.
     public var debugDescription: String {
-        return self.internalDateTime.debugDescription + " " + self.internalTimeZone.identifier
+        return self.internalDateTime.debugDescription + " " + self.internalClock.description
     }
     
 }
 
 // MARK: - Operator
 
+/// ZonedDateTime
 public func + (lhs: ZonedDateTime, rhs: ZonedDateTime) -> ZonedDateTime {
-    let timeZoneAmount = rhs.internalTimeZone.secondsFromGMT() - lhs.internalTimeZone.secondsFromGMT()
+    let timeZoneAmount = rhs.internalClock.offsetSecond - lhs.internalClock.offsetSecond
     
     return ZonedDateTime(
         (lhs.localDateTime + rhs.localDateTime).plus(second: timeZoneAmount),
-        timeZone: lhs.internalTimeZone
+        clock: lhs.internalClock
     )
 }
 public func += (lhs: inout ZonedDateTime, rhs: ZonedDateTime) {
-    let timeZoneAmount = rhs.internalTimeZone.secondsFromGMT() - lhs.internalTimeZone.secondsFromGMT()
+    let timeZoneAmount = rhs.internalClock.offsetSecond - lhs.internalClock.offsetSecond
     
     lhs.localDateTime += rhs.localDateTime
     lhs.second += timeZoneAmount
 }
 public func - (lhs: ZonedDateTime, rhs: ZonedDateTime) -> ZonedDateTime {
-    let timeZoneAmount = rhs.internalTimeZone.secondsFromGMT() - lhs.internalTimeZone.secondsFromGMT()
+    let timeZoneAmount = rhs.internalClock.offsetSecond - lhs.internalClock.offsetSecond
     
     return ZonedDateTime(
         (lhs.localDateTime - rhs.localDateTime).minus(second: timeZoneAmount),
-        timeZone: lhs.internalTimeZone
+        clock: lhs.internalClock
     )
 }
 public func -= (lhs: inout ZonedDateTime, rhs: ZonedDateTime) {
-    let timeZoneAmount = rhs.internalTimeZone.secondsFromGMT() - lhs.internalTimeZone.secondsFromGMT()
+    let timeZoneAmount = rhs.internalClock.offsetSecond - lhs.internalClock.offsetSecond
     
     lhs.localDateTime -= rhs.localDateTime
     lhs.second -= timeZoneAmount
 }
 
+/// LocalDateTime
+public func + (lhs: ZonedDateTime, rhs: LocalDateTime) -> ZonedDateTime {
+    return ZonedDateTime(
+        (lhs.localDateTime + rhs),
+        clock: lhs.internalClock
+    )
+}
+public func += (lhs: inout ZonedDateTime, rhs: LocalDateTime) {
+    lhs.localDateTime += rhs
+}
+public func - (lhs: ZonedDateTime, rhs: LocalDateTime) -> ZonedDateTime {
+    return ZonedDateTime(
+        (lhs.localDateTime - rhs),
+        clock: lhs.internalClock
+    )
+}
+public func -= (lhs: inout ZonedDateTime, rhs: LocalDateTime) {
+    lhs.localDateTime -= rhs
+}
+
+/// LocalDate
+public func + (lhs: ZonedDateTime, rhs: LocalDate) -> ZonedDateTime {
+    return ZonedDateTime(
+        (lhs.localDateTime + rhs),
+        clock: lhs.internalClock
+    )
+}
+public func += (lhs: inout ZonedDateTime, rhs: LocalDate) {
+    lhs.localDateTime += rhs
+}
+public func - (lhs: ZonedDateTime, rhs: LocalDate) -> ZonedDateTime {
+    return ZonedDateTime(
+        (lhs.localDateTime - rhs),
+        clock: lhs.internalClock
+    )
+}
+public func -= (lhs: inout ZonedDateTime, rhs: LocalDate) {
+    lhs.localDateTime -= rhs
+}
+
+/// LocalTime
+public func + (lhs: ZonedDateTime, rhs: LocalTime) -> ZonedDateTime {
+    return ZonedDateTime(
+        (lhs.localDateTime + rhs),
+        clock: lhs.internalClock
+    )
+}
+public func += (lhs: inout ZonedDateTime, rhs: LocalTime) {
+    lhs.localDateTime += rhs
+}
+public func - (lhs: ZonedDateTime, rhs: LocalTime) -> ZonedDateTime {
+    return ZonedDateTime(
+        (lhs.localDateTime - rhs),
+        clock: lhs.internalClock
+    )
+}
+public func -= (lhs: inout ZonedDateTime, rhs: LocalTime) {
+    lhs.localDateTime -= rhs
+}

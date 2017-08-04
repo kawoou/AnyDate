@@ -1,13 +1,13 @@
 import XCTest
 import Foundation
-import DateTime
+import AnyDate
 
 class ZonedDateTimeTests: XCTestCase {
 
 	let utcTimeZone = TimeZone(identifier: "UTC")!
 
 	func testMinMaxRange() {
-		let timeZone = TimeZone.current
+		let clock = Clock.current
 		let min = ZonedDateTime.min
 		let max = ZonedDateTime.max
 
@@ -18,7 +18,7 @@ class ZonedDateTimeTests: XCTestCase {
 		XCTAssertEqual(min.minute, 0)
 		XCTAssertEqual(min.second, 0)
 		XCTAssertEqual(min.nano, 0)
-		XCTAssertEqual(min.timeZone, timeZone)
+		XCTAssertEqual(min.clock, clock)
 
 		XCTAssertEqual(max.year, 999_999_999)
 		XCTAssertEqual(max.month, 12)
@@ -27,7 +27,7 @@ class ZonedDateTimeTests: XCTestCase {
 		XCTAssertEqual(max.minute, 59)
 		XCTAssertEqual(max.second, 59)
 		XCTAssertEqual(max.nano, 999_999_999)
-		XCTAssertEqual(max.timeZone, timeZone)
+		XCTAssertEqual(max.clock, clock)
 	}
 	func testComparable() {
 		let min = ZonedDateTime.min

@@ -4,7 +4,7 @@ final public class LocalTime {
     
     // MARK: - Constant
     
-    public struct Constant {
+    internal struct Constant {
         
         /// The minimum supported nano second, '0'
         static public let minNano = Int64(0)
@@ -100,6 +100,9 @@ final public class LocalTime {
     
     /// Obtains an instance of LocalTime from a text string such as "10:15:00".
     /// If the input text and date format are mismatched, returns nil.
+    public static func parse(_ text: String, clock: Clock) -> LocalTime? {
+        return LocalTime.parse(text, timeZone: clock.toTimeZone())
+    }
     public static func parse(_ text: String, timeZone: TimeZone = TimeZone.current) -> LocalTime? {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss"
@@ -108,6 +111,9 @@ final public class LocalTime {
     
     /// Obtains an instance of LocalTime from a text string using a specific formatter.
     /// If the input text and date format are mismatched, returns nil.
+    public static func parse(_ text: String, formatter: DateFormatter, clock: Clock) -> LocalTime? {
+        return LocalTime.parse(text, formatter: formatter, timeZone: clock.toTimeZone())
+    }
     public static func parse(_ text: String, formatter: DateFormatter, timeZone: TimeZone = TimeZone.current) -> LocalTime? {
         guard let date = formatter.date(from: text) else { return nil }
         formatter.timeZone = timeZone
@@ -204,6 +210,9 @@ final public class LocalTime {
     // MARK: - Public
     
     /// Returns an instance of Date.
+    public func toDate(clock: Clock) -> Date {
+        return self.toDate(timeZone: clock.toTimeZone())
+    }
     public func toDate(timeZone: TimeZone = TimeZone.current) -> Date {
         self.normalize()
         
@@ -384,11 +393,13 @@ final public class LocalTime {
     // MARK: - Lifecycle
     
     /// Creates the current time from the system clock in the default time-zone.
+    public convenience init(clock: Clock) {
+        self.init(timeZone: clock.toTimeZone())
+    }
     public init(timeZone: TimeZone = TimeZone.current) {
         let now = Date()
         
         var calendar = Calendar.current
-        calendar.timeZone = timeZone
         calendar.timeZone = timeZone
         
         self.internalHour = calendar.component(.hour, from: now)
@@ -398,6 +409,9 @@ final public class LocalTime {
     }
     
     /// Creates a local time from an instance of Date.
+    public convenience init(_ date: Date, clock: Clock) {
+        self.init(date, timeZone: clock.toTimeZone())
+    }
     public init(_ date: Date, timeZone: TimeZone = TimeZone.current) {
         var calendar = Calendar.current
         calendar.timeZone = timeZone
