@@ -354,6 +354,22 @@ public struct LocalTime {
         }
     }
     
+    /// Calculates the period between this time and another time as a Period.
+    public func until(endTime: LocalTime) -> Period {
+        var nanosUntil = endTime.nanoOfDay - self.nanoOfDay
+    
+        let nano = nanosUntil % Constant.nanosPerSecond
+        nanosUntil /= Constant.nanosPerSecond
+    
+        let second = Int(nanosUntil % Int64(Constant.secondsPerMinute))
+        nanosUntil /= Int64(Constant.secondsPerMinute)
+    
+        let hour = Int(nanosUntil / Int64(Constant.minutesPerHour))
+        let minute = Int(nanosUntil % Int64(Constant.minutesPerHour))
+    
+        return Period(year: 0, month: 0, day: 0, hour: hour, minute: minute, second: second, nano: Int(nano))
+    }
+
     /// Calculates the amount of time until another time in terms of the specified unit.
     public func until(endTime: LocalTime, component: Calendar.Component) -> Int64 {
         let nanosUntil = endTime.nanoOfDay - self.nanoOfDay
