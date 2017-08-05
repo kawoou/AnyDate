@@ -390,6 +390,16 @@ public struct ZonedDateTime {
         return self.internalDateTime.range(component)
     }
     
+    /// Calculates the period between this ZonedDateTime and another ZonedDateTime as a Period.
+    public func until(endDateTime: ZonedDateTime) -> Period {
+        let timeZoneAmount = endDateTime.internalClock.offsetSecond - self.internalClock.offsetSecond
+    
+        var period = self.internalDateTime.until(endDateTime: endDateTime.internalDateTime)
+        period.second += timeZoneAmount
+    
+        return period
+    }
+
     /// Calculates the amount of time until another ZonedDateTime in terms of the specified unit.
     public func until(endDateTime: ZonedDateTime, component: Calendar.Component) -> Int64 {
         let timeZoneAmount = endDateTime.internalClock.offsetSecond - self.internalClock.offsetSecond
