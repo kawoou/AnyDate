@@ -1,6 +1,6 @@
 import Foundation
 
-final public class LocalDate {
+public struct LocalDate {
     
     // MARK: - Constant
     
@@ -41,7 +41,7 @@ final public class LocalDate {
     /// The maximum supported LocalDate, '+999999999-12-31'.
     /// This could be used by an application as a "far future" date.
     public static var max: LocalDate {
-        let date = LocalDate(year: Constant.maxYear, month: Constant.maxMonth, day: 1)
+        var date = LocalDate(year: Constant.maxYear, month: Constant.maxMonth, day: 1)
         date.day = date.lengthOfMonth()
         
         return date
@@ -74,20 +74,20 @@ final public class LocalDate {
     
     /// Gets the year field.
     public var year: Int {
-        get { self.normalize(); return self.internalYear }
-        set { self.normalize(); self.internalYear = newValue }
+        get { return self.internalYear }
+        set { self.internalYear = newValue; self.normalize() }
     }
     
     /// Gets the month-of-year field from 1 to 12.
     public var month: Int {
-        get { self.normalize(); return self.internalMonth }
-        set { self.normalize(); self.internalMonth = newValue }
+        get { return self.internalMonth }
+        set { self.internalMonth = newValue; self.normalize() }
     }
     
     /// Gets the day-of-month field.
     public var day: Int {
-        get { self.normalize(); return self.internalDay }
-        set { self.normalize(); self.internalDay = newValue }
+        get { return self.internalDay }
+        set { self.internalDay = newValue; self.normalize() }
     }
     
     /// Gets the day-of-week field.
@@ -101,8 +101,6 @@ final public class LocalDate {
     ///  - Friday = 5
     ///  - Saturday = 6
     public var dayOfWeek: Int {
-        self.normalize()
-
         let ly = self.internalYear - 1
         let lm = self.internalMonth - 1
         let ld = self.internalDay - 1
@@ -125,7 +123,6 @@ final public class LocalDate {
     
     /// Gets the epoch day count represented by this date.
     public var epochDay: Int64 {
-        self.normalize()
         return self.toEpochDay()
     }
     
@@ -144,9 +141,6 @@ final public class LocalDate {
         return endDate.epochDay - self.epochDay
     }
     private func monthUntil(endDate: LocalDate) -> Int64 {
-        endDate.normalize()
-        self.normalize()
-        
         let packed1 = self.prolepticMonth * 32 + Int64(self.day)
         let packed2 = endDate.prolepticMonth * 32 + Int64(endDate.day)
         return (packed2 - packed1) / 32
@@ -202,7 +196,7 @@ final public class LocalDate {
         return total - Constant.daysZeroTo1970
     }
     
-    fileprivate func normalize() {
+    fileprivate mutating func normalize() {
         guard !isValid() else { return }
         
         let monthCount = Int64(self.internalYear * 12) + Int64(self.internalMonth - 1)
@@ -220,20 +214,17 @@ final public class LocalDate {
     
     /// Returns the length of the month represented by this date.
     public func lengthOfMonth() -> Int {
-        self.normalize()
         return self.lengthOfMonth(year: self.internalYear, month: self.internalMonth)
     }
     
     /// Returns the length of the year represented by this date.
     public func lengthOfYear() -> Int {
-        self.normalize()
         return self.isLeapYear(year: self.internalYear) ? 366 : 365
     }
     
     /// Checks if the year is a leap year, according to the ISO proleptic
     /// calendar system rules.
     public func isLeapYear() -> Bool {
-        self.normalize()
         return self.isLeapYear(year: self.internalYear)
     }
     
@@ -242,8 +233,6 @@ final public class LocalDate {
         return self.toDate(timeZone: clock.toTimeZone())
     }
     public func toDate(timeZone: TimeZone = TimeZone.current) -> Date {
-        self.normalize()
-        
         /// Specify date components
         var dateComponents = DateComponents()
         dateComponents.timeZone = timeZone
@@ -395,16 +384,13 @@ final public class LocalDate {
     
     /// Calculates the period between this date and another date as a Period.
     public func until(endDate: LocalDate) -> Period {
-        endDate.normalize()
-        self.normalize()
-        
         var totalMonth = endDate.prolepticMonth - self.prolepticMonth
         var days = endDate.day - self.day
         
         if totalMonth > 0 && days < 0 {
             totalMonth -= 1
             
-            let calcDate = LocalDate(self)
+            var calcDate = LocalDate(self)
             calcDate.month += Int(totalMonth)
             days = Int(endDate.epochDay - calcDate.epochDay)
         } else if totalMonth < 0 && days > 0 {
@@ -447,7 +433,7 @@ final public class LocalDate {
     // MARK: - Lifecycle
     
     /// Creates the current date from the system clock in the default time-zone.
-    public convenience init(clock: Clock) {
+    public init(clock: Clock) {
         self.init(timeZone: clock.toTimeZone())
     }
     public init(timeZone: TimeZone = TimeZone.current) {
@@ -459,10 +445,11 @@ final public class LocalDate {
         self.internalYear = calendar.component(.year, from: now)
         self.internalMonth = calendar.component(.month, from: now)
         self.internalDay = calendar.component(.day, from: now)
+        self.normalize()
     }
     
     /// Creates a local date from an instance of Date.
-    public convenience init(_ date: Date, clock: Clock) {
+    public init(_ date: Date, clock: Clock) {
         self.init(date, timeZone: clock.toTimeZone())
     }
     public init(_ date: Date, timeZone: TimeZone = TimeZone.current) {
@@ -472,6 +459,7 @@ final public class LocalDate {
         self.internalYear = calendar.component(.year, from: date)
         self.internalMonth = calendar.component(.month, from: date)
         self.internalDay = calendar.component(.day, from: date)
+        self.normalize()
     }
     
     /// Copies an instance of LocalDate.
@@ -479,6 +467,7 @@ final public class LocalDate {
         self.internalYear = date.year
         self.internalMonth = date.month
         self.internalDay = date.day
+        self.normalize()
     }
     
     /// Creates a local date from a month and day fields.
@@ -486,6 +475,7 @@ final public class LocalDate {
         self.internalYear = 0
         self.internalMonth = month
         self.internalDay = day
+        self.normalize()
     }
     
     /// Creates a local date from the year, month and day fields.
@@ -493,6 +483,7 @@ final public class LocalDate {
         self.internalYear = year
         self.internalMonth = month
         self.internalDay = day
+        self.normalize()
     }
     
     /// Creates a local date from a year and day-of-year fields.
@@ -500,6 +491,7 @@ final public class LocalDate {
         self.internalYear = year
         self.internalMonth = 1
         self.internalDay = dayOfYear
+        self.normalize()
     }
     
     /// Creates a local date from the epoch day count fields.
@@ -534,6 +526,7 @@ final public class LocalDate {
         self.internalYear = Int(yearEst) + marchMonthZero / 10
         self.internalMonth = (marchMonthZero + 2) % 12 + 1
         self.internalDay = Int(doyEst) - (marchMonthZero * 306 + 5) / 10 + 1
+        self.normalize()
     }
     
 }
@@ -543,9 +536,6 @@ extension LocalDate: Comparable {
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is less than that of the second argument.
     public static func <(lhs: LocalDate, rhs: LocalDate) -> Bool {
-        lhs.normalize()
-        rhs.normalize()
-        
         if lhs.year < rhs.year { return true }
         if lhs.month < rhs.month { return true }
         if lhs.day < rhs.day { return true }
@@ -555,9 +545,6 @@ extension LocalDate: Comparable {
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is greater than that of the second argument.
     public static func >(lhs: LocalDate, rhs: LocalDate) -> Bool {
-        lhs.normalize()
-        rhs.normalize()
-        
         if lhs.year > rhs.year { return true }
         if lhs.month > rhs.month { return true }
         if lhs.day > rhs.day { return true }
@@ -589,7 +576,6 @@ extension LocalDate: CustomStringConvertible, CustomDebugStringConvertible {
     
     /// A textual representation of this instance.
     public var description: String {
-        self.normalize()
         return String(
             format: "%02d.%02d.%02d",
             self.internalYear,

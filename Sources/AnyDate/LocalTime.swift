@@ -1,6 +1,6 @@
 import Foundation
 
-final public class LocalTime {
+public struct LocalTime {
     
     // MARK: - Constant
     
@@ -125,32 +125,30 @@ final public class LocalTime {
     
     /// Gets the hour-of-day field.
     public var hour: Int {
-        get { self.normalize(); return self.internalHour }
-        set { self.normalize(); self.internalHour = newValue }
+        get { return self.internalHour }
+        set { self.internalHour = newValue; self.normalize() }
     }
     
     /// Gets the minute-of-hour field from 0 to 59.
     public var minute: Int {
-        get { self.normalize(); return self.internalMinute }
-        set { self.normalize(); self.internalMinute = newValue }
+        get { return self.internalMinute }
+        set { self.internalMinute = newValue; self.normalize() }
     }
     
     /// Gets the second-of-minute field from 0 to 59.
     public var second: Int {
-        get { self.normalize(); return self.internalSecond }
-        set { self.normalize(); self.internalSecond = newValue }
+        get { return self.internalSecond }
+        set { self.internalSecond = newValue; self.normalize() }
     }
     
     /// Gets the nano-of-second field from 0 to 999,999,999.
     public var nano: Int {
-        get { self.normalize(); return Int(self.internalNano) }
-        set { self.normalize(); self.internalNano = Int64(newValue) }
+        get { return Int(self.internalNano) }
+        set { self.internalNano = Int64(newValue); self.normalize() }
     }
     
     /// Gets the time as seconds of day,
     public var secondOfDay: Int {
-        self.normalize()
-        
         var total = self.internalHour * Constant.secondsPerHour
         total += self.internalMinute * Constant.secondsPerMinute
         total += self.internalSecond
@@ -159,8 +157,6 @@ final public class LocalTime {
     
     /// Gets the time as nanos of day,
     public var nanoOfDay: Int64 {
-        self.normalize()
-        
         var total = Int64(self.internalHour) * Constant.nanosPerHour
         total += Int64(self.internalMinute) * Constant.nanosPerMinute
         total += Int64(self.internalSecond) * Constant.nanosPerSecond
@@ -187,7 +183,7 @@ final public class LocalTime {
         return true
     }
     
-    fileprivate func normalize() {
+    fileprivate mutating func normalize() {
         guard !self.isValid() else { return }
 
         var total = Int64(self.internalHour) * Constant.nanosPerHour
@@ -214,8 +210,6 @@ final public class LocalTime {
         return self.toDate(timeZone: clock.toTimeZone())
     }
     public func toDate(timeZone: TimeZone = TimeZone.current) -> Date {
-        self.normalize()
-        
         /// Specify date components
         var dateComponents = DateComponents()
         dateComponents.timeZone = timeZone
@@ -393,7 +387,7 @@ final public class LocalTime {
     // MARK: - Lifecycle
     
     /// Creates the current time from the system clock in the default time-zone.
-    public convenience init(clock: Clock) {
+    public init(clock: Clock) {
         self.init(timeZone: clock.toTimeZone())
     }
     public init(timeZone: TimeZone = TimeZone.current) {
@@ -406,10 +400,11 @@ final public class LocalTime {
         self.internalMinute = calendar.component(.minute, from: now)
         self.internalSecond = calendar.component(.second, from: now)
         self.internalNano = Int64(calendar.component(.nanosecond, from: now))
+        self.normalize()
     }
     
     /// Creates a local time from an instance of Date.
-    public convenience init(_ date: Date, clock: Clock) {
+    public init(_ date: Date, clock: Clock) {
         self.init(date, timeZone: clock.toTimeZone())
     }
     public init(_ date: Date, timeZone: TimeZone = TimeZone.current) {
@@ -420,6 +415,7 @@ final public class LocalTime {
         self.internalMinute = calendar.component(.minute, from: date)
         self.internalSecond = calendar.component(.second, from: date)
         self.internalNano = Int64(calendar.component(.nanosecond, from: date))
+        self.normalize()
     }
     
     /// Copies an instance of LocalTime.
@@ -428,6 +424,7 @@ final public class LocalTime {
         self.internalMinute = time.minute
         self.internalSecond = time.second
         self.internalNano = Int64(time.nano)
+        self.normalize()
     }
     
     /// Creates an instance of LocalTime from an hour, minute, second and nanosecond.
@@ -436,6 +433,7 @@ final public class LocalTime {
         self.internalMinute = minute
         self.internalSecond = second
         self.internalNano = Int64(nanoOfSecond)
+        self.normalize()
     }
     
     /// Creates an instance of LocalTime from a second-of-day value.
@@ -444,6 +442,7 @@ final public class LocalTime {
         self.internalMinute = 0
         self.internalSecond = secondOfDay
         self.internalNano = 0
+        self.normalize()
     }
     
     /// Creates an instance of LocalTime from a nanos-of-day value.
@@ -452,6 +451,7 @@ final public class LocalTime {
         self.internalMinute = 0
         self.internalSecond = 0
         self.internalNano = Int64(nanoOfDay)
+        self.normalize()
     }
     
 }
@@ -461,9 +461,6 @@ extension LocalTime: Comparable {
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is less than that of the second argument.
     public static func <(lhs: LocalTime, rhs: LocalTime) -> Bool {
-        lhs.normalize()
-        rhs.normalize()
-        
         if lhs.hour < rhs.hour { return true }
         if lhs.minute < rhs.minute { return true }
         if lhs.second < rhs.second { return true }
@@ -474,9 +471,6 @@ extension LocalTime: Comparable {
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is greater than that of the second argument.
     public static func >(lhs: LocalTime, rhs: LocalTime) -> Bool {
-        lhs.normalize()
-        rhs.normalize()
-        
         if lhs.hour > rhs.hour { return true }
         if lhs.minute > rhs.minute { return true }
         if lhs.second > rhs.second { return true }
@@ -501,9 +495,6 @@ extension LocalTime: Equatable {
     
     /// Returns a Boolean value indicating whether two values are equal.
     public static func ==(lhs: LocalTime, rhs: LocalTime) -> Bool {
-        lhs.normalize()
-        rhs.normalize()
-        
         guard lhs.hour == rhs.hour else { return false }
         guard lhs.minute == rhs.minute else { return false }
         guard lhs.second == rhs.second else { return false }
@@ -516,7 +507,6 @@ extension LocalTime: CustomStringConvertible, CustomDebugStringConvertible {
     
     /// A textual representation of this instance.
     public var description: String {
-        self.normalize()
         return String(
             format: "%02d:%02d:%02d.%09ld",
             self.internalHour,

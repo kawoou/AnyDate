@@ -1,6 +1,6 @@
 import Foundation
 
-final public class LocalDateTime {
+public struct LocalDateTime {
     
     // MARK: - Static
     
@@ -42,59 +42,59 @@ final public class LocalDateTime {
     
     /// The date part.
     public var date: LocalDate {
-        get { self.normalize(); return self.internalDate }
-        set { self.normalize(); self.internalDate = newValue }
+        get { return self.internalDate }
+        set { self.internalDate = newValue; self.normalize() }
     }
     
     /// The time part.
     public var time: LocalTime {
-        get { self.normalize(); return self.internalTime }
-        set { self.normalize(); self.internalTime = newValue }
+        get { return self.internalTime }
+        set { self.internalTime = newValue; self.normalize() }
     }
     
     /// Gets the year field.
     public var year: Int {
-        get { self.normalize(); return self.internalDate.year }
-        set { self.normalize(); self.internalDate.year = newValue }
+        get { return self.internalDate.year }
+        set { self.internalDate.year = newValue; self.normalize() }
     }
     
     /// Gets the month-of-year field from 1 to 12.
     public var month: Int {
-        get { self.normalize(); return self.internalDate.month }
-        set { self.normalize(); self.internalDate.month = newValue }
+        get { return self.internalDate.month }
+        set { self.internalDate.month = newValue; self.normalize() }
     }
     
     /// Gets the day-of-month field.
     public var day: Int {
-        get { self.normalize(); return self.internalDate.day }
-        set { self.normalize(); self.internalDate.day = newValue }
+        get { return self.internalDate.day }
+        set { self.internalDate.day = newValue; self.normalize() }
     }
     
     /// Gets the day-of-week field.
-    public var dayOfWeek: Int { self.normalize(); return self.internalDate.dayOfWeek }
+    public var dayOfWeek: Int { return self.internalDate.dayOfWeek }
     
     /// Gets the hour-of-day field.
     public var hour: Int {
-        get { self.normalize(); return self.internalTime.hour }
-        set { self.normalize(); self.internalTime.hour = newValue }
+        get { return self.internalTime.hour }
+        set { self.internalTime.hour = newValue; self.normalize() }
     }
     
     /// Gets the minute-of-hour field.
     public var minute: Int {
-        get { self.normalize(); return self.internalTime.minute }
-        set { self.normalize(); self.internalTime.minute = newValue }
+        get { return self.internalTime.minute }
+        set { self.internalTime.minute = newValue; self.normalize() }
     }
     
     /// Gets the second-of-minute field.
     public var second: Int {
-        get { self.normalize(); return self.internalTime.second }
-        set { self.normalize(); self.internalTime.second = newValue }
+        get { return self.internalTime.second }
+        set { self.internalTime.second = newValue; self.normalize() }
     }
     
     /// Gets the nano-of-second field.
     public var nano: Int {
-        get { self.normalize(); return self.internalTime.nano }
-        set { self.normalize(); self.internalTime.nano = newValue }
+        get { return self.internalTime.nano }
+        set { self.internalTime.nano = newValue; self.normalize() }
     }
     
     
@@ -103,7 +103,7 @@ final public class LocalDateTime {
     fileprivate var internalDate: LocalDate
     fileprivate var internalTime: LocalTime
     
-    fileprivate func normalize() {
+    fileprivate mutating func normalize() {
         if self.internalTime.hour >= LocalTime.Constant.hoursPerDay {
             self.internalDate.day += (self.internalTime.hour / LocalTime.Constant.hoursPerDay)
             self.internalTime.hour %= LocalTime.Constant.hoursPerDay
@@ -115,20 +115,17 @@ final public class LocalDateTime {
     
     /// Returns the length of the month represented by this date.
     public func lengthOfMonth() -> Int {
-        self.normalize()
         return self.internalDate.lengthOfMonth()
     }
     
     /// Returns the length of the year represented by this date.
     public func lengthOfYear() -> Int {
-        self.normalize()
         return self.internalDate.lengthOfYear()
     }
     
     /// Checks if the year is a leap year, according to the ISO proleptic
     /// calendar system rules.
     public func isLeapYear() -> Bool {
-        self.normalize()
         return self.internalDate.isLeapYear()
     }
     
@@ -137,8 +134,6 @@ final public class LocalDateTime {
         return self.toDate(timeZone: clock.toTimeZone())
     }
     public func toDate(timeZone: TimeZone = TimeZone.current) -> Date {
-        self.normalize()
-        
         /// Specify date components
         var dateComponents = DateComponents()
         dateComponents.timeZone = timeZone
@@ -162,8 +157,6 @@ final public class LocalDateTime {
     
     /// Returns a copy of this date-time with the specified field set to a new value.
     public func with(component: Calendar.Component, newValue: Int) -> LocalDateTime {
-        self.normalize()
-        
         switch component {
         case .hour, .minute, .second, .nanosecond:
             return LocalDateTime(
@@ -330,8 +323,6 @@ final public class LocalDateTime {
     
     /// Gets the range of valid values for the specified field.
     public func range(_ component: Calendar.Component) -> (Int, Int) {
-        self.normalize()
-        
         switch component {
         case .hour, .minute, .second, .nanosecond:
             return self.internalTime.range(component)
@@ -343,9 +334,6 @@ final public class LocalDateTime {
     
     /// Calculates the amount of time until another date-time in terms of the specified unit.
     public func until(endDateTime: LocalDateTime, component: Calendar.Component) -> Int64 {
-        self.normalize()
-        endDateTime.normalize()
-        
         switch component {
         case .nanosecond, .second, .minute, .hour:
             let timePart = self.internalTime.until(endTime: endDateTime.internalTime, component: component)
@@ -396,10 +384,11 @@ final public class LocalDateTime {
         
         self.internalDate = LocalDate(now)
         self.internalTime = LocalTime(now)
+        self.normalize()
     }
     
     /// Creates a local date-time from an instance of Date.
-    public convenience init(_ date: Date, clock: Clock) {
+    public init(_ date: Date, clock: Clock) {
         self.init(date, timeZone: clock.toTimeZone())
     }
     public init(_ date: Date, timeZone: TimeZone = TimeZone.current) {
@@ -417,12 +406,14 @@ final public class LocalDateTime {
             second: calendar.component(.second, from: date),
             nanoOfSecond: calendar.component(.nanosecond, from: date)
         )
+        self.normalize()
     }
     
     /// Copies an instance of LocalDateTime.
     public init(_ date: LocalDateTime) {
         self.internalDate = LocalDate(date.date)
         self.internalTime = LocalTime(date.time)
+        self.normalize()
     }
     
     /// Returns a copy of this date-time with the new date and time, checking
@@ -430,6 +421,7 @@ final public class LocalDateTime {
     public init(date: LocalDate, time: LocalTime) {
         self.internalDate = LocalDate(date)
         self.internalTime = LocalTime(time)
+        self.normalize()
     }
     
     /// Creates an instance of LocalDateTime from year, month,
@@ -437,6 +429,7 @@ final public class LocalDateTime {
     public init(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int = 0, nanoOfSecond: Int = 0) {
         self.internalDate = LocalDate(year: year, month: month, day: day)
         self.internalTime = LocalTime(hour: hour, minute: minute, second: second, nanoOfSecond: nanoOfSecond)
+        self.normalize()
     }
     
     /// Creates an instance of LocalDateTime using seconds from the
@@ -444,6 +437,7 @@ final public class LocalDateTime {
     public init(epochDay: Int64, nanoOfDay: Int) {
         self.internalDate = LocalDate(epochDay: epochDay)
         self.internalTime = LocalTime(nanoOfDay: nanoOfDay)
+        self.normalize()
     }
     
 }
@@ -453,9 +447,6 @@ extension LocalDateTime: Comparable {
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is less than that of the second argument.
     public static func <(lhs: LocalDateTime, rhs: LocalDateTime) -> Bool {
-        lhs.normalize()
-        rhs.normalize()
-        
         if lhs.internalDate < rhs.internalDate { return true }
         if lhs.internalTime < rhs.internalTime { return true }
         return false
@@ -464,9 +455,6 @@ extension LocalDateTime: Comparable {
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is greater than that of the second argument.
     public static func >(lhs: LocalDateTime, rhs: LocalDateTime) -> Bool {
-        lhs.normalize()
-        rhs.normalize()
-        
         if lhs.internalDate > rhs.internalDate { return true }
         if lhs.internalTime > rhs.internalTime { return true }
         return false
@@ -489,9 +477,6 @@ extension LocalDateTime: Equatable {
     
     /// Returns a Boolean value indicating whether two values are equal.
     public static func ==(lhs: LocalDateTime, rhs: LocalDateTime) -> Bool {
-        lhs.normalize()
-        rhs.normalize()
-        
         return lhs.internalDate == rhs.internalDate && lhs.internalTime == rhs.internalTime
     }
     
@@ -500,7 +485,6 @@ extension LocalDateTime: CustomStringConvertible, CustomDebugStringConvertible {
     
     /// A textual representation of this instance.
     public var description: String {
-        self.normalize()
         return self.internalDate.description + "T" + self.internalTime.description
     }
     
