@@ -1,6 +1,6 @@
 import Foundation
 
-final public class ZonedDateTime {
+public struct ZonedDateTime {
     
     // MARK: - Static
     
@@ -165,7 +165,7 @@ final public class ZonedDateTime {
     /// Returns a copy of this date-time with a different time-zone,
     /// retaining the local date-time if possible.
     public func with(zoneSameLocal clock: Clock) -> ZonedDateTime {
-        let dateTime = ZonedDateTime(self)
+        var dateTime = ZonedDateTime(self)
         
         let oldValue = self.internalClock
         let offset = clock.offsetSecond - oldValue.offsetSecond
@@ -182,7 +182,7 @@ final public class ZonedDateTime {
     /// Returns a copy of this date-time with a different time-zone,
     /// retaining the instant.
     public func with(zoneSameInstant clock: Clock) -> ZonedDateTime {
-        let dateTime = ZonedDateTime(self)
+        var dateTime = ZonedDateTime(self)
         dateTime.internalClock = clock
         
         return dateTime
@@ -394,7 +394,7 @@ final public class ZonedDateTime {
     public func until(endDateTime: ZonedDateTime, component: Calendar.Component) -> Int64 {
         let timeZoneAmount = endDateTime.internalClock.offsetSecond - self.internalClock.offsetSecond
         
-        let newDateTime = LocalDateTime(endDateTime.internalDateTime)
+        var newDateTime = LocalDateTime(endDateTime.internalDateTime)
         newDateTime.second += timeZoneAmount
         
         return self.internalDateTime.until(endDateTime: newDateTime, component: component)
@@ -424,7 +424,7 @@ final public class ZonedDateTime {
         self.internalClock = clock
         self.internalDateTime = LocalDateTime(date, clock: clock)
     }
-    public convenience init(_ date: Date, timeZone: TimeZone) {
+    public init(_ date: Date, timeZone: TimeZone) {
         self.init(date, clock: Clock(timeZone))
     }
     
@@ -439,7 +439,7 @@ final public class ZonedDateTime {
         self.internalClock = clock
         self.internalDateTime = LocalDateTime(dateTime)
     }
-    public convenience init(_ dateTime: LocalDateTime, timeZone: TimeZone) {
+    public init(_ dateTime: LocalDateTime, timeZone: TimeZone) {
         self.init(dateTime, clock: Clock(timeZone))
     }
     
@@ -449,7 +449,7 @@ final public class ZonedDateTime {
         self.internalClock = clock
         self.internalDateTime = LocalDateTime(date: date, time: time)
     }
-    public convenience init(date: LocalDate, time: LocalTime, timeZone: TimeZone) {
+    public init(date: LocalDate, time: LocalTime, timeZone: TimeZone) {
         self.init(date: date, time: time, clock: Clock(timeZone))
     }
     
@@ -467,7 +467,7 @@ final public class ZonedDateTime {
             nanoOfSecond: nanoOfSecond
         )
     }
-    public convenience init(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, nanoOfSecond: Int, timeZone: TimeZone) {
+    public init(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, nanoOfSecond: Int, timeZone: TimeZone) {
         self.init(
             year: year,
             month: month,
@@ -486,7 +486,7 @@ final public class ZonedDateTime {
         self.internalClock = clock
         self.internalDateTime = LocalDateTime(epochDay: epochDay, nanoOfDay: nanoOfDay)
     }
-    public convenience init(epochDay: Int64, nanoOfDay: Int, timeZone: TimeZone) {
+    public init(epochDay: Int64, nanoOfDay: Int, timeZone: TimeZone) {
         self.init(epochDay: epochDay, nanoOfDay: nanoOfDay, clock: Clock(timeZone))
     }
     
