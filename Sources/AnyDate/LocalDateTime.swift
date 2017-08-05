@@ -331,6 +331,22 @@ public struct LocalDateTime {
             return self.internalDate.range(component)
         }
     }
+
+    /// Calculates the period between this date-time and another date-time as a Period.
+    public func until(endDateTime: LocalDateTime) -> Period {
+        let datePeriod = self.internalDate.until(endDate: endDateTime.internalDate)
+        let timePeriod = self.internalTime.until(endTime: endDateTime.internalTime)
+    
+        return Period(
+            year: datePeriod.year + timePeriod.year,
+            month: datePeriod.month + timePeriod.month,
+            day: datePeriod.day + timePeriod.day,
+            hour: datePeriod.hour + timePeriod.hour,
+            minute: datePeriod.minute + timePeriod.minute,
+            second: datePeriod.second + timePeriod.second,
+            nano: datePeriod.nano + timePeriod.nano
+        )
+    }
     
     /// Calculates the amount of time until another date-time in terms of the specified unit.
     public func until(endDateTime: LocalDateTime, component: Calendar.Component) -> Int64 {

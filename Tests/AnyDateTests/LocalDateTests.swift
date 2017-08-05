@@ -90,6 +90,10 @@ class LocalDateTests: XCTestCase {
 		XCTAssertEqual(period.year, 1)
 		XCTAssertEqual(period.month, 1)
 		XCTAssertEqual(period.day, 2)
+		XCTAssertEqual(period.hour, 0)
+		XCTAssertEqual(period.minute, 0)
+		XCTAssertEqual(period.second, 0)
+		XCTAssertEqual(period.nano, 0)
 	}
 	func testRange() {
 		let date = LocalDate(year: 1628, month: 3, day: 12)

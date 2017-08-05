@@ -112,6 +112,15 @@ class LocalTimeTests: XCTestCase {
 		let oldTime = LocalTime(hour: 14, minute: 2, second: 18, nanoOfSecond: 1573)
 		let newTime = LocalTime(hour: 15, minute: 3, second: 19, nanoOfSecond: 1574)
 		
+		let period = oldTime.until(endTime: newTime)
+		XCTAssertEqual(period.year, 0)
+		XCTAssertEqual(period.month, 0)
+		XCTAssertEqual(period.day, 0)
+		XCTAssertEqual(period.hour, 1)
+		XCTAssertEqual(period.minute, 1)
+		XCTAssertEqual(period.second, 1)
+		XCTAssertEqual(period.nano, 1)
+
 		XCTAssertEqual(oldTime.until(endTime: newTime, component: .hour), 1)
 		XCTAssertEqual(oldTime.until(endTime: newTime, component: .minute), 61)
 		XCTAssertEqual(oldTime.until(endTime: newTime, component: .second), 3661)

@@ -400,7 +400,7 @@ public struct LocalDate {
         
         let years = Int(totalMonth / 12)
         let months = Int(totalMonth % 12)
-        return Period(year: years, month: months, day: days)
+        return Period(year: years, month: months, day: days, hour: 0, minute: 0, second: 0, nano: 0)
     }
     
     /// Calculates the amount of time until another date in terms of the specified unit.

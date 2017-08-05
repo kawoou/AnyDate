@@ -118,6 +118,15 @@ class ZonedDateTimeTests: XCTestCase {
 		let oldDate = ZonedDateTime(year: 1627, month: 2, day: 10, hour: 14, minute: 2, second: 18, nanoOfSecond: 1573, timeZone: self.utcTimeZone)
 		let newDate = ZonedDateTime(year: 1628, month: 3, day: 12, hour: 15, minute: 3, second: 19, nanoOfSecond: 1574, timeZone: self.utcTimeZone)
 
+		let period = oldDate.until(endDateTime: newDate)
+		XCTAssertEqual(period.year, 1)
+		XCTAssertEqual(period.month, 1)
+		XCTAssertEqual(period.day, 2)
+		XCTAssertEqual(period.hour, 1)
+		XCTAssertEqual(period.minute, 1)
+		XCTAssertEqual(period.second, 1)
+		XCTAssertEqual(period.nano, 1)
+
 		XCTAssertEqual(oldDate.until(endDateTime: newDate, component: .year), 1)
 		XCTAssertEqual(oldDate.until(endDateTime: newDate, component: .month), 13)
 		XCTAssertEqual(oldDate.until(endDateTime: newDate, component: .weekday), 56)
