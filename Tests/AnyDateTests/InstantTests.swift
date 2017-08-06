@@ -86,8 +86,20 @@ class InstantTests: XCTestCase {
 		let instant = Instant(epochSecond: 100_000, nano: 999_000_000)
 		let zero = Instant(epochSecond: 0, nano: 0)
 		
-		XCTAssertEqual(zero.until(nano: instant), 100_000_999_000_000)
-		XCTAssertEqual(zero.until(second: instant), 100_000)
+		XCTAssertEqual(zero.until(endInstant: instant, component: .nanosecond), 100_000_999_000_000)
+		XCTAssertEqual(zero.until(endInstant: instant, component: .second), 100_000)
+		XCTAssertEqual(zero.until(endInstant: instant, component: .minute), 1666)
+		XCTAssertEqual(zero.until(endInstant: instant, component: .hour), 27)
+		XCTAssertEqual(zero.until(endInstant: instant, component: .day), 1)
+	}
+	func testWith() {
+		let instant = Instant(epochSecond: 100_000, nano: 999_000_000)
+
+		let compare1 = Instant(epochSecond: 500, nano: 999_000_000)
+		let compare2 = Instant(epochSecond: 100_000, nano: 500)
+
+		XCTAssertEqual(instant.with(component: .second, newValue: 500), compare1)
+		XCTAssertEqual(instant.with(component: .nanosecond, newValue: 500), compare2)
 	}
 
 }
