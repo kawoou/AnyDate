@@ -86,12 +86,27 @@ public struct Instant {
             self.internalNano %= 1000_000_000
         }
     }
+    private func until(nano endInstant: Instant) -> Int64 {
+        let secDiff = endInstant.internalSecond - self.internalSecond
+        let totalNano = secDiff * 1000_000_000
+        return totalNano - Int64(self.internalNano) + Int64(endInstant.internalNano)
+    }
+    private func until(second endInstant: Instant) -> Int64 {
+        var secDiff = endInstant.internalSecond - self.internalSecond
+        let nanoDiff = endInstant.internalNano - self.internalNano
+        if secDiff > 0 && nanoDiff < 0 {
+            secDiff -= 1
+        } else if secDiff < 0 && nanoDiff > 0 {
+            secDiff += 1
+        }
+        return secDiff
+    }
 
 
     // MARK: - Public
 
     /// Combines this instant with a time-zone to create a ZonedDateTime.
-    public func toZone(clock: Clock = Clock.UTC) -> ZonedDateTime {
+    public func toZone(clock: Clock = Clock.current) -> ZonedDateTime {
         let nanoAdd = self.internalSecond % 86400
         let dayAdd = self.internalSecond / 86400
 
@@ -102,6 +117,50 @@ public struct Instant {
         )
     }
 
+    /// Returns a copy of this instant with the specified field set to a new value.
+    public func with(component: Calendar.Component, newValue: Int64) -> Instant {
+        switch component {
+        case .second:
+            return self.with(second: newValue)
+            
+        case .nanosecond:
+            return self.with(nano: newValue)
+            
+        default:
+            fatalError("Unsupported unit: \(component)")
+        }
+    }
+
+    /// Returns a copy of this Instant with the second-of-minute value altered.
+    public func with(second: Int64) -> Instant {
+        return Instant(
+            epochSecond: second,
+            nano: Int64(self.internalNano)
+        )
+    }
+
+    /// Returns a copy of this Instant with the nano-of-second value altered.
+    public func with(nano: Int64) -> Instant {
+        return Instant(
+            epochSecond: self.internalSecond,
+            nano: nano
+        )
+    }
+
+    /// Returns a copy of this instant with the specified amount added.
+    public func plus(component: Calendar.Component, newValue: Int64) -> Instant {
+        switch component {
+        case .second:
+            return self.plus(second: newValue)
+            
+        case .nanosecond:
+            return self.plus(nano: newValue)
+            
+        default:
+            fatalError("Unsupported unit: \(component)")
+        }
+    }
+
     /// Returns a copy of this instant with the specified duration in seconds added.
     public func plus(second: Int64) -> Instant {
         return Instant(
@@ -109,6 +168,7 @@ public struct Instant {
             nano: Int64(self.internalNano)
         )
     }
+
     /// Returns a copy of this instant with the specified duration in milliseconds added.
     public func plus(milli: Int64) -> Instant {
         return Instant(
@@ -116,6 +176,7 @@ public struct Instant {
             nano: Int64(self.internalNano) + (milli % 1000) * 1000_000
         )
     }
+
     /// Returns a copy of this instant with the specified duration in nanoseconds added.
     public func plus(nano: Int64) -> Instant {
         return Instant(
@@ -123,6 +184,7 @@ public struct Instant {
             nano: Int64(self.internalNano) + nano
         )
     }
+
     /// Returns a copy of this instant with the specified duration added.
     public func plus(second: Int64, nano: Int64) -> Instant {
         return Instant(
@@ -131,38 +193,56 @@ public struct Instant {
         )
     }
 
+    /// Returns a copy of this instant with the specified amount added.
+    public func minus(component: Calendar.Component, newValue: Int64) -> Instant {
+        switch component {
+        case .second:
+            return self.minus(second: newValue)
+            
+        case .nanosecond:
+            return self.minus(nano: newValue)
+            
+        default:
+            fatalError("Unsupported unit: \(component)")
+        }
+    }
+
     /// Returns a copy of this instant with the specified duration in seconds subtracted.
     public func minus(second: Int64) -> Instant {
         return self.plus(second: -second)
     }
+
     /// Returns a copy of this instant with the specified duration in milliseconds subtracted.
     public func minus(milli: Int64) -> Instant {
         return self.plus(milli: -milli)
     }
+
     /// Returns a copy of this instant with the specified duration in nanoseconds subtracted.
     public func minus(nano: Int64) -> Instant {
         return self.plus(nano: -nano)
     }
+
     /// Returns a copy of this instant with the specified duration subtracted.
     public func minus(second: Int64, nano: Int64) -> Instant {
         return self.plus(second: -second, nano: -nano)
     }
 
     /// Calculates the amount of time until another instant in terms of the specified unit.
-    public func until(nano endInstant: Instant) -> Int64 {
-        let secDiff = endInstant.internalSecond - self.internalSecond
-        let totalNano = secDiff * 1000_000_000
-        return totalNano - Int64(self.internalNano) + Int64(endInstant.internalNano)
-    }
-    public func until(second endInstant: Instant) -> Int64 {
-        var secDiff = endInstant.internalSecond - self.internalSecond
-        let nanoDiff = endInstant.internalNano - self.internalNano
-        if secDiff > 0 && nanoDiff < 0 {
-            secDiff -= 1
-        } else if secDiff < 0 && nanoDiff > 0 {
-            secDiff += 1
+    public func until(endInstant: Instant, component: Calendar.Component) -> Int64 {
+        switch component {
+        case .nanosecond:
+            return self.until(nano: endInstant)
+        case .second:
+            return self.until(second: endInstant)
+        case .minute:
+            return self.until(second: endInstant) / Int64(LocalTime.Constant.secondsPerMinute)
+        case .hour:
+            return self.until(second: endInstant) / Int64(LocalTime.Constant.secondsPerHour)
+        case .day:
+            return self.until(second: endInstant) / Int64(LocalTime.Constant.secondsPerDay)
+        default:
+            fatalError("Unsupported unit: \(component)")
         }
-        return secDiff
     }
 
 
