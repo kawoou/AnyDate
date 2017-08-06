@@ -64,8 +64,9 @@ public struct LocalDate {
         return LocalDate.parse(text, formatter: formatter, timeZone: clock.toTimeZone())
     }
     public static func parse(_ text: String, formatter: DateFormatter, timeZone: TimeZone = TimeZone.current) -> LocalDate? {
-        guard let date = formatter.date(from: text) else { return nil }
         formatter.timeZone = timeZone
+
+        guard let date = formatter.date(from: text) else { return nil }
         return LocalDate(date)
     }
     

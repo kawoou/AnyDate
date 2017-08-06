@@ -482,11 +482,11 @@ public struct ZonedDateTime {
     
     /// Creates an instance of ZonedDateTime using seconds from the
     /// epoch of 1970-01-01T00:00:00Z.
-    public init(epochDay: Int64, nanoOfDay: Int, clock: Clock = Clock.current) {
+    public init(epochDay: Int64, nanoOfDay: Int64, clock: Clock = Clock.current) {
         self.internalClock = clock
         self.internalDateTime = LocalDateTime(epochDay: epochDay, nanoOfDay: nanoOfDay)
     }
-    public init(epochDay: Int64, nanoOfDay: Int, timeZone: TimeZone) {
+    public init(epochDay: Int64, nanoOfDay: Int64, timeZone: TimeZone) {
         self.init(epochDay: epochDay, nanoOfDay: nanoOfDay, clock: Clock(timeZone))
     }
     
