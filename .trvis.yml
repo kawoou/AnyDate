@@ -1,4 +1,4 @@
-os: osx
+osx_image: xcode8.3
 language: objective-c
 sudo: required
 
@@ -6,27 +6,71 @@ env:
   global:
     - PROJECT="DateTime.xcodeproj"
     - SCHEME="DateTime"
+    - IOS_SDK="iphonesimulator10.3"
+    - MACOS_SDK="macosx10.12"
+    - TVOS_SDK="appletvsimulator10.2"
+    - WATCHOS_SDK="watchsimulator3.2"
+    - FRAMEWORK="AnyDate"
   matrix:
-    - SDK="macosx10.12" DESTINATION="arch=x86_64"
+    - SDK="$IOS_SDK"      TEST=1  DESTINATION="platform=iOS Simulator,name=iPhone 7,OS=10.3.1"
+    - SDK="$MACOS_SDK"    TEST=1  DESTINATION="arch=x86_64"
+    - SDK="$TVOS_SDK"     TEST=1  DESTINATION="OS=10.2,name=Apple TV 1080p"
+    - SDK="$WATCHOS_SDK"  TEST=0  DESTINATION="OS=3.2,name=Apple Watch - 38mm"
 
 install:
-  - gem install xcodeproj
   - eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
   - swift --version
+
+before_script:
+  - set -o pipefail
+  - if [ $TEST == 1 ]; then
+      TEST=1 swift package generate-xcodeproj;
+    else
+      swift package generate-xcodeproj;
+    fi
 
 before_script:
   - set -o pipefail
   - make project
 
 script:
-  - xcodebuild clean build test
-    -project "$PROJECT"
-    -scheme "$SCHEME"
-    -sdk "$SDK"
-    -destination "$DESTINATION"
-    -configuration Debug
-    -enableCodeCoverage YES
-    CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c
+  - if [ $TEST == 1 ]; then
+      xcodebuild clean build test
+        -project "$PROJECT"
+        -scheme "$SCHEME"
+        -sdk "$SDK"
+        -destination "$DESTINATION"
+        -configuration Debug
+        -enableCodeCoverage YES
+        CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c;
+    else
+      xcodebuild clean build
+        -project "$PROJECT"
+        -scheme "$SCHEME"
+        -sdk "$SDK"
+        -destination "$DESTINATION"
+        -configuration Debug
+        CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c;
+    fi
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash) -J 'DateTime'
+  - if [ $TEST == 1 ]; then
+      bash <(curl -s https://codecov.io/bash) -J 'AnyDate';
+    fi
+
+before_deploy:
+  - ruby ./Supports/carthage_helper.rb prepare_xcconfig
+  - TEST=0 swift package generate-xcodeproj --xcconfig-overrides Config.xcconfig
+  - carthage build --no-skip-current --verbose | xcpretty -c
+  - ruby ./Supports/carthage_helper.rb modify_info
+  - carthage archive $FRAMEWORK
+
+deploy:
+  provider: releases
+  api_key: $GH_TOKEN
+  file: "$FRAMEWORK.framework.zip"
+  skip_cleanup: true
+  on:
+    repo: Kawoou/AnyDate
+    tags: true
+    condition: $SDK = $IOS_SDK
