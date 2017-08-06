@@ -49,10 +49,10 @@ public struct Instant {
     /// "2007-12-03T10:15:30.00Z".
     ///
     /// If the input text and date format are mismatched, returns nil.
-    public static func parse(_ text: String, clock: Clock) -> Instant? {
+    public static func parse(_ text: String, clock: Clock = Clock.UTC) -> Instant? {
         return Instant.parse(text, timeZone: clock.toTimeZone())
     }
-    public static func parse(_ text: String, timeZone: TimeZone = TimeZone.current) -> Instant? {
+    public static func parse(_ text: String, timeZone: TimeZone) -> Instant? {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         return Instant.parse(text, formatter: formatter, timeZone: timeZone)
@@ -60,10 +60,10 @@ public struct Instant {
 
     /// Obtains an instance of Instant from a text string using a specific formatter.
     /// If the input text and date format are mismatched, returns nil.
-    public static func parse(_ text: String, formatter: DateFormatter, clock: Clock) -> Instant? {
+    public static func parse(_ text: String, formatter: DateFormatter, clock: Clock = Clock.UTC) -> Instant? {
         return Instant.parse(text, formatter: formatter, timeZone: clock.toTimeZone())
     }
-    public static func parse(_ text: String, formatter: DateFormatter, timeZone: TimeZone = TimeZone.current) -> Instant? {
+    public static func parse(_ text: String, formatter: DateFormatter, timeZone: TimeZone) -> Instant? {
         formatter.timeZone = timeZone
 
         guard let date = formatter.date(from: text) else { return nil }
@@ -91,7 +91,7 @@ public struct Instant {
     // MARK: - Public
 
     /// Combines this instant with a time-zone to create a ZonedDateTime.
-    public func toZone(clock: Clock = Clock.current) -> ZonedDateTime {
+    public func toZone(clock: Clock = Clock.UTC) -> ZonedDateTime {
         let nanoAdd = self.internalSecond % 86400
         let dayAdd = self.internalSecond / 86400
 
@@ -113,14 +113,14 @@ public struct Instant {
     public func plus(milli: Int64) -> Instant {
         return Instant(
             epochSecond: self.internalSecond + milli / 1000,
-            nano: Int64(self.internalNano) + (epochMilli % 1000) * 1000_000
+            nano: Int64(self.internalNano) + (milli % 1000) * 1000_000
         )
     }
     /// Returns a copy of this instant with the specified duration in nanoseconds added.
     public func plus(nano: Int64) -> Instant {
         return Instant(
             epochSecond: self.internalSecond,
-            nano: nano
+            nano: Int64(self.internalNano) + nano
         )
     }
     /// Returns a copy of this instant with the specified duration added.
@@ -168,20 +168,8 @@ public struct Instant {
 
     // MARK: - Lifecycle
 
-    /// Creates the current instant from the system clock in the default time-zone.
-    public init(clock: Clock) {
-        self.init(timeZone: clock.toTimeZone())
-    }
-    public init(timeZone: TimeZone = TimeZone.current) {
-        let date = Date()
-        self.init(date, timeZone: timeZone)
-    }
-
     /// Creates an instant from an instance of Date.
-    public init(_ date: Date, clock: Clock) {
-        self.init(date, timeZone: clock.toTimeZone())
-    }
-    public init(_ date: Date, timeZone: TimeZone = TimeZone.current) {
+    public init(_ date: Date = Date()) {
         let interval = Double(date.timeIntervalSince1970)
 
         self.internalSecond = Int64(interval)
@@ -204,4 +192,57 @@ public struct Instant {
         self.internalNano = Int(epochMilli % 1000) * 1000_000
         self.normalize()
     }
+}
+
+extension Instant: Comparable {
+    
+    /// Returns a Boolean value indicating whether the value of the first
+    /// argument is less than that of the second argument.
+    public static func <(lhs: Instant, rhs: Instant) -> Bool {
+        if lhs.second < rhs.second { return true }
+        if lhs.nano < rhs.nano { return true }
+        return false
+    }
+    
+    /// Returns a Boolean value indicating whether the value of the first
+    /// argument is greater than that of the second argument.
+    public static func >(lhs: Instant, rhs: Instant) -> Bool {
+        if lhs.second > rhs.second { return true }
+        if lhs.nano > rhs.nano { return true }
+        return false
+    }
+    
+    /// Returns a Boolean value indicating whether the value of the first
+    /// argument is less than or equal to that of the second argument.
+    public static func <=(lhs: Instant, rhs: Instant) -> Bool {
+        return !(lhs > rhs)
+    }
+    
+    /// Returns a Boolean value indicating whether the value of the first
+    /// argument is greater than or equal to that of the second argument.
+    public static func >=(lhs: Instant, rhs: Instant) -> Bool {
+        return !(lhs < rhs)
+    }
+    
+}
+extension Instant: Equatable {
+    
+    /// Returns a Boolean value indicating whether two values are equal.
+    public static func ==(lhs: Instant, rhs: Instant) -> Bool {
+        return lhs.second == rhs.second && lhs.nano == rhs.nano
+    }
+    
+}
+extension Instant: CustomStringConvertible, CustomDebugStringConvertible {
+    
+    /// A textual representation of this instance.
+    public var description: String {
+        return "\(self.second).\(self.nano)"
+    }
+    
+    /// A textual representation of this instance, suitable for debugging.
+    public var debugDescription: String {
+        return "\(self.second).\(self.nano)"
+    }
+    
 }
