@@ -181,9 +181,13 @@ public struct LocalDate {
         
         total += 365 * y
         if y >= 0 {
-            total += (y + 3) / 4 - (y + 99) / 100 + (y + 399) / 400
+            total += (y + 3) / 4
+            total -= (y + 99) / 100
+            total += (y + 399) / 400
         } else {
-            total -= y / -4 - y / -100 + y / -400
+            total -= y / -4
+            total -= y / -100
+            total += y / -400
         }
         total += ((367 * m - 362) / 12)
         total += d - 1

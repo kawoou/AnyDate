@@ -1,6 +1,6 @@
 # AnyDate
 
-![Swift](https://img.shields.io/badge/Swift-3.0-orange.svg)
+![Swift](https://img.shields.io/badge/Swift-3.1-orange.svg)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CI Status](https://travis-ci.org/Kawoou/AnyDate.svg?branch=master)](https://travis-ci.org/Kawoou/AnyDate)
 [![Version](https://img.shields.io/cocoapods/v/AnyDate.svg?style=flat)](http://cocoadocs.org/docsets/AnyDate)
@@ -160,7 +160,7 @@ You can either simply drag and drop the `Sources` folder into your existing proj
 
 ## Requirements
 
-* Swift 3
+* Swift 3.1
 * iOS 8.0+
 * tvOS 9.0+
 * macOS 10.10+

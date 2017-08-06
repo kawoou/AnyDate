@@ -1,21 +1,16 @@
 osx_image: xcode8.3
 language: objective-c
 sudo: required
-
 env:
   global:
     - PROJECT="AnyDate.xcodeproj"
     - SCHEME="AnyDate"
-    - IOS_SDK="iphonesimulator10.3"
-    - MACOS_SDK="macosx10.12"
-    - TVOS_SDK="appletvsimulator10.2"
-    - WATCHOS_SDK="watchsimulator3.2"
     - FRAMEWORK="AnyDate"
   matrix:
-    - SDK="$IOS_SDK"      TEST=1  DESTINATION="platform=iOS Simulator,name=iPhone 7,OS=10.3.1"
-    - SDK="$MACOS_SDK"    TEST=1  DESTINATION="arch=x86_64"
-    - SDK="$TVOS_SDK"     TEST=1  DESTINATION="OS=10.2,name=Apple TV 1080p"
-    - SDK="$WATCHOS_SDK"  TEST=0  DESTINATION="OS=3.2,name=Apple Watch - 38mm"
+    - TEST=1  DESTINATION="platform=iOS Simulator,name=iPhone 7,OS=10.3.1"
+    - TEST=1  DESTINATION="arch=x86_64"
+    - TEST=1  DESTINATION="OS=10.2,name=Apple TV 1080p"
+    - TEST=0  DESTINATION="OS=3.2,name=Apple Watch - 38mm"
 
 install:
   - eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
@@ -29,16 +24,11 @@ before_script:
       swift package generate-xcodeproj;
     fi
 
-before_script:
-  - set -o pipefail
-  - make project
-
 script:
   - if [ $TEST == 1 ]; then
       xcodebuild clean build test
         -project "$PROJECT"
         -scheme "$SCHEME"
-        -sdk "$SDK"
         -destination "$DESTINATION"
         -configuration Debug
         -enableCodeCoverage YES
@@ -47,7 +37,6 @@ script:
       xcodebuild clean build
         -project "$PROJECT"
         -scheme "$SCHEME"
-        -sdk "$SDK"
         -destination "$DESTINATION"
         -configuration Debug
         CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c;
@@ -67,10 +56,10 @@ before_deploy:
 
 deploy:
   provider: releases
-  api_key: $GH_TOKEN
+  api_key:
+    secure: EzKbtiLxPL4tBKtucvl2oQOmUoH0p8+/01nb7a5SOpNW13R/LGve8CA7HtxMlCSBs/fmPIP4p4iqpWmkSu+ENi/TVzxLfA3BoK6Ill+OY4toSbCqkCY1JIQtr83yoxGfi1CvXtU0lyMhsJFFRMJEzMrRPoRGRJThjO227yJrxhhpTMMu10XprIP/XgqHsbElKv/h1yW1YUrvwglIn9YwU3Y8BF1ssvrFsHgRrALsKTGVhjGOLwjrDYXKzcbMqX3EyF97dK+92aP/p89oaiBaFh8eBw/K5tgbGUleNjBKexHyrKmzhzQ/W9u9reU0fDUyeZVAC9fKoC73gfw1fTdRYg3mag+auN+1HBdplIJpuphEtDK1z9HkUD9AdI9+i1S3IVrf/Kc9yPEWyDlFkz8O0cmq1zPO8uUYo+nfG8ELkmjQmuqRe35kxlS/OiZCfvbBi+38CNwGw+if+MtqyQx/ZjLfBCUsQ28/EC1NwYRvrGNXfmryRzCptQ7yDOA3rdmb5OtGl832rQNlBUnZGJKNSzx3O3a9gEOu8EHS4pLco7TG0UNg9XPzg96q+9BQ7oiBqcs/ZkOOzpC6lqYFLhCaqFCtb2HomJwt7C+sZP9gTEZBQubVm36M30kfB7dPYnRUpug2EQ9M4sQVkNeadqStkrUxwuIhj0ewlvL24F8pRU4=
   file: "$FRAMEWORK.framework.zip"
   skip_cleanup: true
   on:
     repo: Kawoou/AnyDate
     tags: true
-    condition: $SDK = $IOS_SDK

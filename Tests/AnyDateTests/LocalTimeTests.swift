@@ -98,7 +98,7 @@ class LocalTimeTests: XCTestCase {
 		XCTAssertEqual(localTime1.second, utcCalendar.component(.second, from: date))
 		XCTAssertEqual(localTime1.nano, utcCalendar.component(.nanosecond, from: date))
 
-		let localTime2 = LocalTime(date)
+		let localTime2 = LocalTime(date, clock: Clock(offsetHour: 9))
 		XCTAssertNotEqual(localTime1.nanoOfDay, localTime2.nanoOfDay)
 	}
 	func testFormat() {
