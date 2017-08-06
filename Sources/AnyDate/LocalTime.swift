@@ -115,8 +115,9 @@ public struct LocalTime {
         return LocalTime.parse(text, formatter: formatter, timeZone: clock.toTimeZone())
     }
     public static func parse(_ text: String, formatter: DateFormatter, timeZone: TimeZone = TimeZone.current) -> LocalTime? {
-        guard let date = formatter.date(from: text) else { return nil }
         formatter.timeZone = timeZone
+        
+        guard let date = formatter.date(from: text) else { return nil }
         return LocalTime(date)
     }
     
@@ -446,11 +447,11 @@ public struct LocalTime {
     }
     
     /// Creates an instance of LocalTime from a nanos-of-day value.
-    public init(nanoOfDay: Int) {
+    public init(nanoOfDay: Int64) {
         self.internalHour = 0
         self.internalMinute = 0
         self.internalSecond = 0
-        self.internalNano = Int64(nanoOfDay)
+        self.internalNano = nanoOfDay
         self.normalize()
     }
     

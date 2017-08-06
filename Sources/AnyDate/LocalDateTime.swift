@@ -31,9 +31,9 @@ public struct LocalDateTime {
         return LocalDateTime.parse(text, formatter: formatter, timeZone: clock.toTimeZone())
     }
     public static func parse(_ text: String, formatter: DateFormatter, timeZone: TimeZone = TimeZone.current) -> LocalDateTime? {
-        guard let date = formatter.date(from: text) else { return nil }
         formatter.timeZone = timeZone
-        
+
+        guard let date = formatter.date(from: text) else { return nil }
         return LocalDateTime(date)
     }
     
@@ -434,7 +434,7 @@ public struct LocalDateTime {
     
     /// Creates an instance of LocalDateTime using seconds from the
     /// epoch of 1970-01-01T00:00:00Z.
-    public init(epochDay: Int64, nanoOfDay: Int) {
+    public init(epochDay: Int64, nanoOfDay: Int64) {
         self.internalDate = LocalDate(epochDay: epochDay)
         self.internalTime = LocalTime(nanoOfDay: nanoOfDay)
         self.normalize()
