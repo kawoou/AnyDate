@@ -4,8 +4,8 @@ sudo: required
 
 env:
   global:
-    - PROJECT="DateTime.xcodeproj"
-    - SCHEME="DateTime"
+    - PROJECT="AnyDate.xcodeproj"
+    - SCHEME="AnyDate"
     - IOS_SDK="iphonesimulator10.3"
     - MACOS_SDK="macosx10.12"
     - TVOS_SDK="appletvsimulator10.2"
