@@ -423,10 +423,12 @@ public struct ZonedDateTime {
     // MARK: - Lifecycle
     
     /// Creates the current date-time from the system clock in the default time-zone.
-    public init() {
+    public init(clock: Clock = Clock.current) {
         let date = Date()
-        
-        self.internalDateTime = LocalDateTime(date)
+        self.internalDateTime = LocalDateTime(date, clock: clock)
+    }
+    public init(timeZone: TimeZone) {
+        self.init(clock: Clock(timeZone))
     }
     
     /// Creates a ZonedDateTime from an instance of Date.

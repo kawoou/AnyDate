@@ -395,11 +395,14 @@ public struct LocalDateTime {
     // MARK: - Lifecycle
     
     /// Creates the current date-time from the system clock in the default time-zone.
-    public init() {
+    public init(clock: Clock) {
+        self.init(timeZone: clock.toTimeZone())
+    }
+    public init(timeZone: TimeZone = TimeZone.current) {
         let now = Date()
         
-        self.internalDate = LocalDate(now)
-        self.internalTime = LocalTime(now)
+        self.internalDate = LocalDate(now, timeZone: timeZone)
+        self.internalTime = LocalTime(now, timeZone: timeZone)
         self.normalize()
     }
     

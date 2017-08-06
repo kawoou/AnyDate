@@ -74,8 +74,14 @@ public struct Clock {
     public init(_ timeZone: TimeZone = TimeZone.current) {
         self.internalOffset = timeZone.secondsFromGMT()
     }
-    public init(offsetSecond: Int) {
-        self.internalOffset = offsetSecond
+    public init(offsetHour hour: Int) {
+        self.init(offsetSecond: hour * LocalTime.Constant.secondsPerHour)
+    }
+    public init(offsetMinute minute: Int) {
+        self.init(offsetSecond: minute * LocalTime.Constant.secondsPerMinute)
+    }
+    public init(offsetSecond second: Int) {
+        self.internalOffset = second
     }
     
 }

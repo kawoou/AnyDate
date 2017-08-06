@@ -45,9 +45,9 @@ class ClockTests: XCTestCase {
 		XCTAssertEqual(time.nano, 0)
 	}
 	func testToTimeZone() {
-		let clock = Clock(offsetSecond: 10861)
+		let clock = Clock(offsetSecond: 10860)
 		let timeZone = clock.toTimeZone()
-		XCTAssertEqual(timeZone.secondsFromGMT(), 10861)
+		XCTAssertEqual(timeZone.secondsFromGMT(), 10860)
 	}
 	func testOffset() {
 		let clock = Clock.offset(baseClock: Clock(identifier: .americaStLucia), offsetDuration: 100)
