@@ -15,8 +15,8 @@
 I think that dates and time-zones management should be easy and accurate.
 However, In Swift, it is very complex to manage dates and time-zones. also, it has some issues such as:
 
-- Inability to handle accurate nanoseconds.
-   * Test Case '-[AnyDateTests.ZonedDateTimeTests testToDate]'
+* Inability to handle accurate nanoseconds.
+  * Test Case '-[AnyDateTests.ZonedDateTimeTests testToDate]'
 
 Java 8 introduced the new class for time management more efficiently and easily a.k.a LocalDateTime, ZonedDateTime(JSR-310). The main idea that is:
 
@@ -46,27 +46,7 @@ I intend to make a coherence between Java as a ReactiveX.
 
 ### Clock
 
-* Simple to use timezone offset.
-
-```swift
-/// Before
-let timeZone = TimeZone(identifier: "GMT+0900") 
-
-/// After
-let clock = Clock(offsetHour: 9)
-```
-
-* Safe timezone identifier.
-
-```swift
-/// Before
-let timeZone = TimeZone(identifier: "America/Argentina/Buenos_Aires")
-
-/// After
-let clock = Clock(identifier: .americaArgentinaBuenosAires)
-```
-
-* Short code.
+* Easily work with time components.
 
 ```swift
 /// Before
@@ -79,6 +59,18 @@ let day = calendar.components(.day, from: now1)
 /// After
 let now2 = ZonedDateTime(Clock.utc)
 let day = now2.day
+```
+
+* Safe timezone identifier.
+
+```swift
+/// Before
+let timeZone1 = TimeZone(identifier: "GMT+0900")!
+let timeZone2 = TimeZone(identifier: "America/Argentina/Buenos_Aires")!
+
+/// After
+let clock1 = Clock(offsetHour: 9)
+let clock2 = Clock(identifier: .americaArgentinaBuenosAires)
 ```
 
 * Safe Optional.
@@ -95,20 +87,38 @@ dateComponents.second = 18
 dateComponents.nanosecond = 1573
 
 guard let date = Calendar.current.date(from: dateComponents) else {
-	assertionFailure("Failed to create!")
-	return
+    assertionFailure("Failed to create!")
+    return
 }
 
 /// After
 let date = LocalDateTime(
-	year: 2000,
-	month: 11,
-	day: 30,
-	hour: 11,
-	minute: 51,
-	second: 18,
-	nanoOfSecond: 1573
+    year: 2000,
+    month: 11,
+    day: 30,
+    hour: 11,
+    minute: 51,
+    second: 18,
+    nanoOfSecond: 1573
 )
+```
+
+* Compare dates with math operators.
+
+```swift
+let min = ZonedDateTime.min
+let max = ZonedDateTime.max
+
+let oldDate = ZonedDateTime(year: 1627, month: 2, day: 10, hour: 14, minute: 2, second: 18, nanoOfSecond: 1573, timeZone: self.utcTimeZone)
+let newDate = ZonedDateTime(year: 1627, month: 2, day: 10, hour: 14, minute: 2, second: 18, nanoOfSecond: 1574, timeZone: self.utcTimeZone)
+let equalDate = ZonedDateTime(year: 1627, month: 2, day: 10, hour: 14, minute: 2, second: 18, nanoOfSecond: 1573, timeZone: self.utcTimeZone)
+
+let isLessThan = min < oldDate
+let isGreaterThan = max > newDate
+let isLessThanOrEqual = oldDate <= equalDate
+let isGreaterThanOrEqual = oldDate >= equalDate
+let isEqual = oldDate == equalDate
+let isLessThan = oldDate < newDate
 ```
 
 
