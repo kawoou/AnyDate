@@ -36,15 +36,13 @@ I intend to make a coherence between Java as a ReactiveX.
 * [x] Separation of chronologies.
 * [x] Coherence with Java.
 * [x] Compare dates with math operators.
-* [ ] Simple component operations for the date.
-* [ ] Support period class for time.
+* [x] Simple component operations for the date.
+* [x] Support period class for time.
 
 
 
 
 ## Usage
-
-### Clock
 
 * Easily work with time components.
 
@@ -109,9 +107,9 @@ let date = LocalDateTime(
 let min = ZonedDateTime.min
 let max = ZonedDateTime.max
 
-let oldDate = ZonedDateTime(year: 1627, month: 2, day: 10, hour: 14, minute: 2, second: 18, nanoOfSecond: 1573, timeZone: self.utcTimeZone)
-let newDate = ZonedDateTime(year: 1627, month: 2, day: 10, hour: 14, minute: 2, second: 18, nanoOfSecond: 1574, timeZone: self.utcTimeZone)
-let equalDate = ZonedDateTime(year: 1627, month: 2, day: 10, hour: 14, minute: 2, second: 18, nanoOfSecond: 1573, timeZone: self.utcTimeZone)
+let oldDate = ZonedDateTime(year: 1627, month: 2, day: 10, hour: 14, minute: 2, second: 18, nanoOfSecond: 1573, clock: .UTC)
+let newDate = ZonedDateTime(year: 1627, month: 2, day: 10, hour: 14, minute: 2, second: 18, nanoOfSecond: 1574, clock: .UTC)
+let equalDate = ZonedDateTime(year: 1627, month: 2, day: 10, hour: 14, minute: 2, second: 18, nanoOfSecond: 1573, clock: .UTC)
 
 let isLessThan = min < oldDate
 let isGreaterThan = max > newDate
@@ -121,7 +119,28 @@ let isEqual = oldDate == equalDate
 let isLessThan = oldDate < newDate
 ```
 
+* Simple component operations for the date.
 
+```swift
+/// 1000-01-07T11:51:18.157300000
+let date = LocalDateTime(
+    year: 1000,
+    month: 1,
+    day: 7,
+    hour: 11,
+    minute: 51,
+    second: 18,
+    nanoOfSecond: 1573
+)
+print(date)
+
+/// Period(year: 1, month: 1, day: 9, hour: 2, minute: 3, second: 4, nano: 152)
+let period = 1.year + 1.month + 1.week + 2.day + 2.hour + 3.minute + 4.second + 152.nanosecond
+
+/// 1001-03-16T13:54:22.172500000
+let newDate = date + period
+print(newDate)
+```
 
 
 
@@ -175,6 +194,19 @@ You can either simply drag and drop the `Sources` folder into your existing proj
 * 1.0.0 - 2017-08-xx
    * First release AnyDate!
 
+
+
+
+## Author
+
+* kawoou, [kawoou@kawoou.kr](mailto:kawoou@kawoou.kr)
+* dave, [dave.dev@icloud.com](mailto:dave.dev@icloud.com)
+
+
+
+## Special Thanks
+
+* Naming by 아메바
 
 
 
