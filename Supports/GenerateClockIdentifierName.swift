@@ -1,10 +1,10 @@
 import Foundation
 
 func camelcase(_ text: String) -> String { 
-	return ["/", "_", "-"]
-		.reduce(text) { text, ofText in
-			return text.replacingOccurrences(of: ofText, with: " ")
-		}
+    return ["/", "_", "-"]
+        .reduce(text) { text, ofText in
+            return text.replacingOccurrences(of: ofText, with: " ")
+        }
         .components(separatedBy: " ")
         .enumerated()
         .map { index, text in
