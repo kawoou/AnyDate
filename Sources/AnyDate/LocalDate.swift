@@ -94,13 +94,13 @@ public struct LocalDate {
     /// Gets the day-of-week field.
     ///
     /// The start of one week is Sunday.
-    ///  - Sunday = 0
-    ///  - Monday = 1
-    ///  - Tuesday = 2
-    ///  - Wednesday = 3
-    ///  - Thursday = 4
-    ///  - Friday = 5
-    ///  - Saturday = 6
+    ///  - Monday = 0
+    ///  - Tuesday = 1
+    ///  - Wednesday = 2
+    ///  - Thursday = 3
+    ///  - Friday = 4
+    ///  - Saturday = 5
+    ///  - Sunday = 6
     public var dayOfWeek: Int {
         let ly = self.internalYear - 1
         let lm = self.internalMonth - 1
@@ -117,7 +117,7 @@ public struct LocalDate {
         if self.isLeapYear(year: self.internalYear) && lm >= 2 {
             total += 1
         }
-        total += ld - 1
+        total += ld
 
         return total < 0 ? 7 + (total % 7) : total % 7
     }

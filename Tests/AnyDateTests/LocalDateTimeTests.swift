@@ -242,22 +242,22 @@ class LocalDateTimeTests: XCTestCase {
         /// This result of the test was refers Apple Calendar in macOS.
 
         let date1 = LocalDateTime(year: 1628, month: 3, day: 12, hour: 0, minute: 0, second: 0, nanoOfSecond: 0)
-        XCTAssertEqual(date1.dayOfWeek, 5)
+        XCTAssertEqual(date1.dayOfWeek, 6)
 
         let date2 = LocalDateTime(year: 1, month: 1, day: 1, hour: 0, minute: 0, second: 0, nanoOfSecond: 0)
-        XCTAssertEqual(date2.dayOfWeek, 6)
+        XCTAssertEqual(date2.dayOfWeek, 0)
 
         let date3 = LocalDateTime(year: 1970, month: 1, day: 1, hour: 0, minute: 0, second: 0, nanoOfSecond: 0)
-        XCTAssertEqual(date3.dayOfWeek, 2)
+        XCTAssertEqual(date3.dayOfWeek, 3)
 
         let date4 = LocalDateTime(year: 1969, month: 12, day: 31, hour: 0, minute: 0, second: 0, nanoOfSecond: 0)
-        XCTAssertEqual(date4.dayOfWeek, 1)
+        XCTAssertEqual(date4.dayOfWeek, 2)
 
         let date5 = LocalDateTime(year: 1517, month: 7, day: 18, hour: 0, minute: 0, second: 0, nanoOfSecond: 0)
-        XCTAssertEqual(date5.dayOfWeek, 1)
+        XCTAssertEqual(date5.dayOfWeek, 2)
 
         let date6 = LocalDateTime(year: -1, month: 12, day: 26, hour: 0, minute: 0, second: 0, nanoOfSecond: 0)
-        XCTAssertEqual(date6.dayOfWeek, 5)
+        XCTAssertEqual(date6.dayOfWeek, 6)
     }
     func testParse() {
         let date1 = LocalDateTime.parse("2014-11-12T12:44:52.123")!
