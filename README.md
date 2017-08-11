@@ -8,6 +8,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/AnyDate.svg?style=flat)](http://cocoadocs.org/docsets/AnyDate)
 [![Codecov](https://img.shields.io/codecov/c/github/Kawoou/AnyDate.svg)](https://codecov.io/gh/Kawoou/AnyDate)
 
+🎉Some beautiful information comment.🎉
 
 
 ## Background
@@ -28,6 +29,7 @@ I intend to make a coherence between Java as a ReactiveX.
 
 
 
+
 ## Features
 
 * [x] Easily work with time components.
@@ -38,6 +40,14 @@ I intend to make a coherence between Java as a ReactiveX.
 * [x] Compare dates with math operators.
 * [x] Simple component operations for the date.
 * [x] Support period class for time.
+
+
+
+
+## FAQ
+
+* Looks like SwiftDate?
+  - SwiftDate is a support library for Date, AnyDate can completely replace Date.
 
 
 
