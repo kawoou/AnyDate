@@ -8,24 +8,28 @@
 [![Platform](https://img.shields.io/cocoapods/p/AnyDate.svg?style=flat)](http://cocoadocs.org/docsets/AnyDate)
 [![Codecov](https://img.shields.io/codecov/c/github/Kawoou/AnyDate.svg)](https://codecov.io/gh/Kawoou/AnyDate)
 
-🎉Some beautiful information comment.🎉
+Swift Date & Time API inspired from Java 8 DateTime API.
 
 
 ## Background
 
-I think that dates and time-zones management should be easy and accurate.
-However, In Swift, it is very complex to manage dates and time-zones. also, it has some issues such as:
+I think that date & time API should be easy and accurate.
 
-* Inability to handle accurate nanoseconds.
-  * Test Case '-[AnyDateTests.ZonedDateTimeTests testToDate]'
+Previous dates, times, timezones API of Swift are inconvenience to use. (It's very complex to create, manipulate or everything else.)
 
-Java 8 introduced the new class for time management more efficiently and easily a.k.a LocalDateTime, ZonedDateTime(JSR-310). The main idea that is:
+But there's quite nice pioneer, ***The Brand New Time API of Java8***.
+
+Java 8 introduced whole new API for handle date & time more efficiently and easy a.k.a LocalDateTime, ZonedDateTime(JSR-310). The main idea that is:
 
 * Immutable-value classes
 * Domain-driven design
 * Separation of chronologies
 
-I intend to make a coherence between Java as a ReactiveX.
+Those ideas can be easily ported to another languages, like .Net's Rx ports of another languages.
+
+
+
+So, here's the AnyDate, whole new Swift date & time API that has coherence between Java 8.
 
 
 
@@ -54,7 +58,7 @@ I intend to make a coherence between Java as a ReactiveX.
 
 ## Usage
 
-* Easily work with time components.
+* Convinience typed year, month, day, time.
 
 ```swift
 /// Before
@@ -69,7 +73,7 @@ let now2 = ZonedDateTime(Clock.utc)
 let day = now2.day
 ```
 
-* Safe timezone identifier.
+* Pre-defined Timezone Identifiers. String typed timezones are not safe from your *TYPING ERROR*. (Plz, do not belive your finger. They can always betray you.)
 
 ```swift
 /// Before
@@ -81,7 +85,7 @@ let clock1 = Clock(offsetHour: 9)
 let clock2 = Clock(identifier: .americaArgentinaBuenosAires)
 ```
 
-* Safe Optional.
+* Null-Safe types. ***NO MORE NEEDLESS GUARD & OPTIONAL AND INDENT INCRESEMENT :-D***
 
 ```swift
 /// Before
@@ -111,7 +115,7 @@ let date = LocalDateTime(
 )
 ```
 
-* Compare dates with math operators.
+* Operators supported. Easy to comapre dates, datetimes, times.
 
 ```swift
 let min = ZonedDateTime.min
@@ -129,7 +133,7 @@ let isEqual = oldDate == equalDate
 let isLessThan = oldDate < newDate
 ```
 
-* Simple component operations for the date.
+* Easy to manipulate. You can use our overridden operators to create / add / sub dates and times.
 
 ```swift
 /// 1000-01-07T11:51:18.157300000
