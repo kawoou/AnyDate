@@ -4,6 +4,35 @@ import AnyDate
 
 class LocalDateTimeTests: XCTestCase {
 
+    func testPropertySetter() {
+        var min = LocalDateTime.min
+        min.year = 100
+        min.month = 2
+        min.day = -12
+        min.hour = 12
+        min.minute = 2
+        min.second = -12
+        min.nano = -125_221
+
+        XCTAssertEqual(min.year, 100)
+        XCTAssertEqual(min.month, 1)
+        XCTAssertEqual(min.day, 19)
+        XCTAssertEqual(min.hour, 12)
+        XCTAssertEqual(min.minute, 1)
+        XCTAssertEqual(min.second, 47)
+        XCTAssertEqual(min.nano, 999_874_779)
+
+        min.date = LocalDate(year: 100, month: 2, day: -12)
+        min.time = LocalTime(hour: 12, minute: 2, second: -12, nanoOfSecond: -125_221)
+
+        XCTAssertEqual(min.year, 100)
+        XCTAssertEqual(min.month, 1)
+        XCTAssertEqual(min.day, 19)
+        XCTAssertEqual(min.hour, 12)
+        XCTAssertEqual(min.minute, 1)
+        XCTAssertEqual(min.second, 47)
+        XCTAssertEqual(min.nano, 999_874_779)
+    }
     func testMinMaxRange() {
         let min = LocalDateTime.min
         let max = LocalDateTime.max
@@ -260,7 +289,7 @@ class LocalDateTimeTests: XCTestCase {
         XCTAssertEqual(date6.dayOfWeek, 6)
     }
     func testParse() {
-        let date1 = LocalDateTime.parse("2014-11-12T12:44:52.123")!
+        let date1 = LocalDateTime.parse("2014-11-12T12:44:52.123", clock: .current)!
         XCTAssertEqual(date1.year, 2014)
         XCTAssertEqual(date1.month, 11)
         XCTAssertEqual(date1.day, 12)
@@ -270,10 +299,15 @@ class LocalDateTimeTests: XCTestCase {
         XCTAssertGreaterThan(123_500_000, date1.nano)
         XCTAssertLessThanOrEqual(122_500_000, date1.nano)
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy--MM-dd...HH.mm.ss.SSS"
-        let date2 = LocalDateTime.parse("2014--11-12...12.44.52.123", formatter: dateFormatter)
+        let dateFormatter1 = DateFormatter()
+        dateFormatter1.dateFormat = "yyyy--MM-dd...HH.mm.ss.SSS"
+        let date2 = LocalDateTime.parse("2014--11-12...12.44.52.123", formatter: dateFormatter1, clock: .current)
         XCTAssertEqual(date1, date2)
+
+        let dateFormatter2 = DateFormatter()
+        dateFormatter2.dateFormat = "yyyy--asdfasdfsadf"
+        let date3 = LocalDateTime.parse("2014--11-12...12.44.52.123", formatter: dateFormatter2, clock: .current)
+        XCTAssertEqual(date3, nil)
     }
     func testAddDate() {
         let oldDate = LocalDateTime(year: 1000, month: 1, day: 1, hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
@@ -300,9 +334,11 @@ class LocalDateTimeTests: XCTestCase {
         XCTAssertEqual(newDate.nano, 1573)
     }
     func testToDate() {
-        let calendar = Calendar.current
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+
         let localDate = LocalDateTime(year: 1999, month: 10, day: 31, hour: 11, minute: 51, second: 18, nanoOfSecond: 153_000_000)
-        let date = localDate.toDate()
+        let date = try! localDate.toDate(clock: .UTC)
 
         XCTAssertEqual(calendar.component(.year, from: date), 1999)
         XCTAssertEqual(calendar.component(.month, from: date), 10)

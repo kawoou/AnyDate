@@ -69,6 +69,35 @@ public struct LocalTime {
     }
     
     
+    // MARK: - Enumerable
+    
+    public enum Component: String {
+        case hour
+        case minute
+        case second
+        case nanosecond
+    }
+    public enum PlusComponent: String {
+        case hour
+        case minute
+        case second
+        case nanosecond
+    }
+    public enum RangeComponent: String {
+        case hour
+        case minute
+        case second
+        case nanosecond
+    }
+    public enum UntilComponent: String {
+        case day
+        case hour
+        case minute
+        case second
+        case nanosecond
+    }
+    
+    
     // MARK: - Static
     
     /// The time of midnight at the start of the day, '00:00'.
@@ -207,10 +236,10 @@ public struct LocalTime {
     // MARK: - Public
     
     /// Returns an instance of Date.
-    public func toDate(clock: Clock) -> Date {
-        return self.toDate(timeZone: clock.toTimeZone())
+    public func toDate(clock: Clock) throws -> Date {
+        return try self.toDate(timeZone: clock.toTimeZone())
     }
-    public func toDate(timeZone: TimeZone = TimeZone.current) -> Date {
+    public func toDate(timeZone: TimeZone = TimeZone.current) throws -> Date {
         /// Specify date components
         var dateComponents = DateComponents()
         dateComponents.timeZone = timeZone
@@ -223,14 +252,16 @@ public struct LocalTime {
         var calendar = Calendar.current
         calendar.timeZone = timeZone
         
-        let date = calendar.date(from: dateComponents)
-        assert(date != nil, "Failed to convert Date from LocalTime.")
-        
-        return date!
+        if let date = calendar.date(from: dateComponents) {
+            return date
+        } else {
+            /// Failed to convert Date from LocalTime.
+            throw ParseException.failedConversionToDate
+        }
     }
     
     /// Returns a copy of this time with the specified field set to a new value.
-    public func with(component: Calendar.Component, newValue: Int) -> LocalTime {
+    public func with(component: Component, newValue: Int) -> LocalTime {
         switch component {
         case .hour:
             return self.with(hour: newValue)
@@ -243,9 +274,6 @@ public struct LocalTime {
             
         case .nanosecond:
             return self.with(nano: newValue)
-            
-        default:
-            fatalError("Unsupported unit: \(component)")
         }
     }
     
@@ -270,7 +298,7 @@ public struct LocalTime {
     }
     
     /// Returns a copy of this time with the specified amount added.
-    public func plus(component: Calendar.Component, newValue: Int) -> LocalTime {
+    public func plus(component: PlusComponent, newValue: Int) -> LocalTime {
         switch component {
         case .hour:
             return self.plus(hour: newValue)
@@ -283,9 +311,6 @@ public struct LocalTime {
             
         case .nanosecond:
             return self.plus(nano: newValue)
-            
-        default:
-            fatalError("Unsupported unit: \(component)")
         }
     }
     
@@ -310,7 +335,7 @@ public struct LocalTime {
     }
     
     /// Returns a copy of this time with the specified amount subtracted.
-    public func minus(component: Calendar.Component, newValue: Int) -> LocalTime {
+    public func minus(component: PlusComponent, newValue: Int) -> LocalTime {
         return self.plus(component: component, newValue: -newValue)
     }
     
@@ -335,7 +360,7 @@ public struct LocalTime {
     }
     
     /// Gets the range of valid values for the specified field.
-    public func range(_ component: Calendar.Component) -> (Int, Int) {
+    public func range(_ component: RangeComponent) -> (Int, Int) {
         switch component {
         case .nanosecond:
             return (Int(Constant.minNano), Int(Constant.maxNano))
@@ -348,9 +373,6 @@ public struct LocalTime {
             
         case .hour:
             return (Constant.minHour, Constant.maxHour)
-            
-        default:
-            fatalError("Unsupported unit: \(component)")
         }
     }
     
@@ -371,7 +393,7 @@ public struct LocalTime {
     }
 
     /// Calculates the amount of time until another time in terms of the specified unit.
-    public func until(endTime: LocalTime, component: Calendar.Component) -> Int64 {
+    public func until(endTime: LocalTime, component: UntilComponent) -> Int64 {
         let nanosUntil = endTime.nanoOfDay - self.nanoOfDay
         switch component {
         case .nanosecond:
@@ -388,16 +410,16 @@ public struct LocalTime {
             
         case .day:
             return nanosUntil / Constant.nanosPerDay
-            
-        default:
-            fatalError("Unsupported unit: \(component)")
         }
     }
     
     /// Formats this time using the specified formatter.
     public func format(_ formatter: DateFormatter) -> String {
-        let date = self.toDate()
-        return formatter.string(from: date)
+        if let date = try? self.toDate() {
+            return formatter.string(from: date)
+        } else {
+            return ""
+        }
     }
     
     

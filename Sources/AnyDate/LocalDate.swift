@@ -30,6 +30,34 @@ public struct LocalDate {
     }
     
     
+    // MARK: - Enumerable
+    
+    public enum Component: String {
+        case year
+        case month
+        case day
+    }
+    public enum PlusComponent: String {
+        case year
+        case month
+        case weekday
+        case day
+    }
+    public enum RangeComponent: String {
+        case era
+        case year
+        case month
+        case weekday
+        case weekOfMonth
+    }
+    public enum UntilComponent: String {
+        case year
+        case month
+        case weekday
+        case day
+    }
+    
+    
     // MARK: - Static
     
     /// The minimum supported LocalDate, '-999999999-01-01'.
@@ -234,10 +262,10 @@ public struct LocalDate {
     }
     
     /// Returns an instance of Date.
-    public func toDate(clock: Clock) -> Date {
-        return self.toDate(timeZone: clock.toTimeZone())
+    public func toDate(clock: Clock) throws -> Date {
+        return try self.toDate(timeZone: clock.toTimeZone())
     }
-    public func toDate(timeZone: TimeZone = TimeZone.current) -> Date {
+    public func toDate(timeZone: TimeZone = TimeZone.current) throws -> Date {
         /// Specify date components
         var dateComponents = DateComponents()
         dateComponents.timeZone = timeZone
@@ -249,14 +277,16 @@ public struct LocalDate {
         var calendar = Calendar.current
         calendar.timeZone = timeZone
         
-        let date = calendar.date(from: dateComponents)
-        assert(date != nil, "Failed to convert Date from LocalDate.")
-        
-        return date!
+        if let date = calendar.date(from: dateComponents) {
+            return date
+        } else {
+            /// Failed to convert Date from LocalDate.
+            throw ParseException.failedConversionToDate
+        }
     }
     
     /// Returns a copy of this date with the specified field set to a new value.
-    public func with(component: Calendar.Component, newValue: Int) -> LocalDate {
+    public func with(component: Component, newValue: Int) -> LocalDate {
         switch component {
         case .year:
             return self.with(year: newValue)
@@ -266,9 +296,6 @@ public struct LocalDate {
             
         case .day:
             return self.with(dayOfMonth: newValue)
-            
-        default:
-            fatalError("Unsupported unit: \(component)")
         }
     }
     
@@ -293,7 +320,7 @@ public struct LocalDate {
     }
     
     /// Returns a copy of this date with the specified amount added.
-    public func plus(component: Calendar.Component, newValue: Int) -> LocalDate {
+    public func plus(component: PlusComponent, newValue: Int) -> LocalDate {
         switch component {
         case .year:
             return self.plus(year: newValue)
@@ -306,9 +333,6 @@ public struct LocalDate {
             
         case .day:
             return self.plus(day: newValue)
-            
-        default:
-            fatalError("Unsupported unit: \(component)")
         }
     }
     
@@ -333,7 +357,7 @@ public struct LocalDate {
     }
     
     /// Returns a copy of this date with the specified amount subtracted.
-    public func minus(component: Calendar.Component, newValue: Int) -> LocalDate {
+    public func minus(component: PlusComponent, newValue: Int) -> LocalDate {
         return self.plus(component: component, newValue: -newValue)
     }
     
@@ -360,7 +384,7 @@ public struct LocalDate {
     /// Gets the range of valid values for the specified field.
     ///
     /// The start of one week is Sunday.
-    public func range(_ component: Calendar.Component) -> (Int, Int) {
+    public func range(_ component: RangeComponent) -> (Int, Int) {
         switch component {
         case .weekday:
             let date = LocalDate(year: self.internalYear, month: self.internalMonth, day: 1)
@@ -381,9 +405,6 @@ public struct LocalDate {
             } else {
                 return (1, Constant.maxYear)
             }
-            
-        default:
-            fatalError("Unsupported unit: \(component)")
         }
     }
     
@@ -409,7 +430,7 @@ public struct LocalDate {
     }
     
     /// Calculates the amount of time until another date in terms of the specified unit.
-    public func until(endDate: LocalDate, component: Calendar.Component) -> Int64 {
+    public func until(endDate: LocalDate, component: UntilComponent) -> Int64 {
         switch component {
         case .day:
             return self.dayUntil(endDate: endDate)
@@ -422,16 +443,16 @@ public struct LocalDate {
             
         case .year:
             return self.monthUntil(endDate: endDate) / 12
-            
-        default:
-            fatalError("Unsupported unit: \(component)")
         }
     }
     
     /// Formats this date using the specified formatter.
     public func format(_ formatter: DateFormatter) -> String {
-        let date = self.toDate()
-        return formatter.string(from: date)
+        if let date = try? self.toDate() {
+            return formatter.string(from: date)
+        } else {
+            return ""
+        }
     }
     
     

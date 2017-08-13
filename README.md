@@ -205,7 +205,7 @@ You can either simply drag and drop the `Sources` folder into your existing proj
 
 ## Changelog
 
-* 1.0.0 - 2017-08-xx
+* 1.0.0 - 2017-08-13
    * First release AnyDate!
 
 

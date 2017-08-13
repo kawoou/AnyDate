@@ -4,6 +4,18 @@ import AnyDate
 
 class LocalTimeTests: XCTestCase {
 
+    func testPropertySetter() {
+        var min = LocalTime.min
+        min.hour = 100
+        min.minute = 2
+        min.second = -12
+        min.nano = -125_221
+
+        XCTAssertEqual(min.hour, 100)
+        XCTAssertEqual(min.minute, 1)
+        XCTAssertEqual(min.second, 47)
+        XCTAssertEqual(min.nano, 999_874_779)
+    }
     func testStaticVaraibles() {
         let midNight = LocalTime.midNight
         let noon = LocalTime.noon
@@ -40,15 +52,29 @@ class LocalTimeTests: XCTestCase {
         let max = LocalTime.max
 
         let oldTime = LocalTime(hour: 14, minute: 2, second: 18, nanoOfSecond: 1573)
-        let newTime = LocalTime(hour: 14, minute: 2, second: 18, nanoOfSecond: 1574)
+        let newTime1 = LocalTime(hour: 14, minute: 2, second: 18, nanoOfSecond: 1574)
+        let newTime2 = LocalTime(hour: 14, minute: 2, second: 19, nanoOfSecond: 1574)
+        let newTime3 = LocalTime(hour: 14, minute: 3, second: 19, nanoOfSecond: 1574)
+        let newTime4 = LocalTime(hour: 15, minute: 3, second: 19, nanoOfSecond: 1574)
         let equalTime = LocalTime(hour: 14, minute: 2, second: 18, nanoOfSecond: 1573)
 
         XCTAssertLessThan(min, oldTime)
-        XCTAssertGreaterThan(max, newTime)
+        XCTAssertGreaterThan(max, newTime1)
         XCTAssertLessThanOrEqual(oldTime, equalTime)
         XCTAssertGreaterThanOrEqual(oldTime, equalTime)
+        XCTAssertLessThan(oldTime, newTime2)
+        XCTAssertLessThan(oldTime, newTime3)
+        XCTAssertLessThan(oldTime, newTime4)
+        XCTAssertGreaterThan(newTime4, oldTime)
+        XCTAssertGreaterThan(newTime3, oldTime)
+        XCTAssertGreaterThan(newTime2, oldTime)
+        XCTAssertGreaterThan(newTime1, oldTime)
         XCTAssertEqual(oldTime, equalTime)
-        XCTAssertLessThan(oldTime, newTime)
+        XCTAssertNotEqual(oldTime, newTime1)
+        XCTAssertNotEqual(oldTime, newTime2)
+        XCTAssertNotEqual(oldTime, newTime3)
+        XCTAssertNotEqual(oldTime, newTime4)
+        XCTAssertLessThan(oldTime, newTime1)
     }
     func testFixOverflow() {
         let time = LocalTime(hour: 14, minute: 61, second: 18, nanoOfSecond: 1573)
@@ -92,11 +118,12 @@ class LocalTimeTests: XCTestCase {
 
         let date = Date()
 
-        let localTime1 = LocalTime(date, timeZone: utcCalendar.timeZone)
+        let localTime1 = LocalTime(clock: .UTC)
         XCTAssertEqual(localTime1.hour, utcCalendar.component(.hour, from: date))
         XCTAssertEqual(localTime1.minute, utcCalendar.component(.minute, from: date))
         XCTAssertEqual(localTime1.second, utcCalendar.component(.second, from: date))
-        XCTAssertEqual(localTime1.nano, utcCalendar.component(.nanosecond, from: date))
+        XCTAssertGreaterThanOrEqual(localTime1.nano + 500_000, utcCalendar.component(.nanosecond, from: date))
+        XCTAssertLessThanOrEqual(localTime1.nano - 500_00, utcCalendar.component(.nanosecond, from: date))
 
         let localTime2 = LocalTime(date, clock: Clock(offsetHour: 9))
         XCTAssertNotEqual(localTime1.nanoOfDay, localTime2.nanoOfDay)
@@ -121,6 +148,7 @@ class LocalTimeTests: XCTestCase {
         XCTAssertEqual(period.second, 1)
         XCTAssertEqual(period.nano, 1)
 
+        XCTAssertEqual(oldTime.until(endTime: newTime, component: .day), 0)
         XCTAssertEqual(oldTime.until(endTime: newTime, component: .hour), 1)
         XCTAssertEqual(oldTime.until(endTime: newTime, component: .minute), 61)
         XCTAssertEqual(oldTime.until(endTime: newTime, component: .second), 3661)
@@ -189,9 +217,11 @@ class LocalTimeTests: XCTestCase {
         XCTAssertEqual(newTime4, compareTime4)
     }
     func testToDate() {
-        let calendar = Calendar.current
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+
         let localTime = LocalTime(hour: 14, minute: 2, second: 18, nanoOfSecond: 153_000_000)
-        let date = localTime.toDate()
+        let date = try! localTime.toDate(clock: .UTC)
 
         XCTAssertEqual(calendar.component(.hour, from: date), 14)
         XCTAssertEqual(calendar.component(.minute, from: date), 2)
@@ -200,33 +230,44 @@ class LocalTimeTests: XCTestCase {
         XCTAssertLessThanOrEqual(152_500_000, calendar.component(.nanosecond, from: date))
     }
     func testParse() {
-        let time1 = LocalTime.parse("05:53:12")!
+        let time1 = LocalTime.parse("05:53:12", clock: .current)!
         XCTAssertEqual(time1.hour, 5)
         XCTAssertEqual(time1.minute, 53)
         XCTAssertEqual(time1.second, 12)
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:::mm:ss"
-        let time2 = LocalTime.parse("05:::53:12", formatter: dateFormatter)
+        let dateFormatter1 = DateFormatter()
+        dateFormatter1.dateFormat = "HH:::mm:ss"
+        let time2 = LocalTime.parse("05:::53:12", formatter: dateFormatter1, clock: .current)
         XCTAssertEqual(time1, time2)
+
+        let dateFormatter2 = DateFormatter()
+        dateFormatter2.dateFormat = "HH::asdfs"
+        let time3 = LocalTime.parse("05:::53:12", formatter: dateFormatter2, clock: .current)
+        XCTAssertEqual(time3, nil)
     }
     func testAddTime() {
-        let oldTime = LocalTime(hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
+        var oldTime = LocalTime(hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
         let addTime = LocalTime(hour: 0, minute: 8, second: 0, nanoOfSecond: 0)
         let newTime = oldTime + addTime
         XCTAssertEqual(newTime.hour, 11)
         XCTAssertEqual(newTime.minute, 59)
         XCTAssertEqual(newTime.second, 18)
         XCTAssertEqual(newTime.nano, 1573)
+
+        oldTime += addTime
+        XCTAssertEqual(oldTime, newTime)
     }
     func testSubtractTime() {
-        let oldTime = LocalTime(hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
+        var oldTime = LocalTime(hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
         let addTime = LocalTime(hour: 0, minute: 8, second: 0, nanoOfSecond: 0)
         let newTime = oldTime - addTime
         XCTAssertEqual(newTime.hour, 11)
         XCTAssertEqual(newTime.minute, 43)
         XCTAssertEqual(newTime.second, 18)
         XCTAssertEqual(newTime.nano, 1573)
+
+        oldTime -= addTime
+        XCTAssertEqual(oldTime, newTime)
     }
 
 }

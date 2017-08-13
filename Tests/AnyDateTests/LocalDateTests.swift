@@ -4,6 +4,16 @@ import AnyDate
 
 class LocalDateTests: XCTestCase {
 
+    func testPropertySetter() {
+        var min = LocalDate.min
+        min.year = 100
+        min.month = 2
+        min.day = -12
+
+        XCTAssertEqual(min.year, 100)
+        XCTAssertEqual(min.month, 1)
+        XCTAssertEqual(min.day, 19)
+    }
     func testMinMaxRange() {
         let min = LocalDate.min
         let max = LocalDate.max
@@ -21,15 +31,19 @@ class LocalDateTests: XCTestCase {
         let max = LocalDate.max
 
         let oldDate = LocalDate(year: 1627, month: 2, day: 10)
-        let newDate = LocalDate(year: 1627, month: 2, day: 11)
+        let newDate1 = LocalDate(year: 1627, month: 2, day: 11)
+        let newDate2 = LocalDate(year: 1627, month: 3, day: 11)
         let equalDate = LocalDate(year: 1627, month: 2, day: 10)
 
         XCTAssertLessThan(min, oldDate)
-        XCTAssertGreaterThan(max, newDate)
+        XCTAssertGreaterThan(max, newDate1)
         XCTAssertLessThanOrEqual(oldDate, equalDate)
         XCTAssertGreaterThanOrEqual(oldDate, equalDate)
+        XCTAssertLessThan(oldDate, newDate2)
+        XCTAssertGreaterThan(newDate2, oldDate)
+        XCTAssertGreaterThan(newDate1, oldDate)
         XCTAssertEqual(oldDate, equalDate)
-        XCTAssertLessThan(oldDate, newDate)
+        XCTAssertLessThan(oldDate, newDate1)
     }
     func testFixOverflow() {
         let date = LocalDate(year: 2000, month: 13, day: 32)
@@ -44,10 +58,15 @@ class LocalDateTests: XCTestCase {
         XCTAssertEqual(date.day, 31)
     }
     func testFromEpochDay() {
-        let date = LocalDate(epochDay: -354285)
-        XCTAssertEqual(date.year, 1000)
-        XCTAssertEqual(date.month, 1)
-        XCTAssertEqual(date.day, 1)
+        let date1 = LocalDate(epochDay: -354285)
+        XCTAssertEqual(date1.year, 1000)
+        XCTAssertEqual(date1.month, 1)
+        XCTAssertEqual(date1.day, 1)
+
+        let date2 = LocalDate(epochDay: -719528)
+        XCTAssertEqual(date2.year, 0)
+        XCTAssertEqual(date2.month, 1)
+        XCTAssertEqual(date2.day, 1)
     }
     func testToEpochDay() {
         let date = LocalDate(year: 1000, month: 1, day: 1)
@@ -65,10 +84,12 @@ class LocalDateTests: XCTestCase {
 
         let date = Date()
 
-        let localDate = LocalDate(date, timeZone: utcCalendar.timeZone)
-        XCTAssertEqual(localDate.year, utcCalendar.component(.year, from: date))
-        XCTAssertEqual(localDate.month, utcCalendar.component(.month, from: date))
-        XCTAssertEqual(localDate.day, utcCalendar.component(.day, from: date))
+        let localDate1 = LocalDate(clock: Clock.UTC)
+        let localDate2 = LocalDate(date, clock: Clock.UTC)
+        XCTAssertEqual(localDate1.year, utcCalendar.component(.year, from: date))
+        XCTAssertEqual(localDate1.month, utcCalendar.component(.month, from: date))
+        XCTAssertEqual(localDate1.day, utcCalendar.component(.day, from: date))
+        XCTAssertEqual(localDate1, localDate2)
     }
     func testFormat() {
         let date = LocalDate(year: 2017, month: 7, day: 24)
@@ -79,14 +100,24 @@ class LocalDateTests: XCTestCase {
     }
     func testUntil() {
         let oldDate = LocalDate(year: 1627, month: 2, day: 10)
-        let newDate = LocalDate(year: 1628, month: 3, day: 12)
+        let newDate1 = LocalDate(year: 1628, month: 3, day: 12)
 
-        XCTAssertEqual(oldDate.until(endDate: newDate, component: .year), 1)
-        XCTAssertEqual(oldDate.until(endDate: newDate, component: .month), 13)
-        XCTAssertEqual(oldDate.until(endDate: newDate, component: .weekday), 56)
-        XCTAssertEqual(oldDate.until(endDate: newDate, component: .day), 396)
+        XCTAssertEqual(oldDate.until(endDate: newDate1, component: .year), 1)
+        XCTAssertEqual(oldDate.until(endDate: newDate1, component: .month), 13)
+        XCTAssertEqual(oldDate.until(endDate: newDate1, component: .weekday), 56)
+        XCTAssertEqual(oldDate.until(endDate: newDate1, component: .day), 396)
 
-        let period = oldDate.until(endDate: newDate)
+        let newDate2 = LocalDate(year: 1628, month: 4, day: 11)
+        XCTAssertEqual(newDate1.until(endDate: newDate2).year, 0)
+        XCTAssertEqual(newDate1.until(endDate: newDate2).month, 0)
+        XCTAssertEqual(newDate1.until(endDate: newDate2).day, 30)
+
+        let newDate3 = LocalDate(year: 1628, month: 2, day: 13)
+        XCTAssertEqual(newDate1.until(endDate: newDate3).year, -1)
+        XCTAssertEqual(newDate1.until(endDate: newDate3).month, 11)
+        XCTAssertEqual(newDate1.until(endDate: newDate3).day, 3)
+
+        let period = oldDate.until(endDate: newDate1)
         XCTAssertEqual(period.year, 1)
         XCTAssertEqual(period.month, 1)
         XCTAssertEqual(period.day, 2)
@@ -96,13 +127,17 @@ class LocalDateTests: XCTestCase {
         XCTAssertEqual(period.nano, 0)
     }
     func testRange() {
-        let date = LocalDate(year: 1628, month: 3, day: 12)
+        let date1 = LocalDate(year: 1628, month: 3, day: 12)
+        let date2 = LocalDate(year: 1629, month: 2, day: 12)
+        let date3 = LocalDate(year: -1, month: 1, day: 1)
 
-        XCTAssertEqual(date.range(.month).1, 31)
-        XCTAssertEqual(date.range(.weekday).1, 5)
-        XCTAssertEqual(date.range(.year).1, 366)
-        XCTAssertEqual(date.range(.weekOfMonth).1, 5)
-        XCTAssertEqual(date.range(.era).1, 999_999_999)
+        XCTAssertEqual(date1.range(.month).1, 31)
+        XCTAssertEqual(date1.range(.weekday).1, 5)
+        XCTAssertEqual(date1.range(.year).1, 366)
+        XCTAssertEqual(date1.range(.weekOfMonth).1, 5)
+        XCTAssertEqual(date2.range(.weekOfMonth).1, 4)
+        XCTAssertEqual(date1.range(.era).1, 999_999_999)
+        XCTAssertEqual(date3.range(.era).1, 1000_000_000)
     }
     func testMinus() {
         let date = LocalDate(year: 1628, month: 3, day: 12)
@@ -161,7 +196,7 @@ class LocalDateTests: XCTestCase {
     func testToDate() {
         let calendar = Calendar.current
         let localDate = LocalDate(year: 1999, month: 10, day: 31)
-        let date = localDate.toDate()
+        let date = try! localDate.toDate(clock: .current)
 
         XCTAssertEqual(calendar.component(.year, from: date), 1999)
         XCTAssertEqual(calendar.component(.month, from: date), 10)
@@ -172,8 +207,11 @@ class LocalDateTests: XCTestCase {
         XCTAssertTrue(date.isLeapYear())
     }
     func testLengthOfYear() {
-        let date = LocalDate(year: 1628, month: 2, day: 12)
-        XCTAssertEqual(date.lengthOfYear(), 366)
+        let date1 = LocalDate(year: 1628, month: 2, day: 12)
+        XCTAssertEqual(date1.lengthOfYear(), 366)
+
+        let date2 = LocalDate(year: 1629, month: 2, day: 12)
+        XCTAssertEqual(date2.lengthOfYear(), 365)
     }
     func testLengthOfMonth() {
         let date = LocalDate(year: 1628, month: 2, day: 12)
@@ -201,31 +239,47 @@ class LocalDateTests: XCTestCase {
         XCTAssertEqual(date6.dayOfWeek, 6)
     }
     func testParse() {
-        let date1 = LocalDate.parse("2014-11-12")!
+        let date1 = LocalDate.parse("2014-11-12", clock: Clock.current)!
         XCTAssertEqual(date1.year, 2014)
         XCTAssertEqual(date1.month, 11)
         XCTAssertEqual(date1.day, 12)
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy--MM-dd"
-        let date2 = LocalDate.parse("2014--11-12", formatter: dateFormatter)
+        let dateFormatter1 = DateFormatter()
+        dateFormatter1.dateFormat = "yyyy--MM-dd"
+        let date2 = LocalDate.parse("2014--11-12", formatter: dateFormatter1, clock: Clock.current)
         XCTAssertEqual(date1, date2)
+
+        let dateFormatter2 = DateFormatter()
+        dateFormatter2.dateFormat = "yyyy-asdf"
+        let date3 = LocalDate.parse("2014--11-12", formatter: dateFormatter2, clock: Clock.current)
+        XCTAssertEqual(date3, nil)
     }
     func testAddDate() {
-        let oldDate = LocalDate(year: 1000, month: 1, day: 1)
+        var oldDate = LocalDate(year: 1000, month: 1, day: 1)
         let addDate = LocalDate(month: 1, day: 3)
         let newDate = oldDate + addDate
         XCTAssertEqual(newDate.year, 1000)
         XCTAssertEqual(newDate.month, 2)
         XCTAssertEqual(newDate.day, 4)
+
+        oldDate += addDate
+        XCTAssertEqual(oldDate, newDate)
     }
     func testSubtractDate() {
-        let oldDate = LocalDate(year: 1000, month: 1, day: 1)
+        var oldDate = LocalDate(year: 1000, month: 1, day: 1)
         let addDate = LocalDate(month: 1, day: 3)
         let newDate = oldDate - addDate
         XCTAssertEqual(newDate.year, 999)
         XCTAssertEqual(newDate.month, 11)
         XCTAssertEqual(newDate.day, 28)
+
+        oldDate -= addDate
+        XCTAssertEqual(oldDate, newDate)
+    }
+    func testDescription() {
+        let date = LocalDate(year: 1969, month: 12, day: 31)
+        XCTAssertEqual(date.description, "1969.12.31")
+        XCTAssertEqual(date.debugDescription, "1969.12.31")
     }
 
 }

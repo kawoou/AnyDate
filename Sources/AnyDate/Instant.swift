@@ -11,7 +11,24 @@ public struct Instant {
         /// The maximum supported epoch second.
         static var maxSecond: Int64 = 31_556_889_864_403_199
     }
+    
+    
+    // MARK: - Enumerable
+    
+    public enum Component {
+        case second
+        case nanosecond
+    }
+    
+    public enum UntilComponent {
+        case day
+        case hour
+        case minute
+        case second
+        case nanosecond
+    }
 
+    
     // MARK: - Static
 
     /// Constant for the 1970-01-01T00:00:00Z epoch instant.
@@ -118,16 +135,13 @@ public struct Instant {
     }
 
     /// Returns a copy of this instant with the specified field set to a new value.
-    public func with(component: Calendar.Component, newValue: Int64) -> Instant {
+    public func with(component: Component, newValue: Int64) -> Instant {
         switch component {
         case .second:
             return self.with(second: newValue)
             
         case .nanosecond:
             return self.with(nano: newValue)
-            
-        default:
-            fatalError("Unsupported unit: \(component)")
         }
     }
 
@@ -148,16 +162,13 @@ public struct Instant {
     }
 
     /// Returns a copy of this instant with the specified amount added.
-    public func plus(component: Calendar.Component, newValue: Int64) -> Instant {
+    public func plus(component: Component, newValue: Int64) -> Instant {
         switch component {
         case .second:
             return self.plus(second: newValue)
             
         case .nanosecond:
             return self.plus(nano: newValue)
-            
-        default:
-            fatalError("Unsupported unit: \(component)")
         }
     }
 
@@ -194,16 +205,13 @@ public struct Instant {
     }
 
     /// Returns a copy of this instant with the specified amount added.
-    public func minus(component: Calendar.Component, newValue: Int64) -> Instant {
+    public func minus(component: Component, newValue: Int64) -> Instant {
         switch component {
         case .second:
             return self.minus(second: newValue)
             
         case .nanosecond:
             return self.minus(nano: newValue)
-            
-        default:
-            fatalError("Unsupported unit: \(component)")
         }
     }
 
@@ -228,7 +236,7 @@ public struct Instant {
     }
 
     /// Calculates the amount of time until another instant in terms of the specified unit.
-    public func until(endInstant: Instant, component: Calendar.Component) -> Int64 {
+    public func until(endInstant: Instant, component: UntilComponent) -> Int64 {
         switch component {
         case .nanosecond:
             return self.until(nano: endInstant)
@@ -240,8 +248,6 @@ public struct Instant {
             return self.until(second: endInstant) / Int64(LocalTime.Constant.secondsPerHour)
         case .day:
             return self.until(second: endInstant) / Int64(LocalTime.Constant.secondsPerDay)
-        default:
-            fatalError("Unsupported unit: \(component)")
         }
     }
 

@@ -2,6 +2,50 @@ import Foundation
 
 public struct LocalDateTime {
     
+    // MARK: - Enumerable
+    
+    public enum Component: String {
+        case year
+        case month
+        case day
+        case hour
+        case minute
+        case second
+        case nanosecond
+    }
+    public enum PlusComponent: String {
+        case year
+        case month
+        case weekday
+        case day
+        case hour
+        case minute
+        case second
+        case nanosecond
+    }
+    public enum RangeComponent: String {
+        case era
+        case year
+        case month
+        case weekday
+        case weekOfMonth
+        case hour
+        case minute
+        case second
+        case nanosecond
+    }
+    public enum UntilComponent: String {
+        case year
+        case month
+        case weekday
+        case day
+        case hour
+        case minute
+        case second
+        case nanosecond
+    }
+    
+    
     // MARK: - Static
     
     /// The minimum supported LocalDateTime, '-999999999-01-01T00:00:00'.
@@ -130,10 +174,10 @@ public struct LocalDateTime {
     }
     
     /// Returns an instance of Date.
-    public func toDate(clock: Clock) -> Date {
-        return self.toDate(timeZone: clock.toTimeZone())
+    public func toDate(clock: Clock) throws -> Date {
+        return try self.toDate(timeZone: clock.toTimeZone())
     }
-    public func toDate(timeZone: TimeZone = TimeZone.current) -> Date {
+    public func toDate(timeZone: TimeZone = TimeZone.current) throws -> Date {
         /// Specify date components
         var dateComponents = DateComponents()
         dateComponents.timeZone = timeZone
@@ -148,25 +192,33 @@ public struct LocalDateTime {
         /// Create date from components
         var calendar = Calendar.current
         calendar.timeZone = timeZone
-        
-        let date = calendar.date(from: dateComponents)
-        assert(date != nil, "Failed to convert Date from LocalDateTime.")
-        
-        return date!
+
+        if let date = calendar.date(from: dateComponents) {
+            return date
+        } else {
+            /// Failed to convert Date from LocalDateTime.
+            throw ParseException.failedConversionToDate
+        }
     }
     
     /// Returns a copy of this date-time with the specified field set to a new value.
-    public func with(component: Calendar.Component, newValue: Int) -> LocalDateTime {
+    public func with(component: Component, newValue: Int) -> LocalDateTime {
         switch component {
         case .hour, .minute, .second, .nanosecond:
             return LocalDateTime(
                 date: self.internalDate,
-                time: self.internalTime.with(component: component, newValue: newValue)
+                time: self.internalTime.with(
+                    component: LocalTime.Component(rawValue: component.rawValue)!,
+                    newValue: newValue
+                )
             )
             
         default:
             return LocalDateTime(
-                date: self.internalDate.with(component: component, newValue: newValue),
+                date: self.internalDate.with(
+                    component: LocalDate.Component(rawValue: component.rawValue)!,
+                    newValue: newValue
+                ),
                 time: self.internalTime
             )
         }
@@ -208,17 +260,23 @@ public struct LocalDateTime {
     }
     
     /// Returns a copy of this date-time with the specified amount added.
-    public func plus(component: Calendar.Component, newValue: Int) -> LocalDateTime {
+    public func plus(component: PlusComponent, newValue: Int) -> LocalDateTime {
         switch component {
         case .hour, .minute, .second, .nanosecond:
             return LocalDateTime(
                 date: self.internalDate,
-                time: self.internalTime.plus(component: component, newValue: newValue)
+                time: self.internalTime.plus(
+                    component: LocalTime.PlusComponent(rawValue: component.rawValue)!,
+                    newValue: newValue
+                )
             )
             
         default:
             return LocalDateTime(
-                date: self.internalDate.plus(component: component, newValue: newValue),
+                date: self.internalDate.plus(
+                    component: LocalDate.PlusComponent(rawValue: component.rawValue)!,
+                    newValue: newValue
+                ),
                 time: self.internalTime
             )
         }
@@ -265,17 +323,23 @@ public struct LocalDateTime {
     }
     
     /// Returns a copy of this date-time with the specified amount subtracted.
-    public func minus(component: Calendar.Component, newValue: Int) -> LocalDateTime {
+    public func minus(component: PlusComponent, newValue: Int) -> LocalDateTime {
         switch component {
         case .hour, .minute, .second, .nanosecond:
             return LocalDateTime(
                 date: self.internalDate,
-                time: self.internalTime.minus(component: component, newValue: newValue)
+                time: self.internalTime.minus(
+                    component: LocalTime.PlusComponent(rawValue: component.rawValue)!,
+                    newValue: newValue
+                )
             )
             
         default:
             return LocalDateTime(
-                date: self.internalDate.minus(component: component, newValue: newValue),
+                date: self.internalDate.minus(
+                    component: LocalDate.PlusComponent(rawValue: component.rawValue)!,
+                    newValue: newValue
+                ),
                 time: self.internalTime
             )
         }
@@ -322,13 +386,13 @@ public struct LocalDateTime {
     }
     
     /// Gets the range of valid values for the specified field.
-    public func range(_ component: Calendar.Component) -> (Int, Int) {
+    public func range(_ component: RangeComponent) -> (Int, Int) {
         switch component {
         case .hour, .minute, .second, .nanosecond:
-            return self.internalTime.range(component)
+            return self.internalTime.range(LocalTime.RangeComponent(rawValue: component.rawValue)!)
             
         default:
-            return self.internalDate.range(component)
+            return self.internalDate.range(LocalDate.RangeComponent(rawValue: component.rawValue)!)
         }
     }
 
@@ -349,10 +413,13 @@ public struct LocalDateTime {
     }
     
     /// Calculates the amount of time until another date-time in terms of the specified unit.
-    public func until(endDateTime: LocalDateTime, component: Calendar.Component) -> Int64 {
+    public func until(endDateTime: LocalDateTime, component: UntilComponent) -> Int64 {
         switch component {
         case .nanosecond, .second, .minute, .hour:
-            let timePart = self.internalTime.until(endTime: endDateTime.internalTime, component: component)
+            let timePart = self.internalTime.until(
+                endTime: endDateTime.internalTime,
+                component: LocalTime.UntilComponent(rawValue: component.rawValue)!
+            )
             
             var amount = self.internalDate.until(endDate: endDateTime.internalDate, component: .day)
             guard amount != 0 else { return timePart }
@@ -376,18 +443,21 @@ public struct LocalDateTime {
             
         default:
             var endDate = endDateTime.internalDate
-            if endDate < self.internalDate && endDateTime.internalTime < internalTime {
+            if endDate < self.internalDate && endDateTime.internalTime < self.internalTime {
                 endDate = endDate.minus(day: 1)
-            } else if endDate > self.internalDate && endDateTime.internalTime > internalTime {
+            } else if endDate > self.internalDate && endDateTime.internalTime > self.internalTime {
                 endDate = endDate.plus(day: 1)
             }
-            return self.internalDate.until(endDate: endDate, component: component)
+            return self.internalDate.until(
+                endDate: endDate,
+                component: LocalDate.UntilComponent(rawValue: component.rawValue)!
+            )
         }
     }
     
     /// Formats this date-time using the specified formatter.
     public func format(_ formatter: DateFormatter) -> String {
-        let date = self.toDate()
+        let date = try! self.toDate()
         return formatter.string(from: date)
     }
     

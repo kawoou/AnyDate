@@ -137,10 +137,10 @@ public struct ZonedDateTime {
     }
     
     /// Returns an instance of Date.
-    public func toDate(clock: Clock?) -> Date {
-        return self.toDate(timeZone: clock?.toTimeZone())
+    public func toDate(clock: Clock?) throws -> Date {
+        return try self.toDate(timeZone: clock?.toTimeZone())
     }
-    public func toDate(timeZone: TimeZone? = nil) -> Date {
+    public func toDate(timeZone: TimeZone? = nil) throws -> Date {
         /// Specify date components
         var dateComponents = DateComponents()
         dateComponents.timeZone = self.internalClock.toTimeZone()
@@ -156,10 +156,12 @@ public struct ZonedDateTime {
         var calendar = Calendar.current
         calendar.timeZone = timeZone ?? self.internalClock.toTimeZone()
         
-        let date = calendar.date(from: dateComponents)
-        assert(date != nil, "Failed to convert Date from LocalTime.")
-        
-        return date!
+        if let date = calendar.date(from: dateComponents) {
+            return date
+        } else {
+            /// Failed to convert Date from ZonedDateTime.
+            throw ParseException.failedConversionToDate
+        }
     }
 
     /// Returns a copy of this date-time with a different time-zone,
@@ -290,7 +292,7 @@ public struct ZonedDateTime {
     }
     
     /// Returns a copy of this ZonedDateTime with the specified amount added.
-    public func plus(component: Calendar.Component, newValue: Int) -> ZonedDateTime {
+    public func plus(component: LocalDateTime.PlusComponent, newValue: Int) -> ZonedDateTime {
         return ZonedDateTime(
             self.internalDateTime.plus(component: component, newValue: newValue),
             clock: self.internalClock
@@ -338,7 +340,7 @@ public struct ZonedDateTime {
     }
     
     /// Returns a copy of this ZonedDateTime with the specified amount subtracted.
-    public func minus(component: Calendar.Component, newValue: Int) -> ZonedDateTime {
+    public func minus(component: LocalDateTime.PlusComponent, newValue: Int) -> ZonedDateTime {
         return ZonedDateTime(
             self.internalDateTime.minus(component: component, newValue: newValue),
             clock: self.internalClock
@@ -386,7 +388,7 @@ public struct ZonedDateTime {
     }
     
     /// Gets the range of valid values for the specified field.
-    public func range(_ component: Calendar.Component) -> (Int, Int) {
+    public func range(_ component: LocalDateTime.RangeComponent) -> (Int, Int) {
         return self.internalDateTime.range(component)
     }
     
@@ -401,7 +403,7 @@ public struct ZonedDateTime {
     }
 
     /// Calculates the amount of time until another ZonedDateTime in terms of the specified unit.
-    public func until(endDateTime: ZonedDateTime, component: Calendar.Component) -> Int64 {
+    public func until(endDateTime: ZonedDateTime, component: LocalDateTime.UntilComponent) -> Int64 {
         let timeZoneAmount = endDateTime.internalClock.offsetSecond - self.internalClock.offsetSecond
         
         var newDateTime = LocalDateTime(endDateTime.internalDateTime)
@@ -412,7 +414,7 @@ public struct ZonedDateTime {
     
     /// Formats this time using the specified formatter.
     public func format(_ formatter: DateFormatter) -> String {
-        let date = self.toDate()
+        let date = try! self.toDate()
         
         let formatter = formatter
         formatter.timeZone = self.internalClock.toTimeZone()
