@@ -115,7 +115,7 @@ let date = LocalDateTime(
 )
 ```
 
-* Operators supported. Easy to comapre dates, datetimes, times.
+* Operators supported. Easy to compare dates, datetimes, times.
 
 ```swift
 let min = ZonedDateTime.min
