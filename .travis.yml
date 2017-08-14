@@ -44,7 +44,7 @@ script:
 
 after_success:
   - if [ $TEST == 1 ]; then
-      bash <(curl -s https://codecov.io/bash) -J 'AnyDate';
+      bash <(curl -s https://codecov.io/bash) -X xcodeplist -J 'AnyDate';
     fi
 
 before_deploy:
