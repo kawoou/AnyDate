@@ -583,6 +583,25 @@ extension LocalDateTime: CustomStringConvertible, CustomDebugStringConvertible {
     }
     
 }
+extension LocalDateTime: CustomReflectable {
+    public var customMirror: Mirror {
+        var c = [(label: String?, value: Any)]()
+        c.append((label: "year", value: self.year))
+        c.append((label: "month", value: self.month))
+        c.append((label: "day", value: self.day))
+        c.append((label: "hour", value: self.hour))
+        c.append((label: "minute", value: self.minute))
+        c.append((label: "second", value: self.second))
+        c.append((label: "nano", value: self.nano))
+        return Mirror(self, children: c, displayStyle: Mirror.DisplayStyle.struct)
+    }
+}
+extension LocalDateTime: CustomPlaygroundQuickLookable {
+    public var customPlaygroundQuickLook: PlaygroundQuickLook {
+        return .text(self.description)
+    }
+}
+
 
 // MARK: - Operator
 

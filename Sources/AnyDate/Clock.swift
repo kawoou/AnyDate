@@ -134,3 +134,15 @@ extension Clock: CustomStringConvertible, CustomDebugStringConvertible {
     }
     
 }
+extension Clock: CustomReflectable {
+    public var customMirror: Mirror {
+        var c = [(label: String?, value: Any)]()
+        c.append((label: "offsetSecond", value: self.internalOffset))
+        return Mirror(self, children: c, displayStyle: Mirror.DisplayStyle.struct)
+    }
+}
+extension Clock: CustomPlaygroundQuickLookable {
+    public var customPlaygroundQuickLook: PlaygroundQuickLook {
+        return .text(self.description)
+    }
+}

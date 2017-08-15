@@ -612,14 +612,23 @@ extension LocalDate: CustomStringConvertible, CustomDebugStringConvertible {
     
     /// A textual representation of this instance, suitable for debugging.
     public var debugDescription: String {
-        return String(
-            format: "%02d.%02d.%02d",
-            self.internalYear,
-            self.internalMonth,
-            self.internalDay
-        )
+        return description
     }
     
+}
+extension LocalDate: CustomReflectable {
+    public var customMirror: Mirror {
+        var c = [(label: String?, value: Any)]()
+        c.append((label: "year", value: self.internalYear))
+        c.append((label: "month", value: self.internalMonth))
+        c.append((label: "day", value: self.internalDay))
+        return Mirror(self, children: c, displayStyle: Mirror.DisplayStyle.struct)
+    }
+}
+extension LocalDate: CustomPlaygroundQuickLookable {
+    public var customPlaygroundQuickLook: PlaygroundQuickLook {
+        return .text(self.description)
+    }
 }
 
 
