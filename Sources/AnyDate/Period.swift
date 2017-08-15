@@ -33,13 +33,13 @@ public struct Period {
 
     // MARK: - Private
 
-    private var internalYear: Int
-    private var internalMonth: Int
-    private var internalDay: Int
-    private var internalHour: Int
-    private var internalMinute: Int
-    private var internalSecond: Int
-    private var internalNano: Int
+    fileprivate var internalYear: Int
+    fileprivate var internalMonth: Int
+    fileprivate var internalDay: Int
+    fileprivate var internalHour: Int
+    fileprivate var internalMinute: Int
+    fileprivate var internalSecond: Int
+    fileprivate var internalNano: Int
 
     private mutating func normalize() {
         let year = self.internalYear
@@ -101,6 +101,51 @@ public struct Period {
         self.normalize()
     }
 }
+extension Period: CustomStringConvertible, CustomDebugStringConvertible {
+    
+    /// A textual representation of this instance.
+    public var description: String {
+        let list: [String?] = [
+            self.internalYear != 0 ? String(format: "%04dYear ", self.internalYear) : nil,
+            self.internalMonth != 0 ? String(format: "%02dMon ", self.internalMonth) : nil,
+            self.internalDay != 0 ? String(format: "%02dDay ", self.internalMonth) : nil,
+            self.internalHour != 0 ? String(format: "%02dHour ", self.internalMonth) : nil,
+            self.internalMinute != 0 ? String(format: "%02dMin ", self.internalMonth) : nil,
+            self.internalSecond != 0 || self.internalNano != 0 ? String(format: "%02d.%09dSec", self.internalSecond, self.internalNano) : nil
+        ]
+        
+        return list
+            .flatMap { $0 }
+            .joined()
+    }
+    
+    /// A textual representation of this instance, suitable for debugging.
+    public var debugDescription: String {
+        return description
+    }
+    
+}
+extension Period: CustomReflectable {
+    public var customMirror: Mirror {
+        var c = [(label: String?, value: Any)]()
+        c.append((label: "year", value: self.internalYear))
+        c.append((label: "month", value: self.internalMonth))
+        c.append((label: "day", value: self.internalDay))
+        c.append((label: "hour", value: self.internalHour))
+        c.append((label: "minute", value: self.internalMinute))
+        c.append((label: "second", value: self.internalSecond))
+        c.append((label: "nano", value: self.internalNano))
+        return Mirror(self, children: c, displayStyle: Mirror.DisplayStyle.struct)
+    }
+}
+extension Period: CustomPlaygroundQuickLookable {
+    public var customPlaygroundQuickLook: PlaygroundQuickLook {
+        return .text(self.description)
+    }
+}
+
+
+// MARK: - Operator
 
 /// Period
 public func + (lhs: Period, rhs: Period) -> Period {
