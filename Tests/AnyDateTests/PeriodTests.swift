@@ -4,6 +4,24 @@ import AnyDate
 
 class PeriodTests: XCTestCase {
 
+    func testPropertySetter() {
+        var zero = Period()
+        zero.year = 100
+        zero.month = 2
+        zero.day = -12
+        zero.hour = -12
+        zero.minute = 2
+        zero.second = -12
+        zero.nano = -125_221
+        
+        XCTAssertEqual(zero.year, 100)
+        XCTAssertEqual(zero.month, 1)
+        XCTAssertEqual(zero.day, 15)
+        XCTAssertEqual(zero.hour, 12)
+        XCTAssertEqual(zero.minute, 1)
+        XCTAssertEqual(zero.second, 47)
+        XCTAssertEqual(zero.nano, 999_874_779)
+    }
     func testNormalize() {
         let period = Period(year: 0, month: 11, day: 30, hour: 23, minute: 59, second: 59, nano: 1000_000_000)
         XCTAssertEqual(period.year, 1)
@@ -14,7 +32,6 @@ class PeriodTests: XCTestCase {
         XCTAssertEqual(period.second, 0)
         XCTAssertEqual(period.nano, 0)
     }
-
     func testAddOperator() {
         let localDate = LocalDateTime(year: 1000, month: 1, day: 1, hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
         let zonedDate = ZonedDateTime(year: 1000, month: 1, day: 1, hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)

@@ -553,12 +553,12 @@ extension ZonedDateTime: CustomStringConvertible, CustomDebugStringConvertible {
     
     /// A textual representation of this instance.
     public var description: String {
-        return self.internalDateTime.description + " " + self.internalClock.description
+        return "\(self.internalDateTime.description)(\(self.internalClock.description))"
     }
     
     /// A textual representation of this instance, suitable for debugging.
     public var debugDescription: String {
-        return self.internalDateTime.debugDescription + " " + self.internalClock.description
+        return description
     }
     
 }

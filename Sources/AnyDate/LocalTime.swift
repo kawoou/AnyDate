@@ -203,7 +203,6 @@ public struct LocalTime {
     fileprivate var internalNano: Int64
     
     private func isValid() -> Bool {
-        guard self.internalHour >= Constant.minHour else { return false }
         guard self.internalMinute >= Constant.minMinute else { return false }
         guard self.internalMinute <= Constant.maxMinute else { return false }
         guard self.internalSecond >= Constant.minSecond else { return false }

@@ -58,15 +58,17 @@ class LocalDateTimeTests: XCTestCase {
         let max = LocalDateTime.max
 
         let oldDate = LocalDateTime(year: 1627, month: 2, day: 10, hour: 14, minute: 2, second: 18, nanoOfSecond: 1573)
-        let newDate = LocalDateTime(year: 1627, month: 2, day: 10, hour: 14, minute: 2, second: 18, nanoOfSecond: 1574)
+        let newDate1 = LocalDateTime(year: 1627, month: 2, day: 10, hour: 14, minute: 2, second: 18, nanoOfSecond: 1574)
+        let newDate2 = LocalDateTime(year: 1627, month: 2, day: 10, hour: 15, minute: 2, second: 18, nanoOfSecond: 1574)
         let equalDate = LocalDateTime(year: 1627, month: 2, day: 10, hour: 14, minute: 2, second: 18, nanoOfSecond: 1573)
 
         XCTAssertLessThan(min, oldDate)
-        XCTAssertGreaterThan(max, newDate)
+        XCTAssertGreaterThan(max, newDate1)
         XCTAssertLessThanOrEqual(oldDate, equalDate)
         XCTAssertGreaterThanOrEqual(oldDate, equalDate)
+        XCTAssertGreaterThan(newDate2, oldDate)
         XCTAssertEqual(oldDate, equalDate)
-        XCTAssertLessThan(oldDate, newDate)
+        XCTAssertLessThan(oldDate, newDate1)
     }
     func testFixOverflow() {
         let date = LocalDateTime(year: 2000, month: 13, day: 32, hour: 14, minute: 61, second: 18, nanoOfSecond: 1573)
@@ -117,14 +119,16 @@ class LocalDateTimeTests: XCTestCase {
 
         let date = Date()
 
-        let localDate = LocalDateTime(date, timeZone: utcCalendar.timeZone)
-        XCTAssertEqual(localDate.year, utcCalendar.component(.year, from: date))
-        XCTAssertEqual(localDate.month, utcCalendar.component(.month, from: date))
-        XCTAssertEqual(localDate.day, utcCalendar.component(.day, from: date))
-        XCTAssertEqual(localDate.hour, utcCalendar.component(.hour, from: date))
-        XCTAssertEqual(localDate.minute, utcCalendar.component(.minute, from: date))
-        XCTAssertEqual(localDate.second, utcCalendar.component(.second, from: date))
-        XCTAssertEqual(localDate.nano, utcCalendar.component(.nanosecond, from: date))
+        let localDate1 = LocalDateTime(clock: Clock.UTC)
+        let localDate2 = LocalDateTime(date, clock: Clock.UTC)
+        XCTAssertEqual(localDate2.year, utcCalendar.component(.year, from: date))
+        XCTAssertEqual(localDate2.month, utcCalendar.component(.month, from: date))
+        XCTAssertEqual(localDate2.day, utcCalendar.component(.day, from: date))
+        XCTAssertEqual(localDate2.hour, utcCalendar.component(.hour, from: date))
+        XCTAssertEqual(localDate2.minute, utcCalendar.component(.minute, from: date))
+        XCTAssertEqual(localDate2.second, utcCalendar.component(.second, from: date))
+        XCTAssertEqual(localDate2.nano, utcCalendar.component(.nanosecond, from: date))
+        XCTAssertGreaterThanOrEqual(localDate1, localDate2)
     }
     func testFormat() {
         let date = LocalDateTime(year: 2017, month: 7, day: 24, hour: 3, minute: 46, second: 42, nanoOfSecond: 57_328_029)
@@ -135,9 +139,9 @@ class LocalDateTimeTests: XCTestCase {
     }
     func testUntil() {
         let oldDate = LocalDateTime(year: 1627, month: 2, day: 10, hour: 14, minute: 2, second: 18, nanoOfSecond: 1573)
-        let newDate = LocalDateTime(year: 1628, month: 3, day: 12, hour: 15, minute: 3, second: 19, nanoOfSecond: 1574)
+        let newDate1 = LocalDateTime(year: 1628, month: 3, day: 12, hour: 15, minute: 3, second: 19, nanoOfSecond: 1574)
 
-        let period = oldDate.until(endDateTime: newDate)
+        let period = oldDate.until(endDateTime: newDate1)
         XCTAssertEqual(period.year, 1)
         XCTAssertEqual(period.month, 1)
         XCTAssertEqual(period.day, 2)
@@ -146,14 +150,36 @@ class LocalDateTimeTests: XCTestCase {
         XCTAssertEqual(period.second, 1)
         XCTAssertEqual(period.nano, 1)
 
-        XCTAssertEqual(oldDate.until(endDateTime: newDate, component: .year), 1)
-        XCTAssertEqual(oldDate.until(endDateTime: newDate, component: .month), 13)
-        XCTAssertEqual(oldDate.until(endDateTime: newDate, component: .weekday), 56)
-        XCTAssertEqual(oldDate.until(endDateTime: newDate, component: .day), 397)
-        XCTAssertEqual(oldDate.until(endDateTime: newDate, component: .hour), 9505)
-        XCTAssertEqual(oldDate.until(endDateTime: newDate, component: .minute), 570301)
-        XCTAssertEqual(oldDate.until(endDateTime: newDate, component: .second), 34_218_061)
-        XCTAssertEqual(oldDate.until(endDateTime: newDate, component: .nanosecond), 34_218_061_000_000_001)
+        XCTAssertEqual(oldDate.until(endDateTime: newDate1, component: .year), 1)
+        XCTAssertEqual(oldDate.until(endDateTime: newDate1, component: .month), 13)
+        XCTAssertEqual(oldDate.until(endDateTime: newDate1, component: .weekday), 56)
+        XCTAssertEqual(oldDate.until(endDateTime: newDate1, component: .day), 397)
+        XCTAssertEqual(oldDate.until(endDateTime: newDate1, component: .hour), 9505)
+        XCTAssertEqual(oldDate.until(endDateTime: newDate1, component: .minute), 570301)
+        XCTAssertEqual(oldDate.until(endDateTime: newDate1, component: .second), 34_218_061)
+        XCTAssertEqual(oldDate.until(endDateTime: newDate1, component: .nanosecond), 34_218_061_000_000_001)
+        
+        let newDate2 = LocalDateTime(year: 1628, month: 3, day: 11, hour: 14, minute: 3, second: 19, nanoOfSecond: 1574)
+        
+        XCTAssertEqual(newDate1.until(endDateTime: newDate2, component: .year), 0)
+        XCTAssertEqual(newDate1.until(endDateTime: newDate2, component: .month), 0)
+        XCTAssertEqual(newDate1.until(endDateTime: newDate2, component: .weekday), 0)
+        XCTAssertEqual(newDate1.until(endDateTime: newDate2, component: .day), -2)
+        XCTAssertEqual(newDate1.until(endDateTime: newDate2, component: .hour), -25)
+        XCTAssertEqual(newDate1.until(endDateTime: newDate2, component: .minute), -1500)
+        XCTAssertEqual(newDate1.until(endDateTime: newDate2, component: .second), -90000)
+        XCTAssertEqual(newDate1.until(endDateTime: newDate2, component: .nanosecond), -90000_000_000_000)
+        
+        let newDate3 = LocalDateTime(year: 1628, month: 3, day: 13, hour: 14, minute: 3, second: 19, nanoOfSecond: 1574)
+        
+        XCTAssertEqual(newDate1.until(endDateTime: newDate3, component: .year), 0)
+        XCTAssertEqual(newDate1.until(endDateTime: newDate3, component: .month), 0)
+        XCTAssertEqual(newDate1.until(endDateTime: newDate3, component: .weekday), 0)
+        XCTAssertEqual(newDate1.until(endDateTime: newDate3, component: .day), 1)
+        XCTAssertEqual(newDate1.until(endDateTime: newDate3, component: .hour), 23)
+        XCTAssertEqual(newDate1.until(endDateTime: newDate3, component: .minute), 1380)
+        XCTAssertEqual(newDate1.until(endDateTime: newDate3, component: .second), 82800)
+        XCTAssertEqual(newDate1.until(endDateTime: newDate3, component: .nanosecond), 82800_000_000_000)
     }
     func testRange() {
         let date = LocalDateTime(year: 1628, month: 3, day: 12, hour: 15, minute: 3, second: 19, nanoOfSecond: 1574)
@@ -310,9 +336,9 @@ class LocalDateTimeTests: XCTestCase {
         XCTAssertEqual(date3, nil)
     }
     func testAddDate() {
-        let oldDate = LocalDateTime(year: 1000, month: 1, day: 1, hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
+        var oldDate = LocalDateTime(year: 1000, month: 1, day: 1, hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
         let addDate = LocalDateTime(year: 0, month: 1, day: 3, hour: 0, minute: 8, second: 0, nanoOfSecond: 0)
-        let newDate = oldDate + addDate
+        var newDate = oldDate + addDate
         XCTAssertEqual(newDate.year, 1000)
         XCTAssertEqual(newDate.month, 2)
         XCTAssertEqual(newDate.day, 4)
@@ -320,11 +346,56 @@ class LocalDateTimeTests: XCTestCase {
         XCTAssertEqual(newDate.minute, 59)
         XCTAssertEqual(newDate.second, 18)
         XCTAssertEqual(newDate.nano, 1573)
+        
+        oldDate += addDate
+        XCTAssertEqual(oldDate.year, 1000)
+        XCTAssertEqual(oldDate.month, 2)
+        XCTAssertEqual(oldDate.day, 4)
+        XCTAssertEqual(oldDate.hour, 11)
+        XCTAssertEqual(oldDate.minute, 59)
+        XCTAssertEqual(oldDate.second, 18)
+        XCTAssertEqual(oldDate.nano, 1573)
+        
+        newDate = oldDate + addDate.date
+        XCTAssertEqual(newDate.year, 1000)
+        XCTAssertEqual(newDate.month, 3)
+        XCTAssertEqual(newDate.day, 7)
+        XCTAssertEqual(newDate.hour, 11)
+        XCTAssertEqual(newDate.minute, 59)
+        XCTAssertEqual(newDate.second, 18)
+        XCTAssertEqual(newDate.nano, 1573)
+        
+        oldDate += addDate.date
+        XCTAssertEqual(oldDate.year, 1000)
+        XCTAssertEqual(oldDate.month, 3)
+        XCTAssertEqual(oldDate.day, 7)
+        XCTAssertEqual(oldDate.hour, 11)
+        XCTAssertEqual(oldDate.minute, 59)
+        XCTAssertEqual(oldDate.second, 18)
+        XCTAssertEqual(oldDate.nano, 1573)
+        
+        newDate = oldDate + addDate.time
+        XCTAssertEqual(newDate.year, 1000)
+        XCTAssertEqual(newDate.month, 3)
+        XCTAssertEqual(newDate.day, 7)
+        XCTAssertEqual(newDate.hour, 12)
+        XCTAssertEqual(newDate.minute, 7)
+        XCTAssertEqual(newDate.second, 18)
+        XCTAssertEqual(newDate.nano, 1573)
+        
+        oldDate += addDate.time
+        XCTAssertEqual(oldDate.year, 1000)
+        XCTAssertEqual(oldDate.month, 3)
+        XCTAssertEqual(oldDate.day, 7)
+        XCTAssertEqual(oldDate.hour, 12)
+        XCTAssertEqual(oldDate.minute, 7)
+        XCTAssertEqual(oldDate.second, 18)
+        XCTAssertEqual(oldDate.nano, 1573)
     }
     func testSubtractDate() {
-        let oldDate = LocalDateTime(year: 1000, month: 1, day: 7, hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
+        var oldDate = LocalDateTime(year: 1000, month: 1, day: 7, hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
         let addDate = LocalDateTime(year: 0, month: 1, day: 3, hour: 0, minute: 8, second: 0, nanoOfSecond: 0)
-        let newDate = oldDate - addDate
+        var newDate = oldDate - addDate
         XCTAssertEqual(newDate.year, 999)
         XCTAssertEqual(newDate.month, 12)
         XCTAssertEqual(newDate.day, 4)
@@ -332,6 +403,51 @@ class LocalDateTimeTests: XCTestCase {
         XCTAssertEqual(newDate.minute, 43)
         XCTAssertEqual(newDate.second, 18)
         XCTAssertEqual(newDate.nano, 1573)
+        
+        oldDate -= addDate
+        XCTAssertEqual(oldDate.year, 999)
+        XCTAssertEqual(oldDate.month, 12)
+        XCTAssertEqual(oldDate.day, 4)
+        XCTAssertEqual(oldDate.hour, 11)
+        XCTAssertEqual(oldDate.minute, 43)
+        XCTAssertEqual(oldDate.second, 18)
+        XCTAssertEqual(oldDate.nano, 1573)
+        
+        newDate = oldDate - addDate.date
+        XCTAssertEqual(newDate.year, 999)
+        XCTAssertEqual(newDate.month, 11)
+        XCTAssertEqual(newDate.day, 1)
+        XCTAssertEqual(newDate.hour, 11)
+        XCTAssertEqual(newDate.minute, 43)
+        XCTAssertEqual(newDate.second, 18)
+        XCTAssertEqual(newDate.nano, 1573)
+        
+        oldDate -= addDate.date
+        XCTAssertEqual(oldDate.year, 999)
+        XCTAssertEqual(oldDate.month, 11)
+        XCTAssertEqual(oldDate.day, 1)
+        XCTAssertEqual(oldDate.hour, 11)
+        XCTAssertEqual(oldDate.minute, 43)
+        XCTAssertEqual(oldDate.second, 18)
+        XCTAssertEqual(oldDate.nano, 1573)
+        
+        newDate = oldDate - addDate.time
+        XCTAssertEqual(newDate.year, 999)
+        XCTAssertEqual(newDate.month, 11)
+        XCTAssertEqual(newDate.day, 1)
+        XCTAssertEqual(newDate.hour, 11)
+        XCTAssertEqual(newDate.minute, 35)
+        XCTAssertEqual(newDate.second, 18)
+        XCTAssertEqual(newDate.nano, 1573)
+        
+        oldDate -= addDate.time
+        XCTAssertEqual(oldDate.year, 999)
+        XCTAssertEqual(oldDate.month, 11)
+        XCTAssertEqual(oldDate.day, 1)
+        XCTAssertEqual(oldDate.hour, 11)
+        XCTAssertEqual(oldDate.minute, 35)
+        XCTAssertEqual(oldDate.second, 18)
+        XCTAssertEqual(oldDate.nano, 1573)
     }
     func testToDate() {
         var calendar = Calendar.current
@@ -348,6 +464,11 @@ class LocalDateTimeTests: XCTestCase {
         XCTAssertEqual(calendar.component(.second, from: date), 18)
         XCTAssertGreaterThanOrEqual(153_500_000, calendar.component(.nanosecond, from: date))
         XCTAssertLessThanOrEqual(152_500_000, calendar.component(.nanosecond, from: date))
+    }
+    func testDescription() {
+        let date = LocalDateTime(year: 1999, month: 10, day: 31, hour: 11, minute: 51, second: 18, nanoOfSecond: 153_000_000)
+        XCTAssertEqual(date.description, "1999.10.31T11:51:18.153000000")
+        XCTAssertEqual(date.debugDescription, "1999.10.31T11:51:18.153000000")
     }
 
 }

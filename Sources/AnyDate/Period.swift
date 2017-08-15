@@ -50,19 +50,30 @@ public struct Period {
         let second = self.internalSecond
         let nano = self.internalNano
 
-        self.internalNano = Int(nano)
+        var total = Int64(hour) * LocalTime.Constant.nanosPerHour
+        total += Int64(minute) * LocalTime.Constant.nanosPerMinute
+        total += Int64(second) * LocalTime.Constant.nanosPerSecond
+        total += Int64(nano)
+        
+        let dayAppend: Int
+        if total < 0 {
+            dayAppend = Int(total / LocalTime.Constant.nanosPerDay) - 1
+            total = (Int64(-dayAppend) * LocalTime.Constant.nanosPerDay) + total
+        } else {
+            dayAppend = Int(total / LocalTime.Constant.nanosPerDay)
+            total %= LocalTime.Constant.nanosPerDay
+        }
+        
+        self.internalNano = Int(total % LocalTime.Constant.nanosPerSecond)
+        total /= LocalTime.Constant.nanosPerSecond
+        
+        self.internalSecond = Int(total % Int64(LocalTime.Constant.secondsPerMinute))
+        total /= Int64(LocalTime.Constant.secondsPerMinute)
+        
+        self.internalMinute = Int(total % Int64(LocalTime.Constant.minutesPerHour))
+        self.internalHour = Int(total / Int64(LocalTime.Constant.minutesPerHour))
 
-        self.internalSecond = self.internalNano / Int(LocalTime.Constant.nanosPerSecond) + second
-        self.internalNano %= Int(LocalTime.Constant.nanosPerSecond)
-
-        self.internalMinute = self.internalSecond / LocalTime.Constant.secondsPerMinute + minute
-        self.internalSecond %= LocalTime.Constant.secondsPerMinute
-
-        self.internalHour = self.internalMinute / LocalTime.Constant.minutesPerHour + hour
-        self.internalMinute %= LocalTime.Constant.minutesPerHour
-
-        let days = self.internalHour / LocalTime.Constant.hoursPerDay + day
-        self.internalHour %= LocalTime.Constant.hoursPerDay
+        let days = day + dayAppend
 
         var newDate = LocalDate(year: year, month: month + 1, day: days + 1)
         self.internalYear = newDate.year
@@ -70,6 +81,15 @@ public struct Period {
         self.internalDay = newDate.day - 1
     }
 
+    public init() {
+        self.internalYear = 0
+        self.internalMonth = 0
+        self.internalDay = 0
+        self.internalHour = 0
+        self.internalMinute = 0
+        self.internalSecond = 0
+        self.internalNano = 0
+    }
     public init(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, nano: Int) {
         self.internalYear = year
         self.internalMonth = month

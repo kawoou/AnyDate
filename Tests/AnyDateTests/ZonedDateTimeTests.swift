@@ -6,6 +6,24 @@ class ZonedDateTimeTests: XCTestCase {
 
     let utcTimeZone = TimeZone(identifier: "UTC")!
 
+    func testPropertySetter() {
+        var min = ZonedDateTime.min
+        min.year = 100
+        min.month = 2
+        min.day = -12
+        min.hour = 12
+        min.minute = 2
+        min.second = -12
+        min.nano = -125_221
+        
+        XCTAssertEqual(min.year, 100)
+        XCTAssertEqual(min.month, 1)
+        XCTAssertEqual(min.day, 19)
+        XCTAssertEqual(min.hour, 12)
+        XCTAssertEqual(min.minute, 1)
+        XCTAssertEqual(min.second, 47)
+        XCTAssertEqual(min.nano, 999_874_779)
+    }
     func testMinMaxRange() {
         let clock = Clock.current
         let min = ZonedDateTime.min
@@ -92,20 +110,39 @@ class ZonedDateTimeTests: XCTestCase {
         XCTAssertEqual(date.nano, 57_328_029)
         XCTAssertEqual(date.timeZone, self.utcTimeZone)
     }
+    func testFromLocalDateTime() {
+        let date = ZonedDateTime(
+            LocalDateTime(
+                date: LocalDate(epochDay: -354285),
+                time: LocalTime(nanoOfDay: 13_602_057_328_029)
+            ),
+            timeZone: self.utcTimeZone
+        )
+        XCTAssertEqual(date.year, 1000)
+        XCTAssertEqual(date.month, 1)
+        XCTAssertEqual(date.day, 1)
+        XCTAssertEqual(date.hour, 3)
+        XCTAssertEqual(date.minute, 46)
+        XCTAssertEqual(date.second, 42)
+        XCTAssertEqual(date.nano, 57_328_029)
+        XCTAssertEqual(date.timeZone, self.utcTimeZone)
+    }
     func testOtherTimeZone() {
         var utcCalendar = Calendar.current
         utcCalendar.timeZone = self.utcTimeZone
 
         let date = Date()
 
-        let localDate = ZonedDateTime(date, timeZone: utcCalendar.timeZone)
-        XCTAssertEqual(localDate.year, utcCalendar.component(.year, from: date))
-        XCTAssertEqual(localDate.month, utcCalendar.component(.month, from: date))
-        XCTAssertEqual(localDate.day, utcCalendar.component(.day, from: date))
-        XCTAssertEqual(localDate.hour, utcCalendar.component(.hour, from: date))
-        XCTAssertEqual(localDate.minute, utcCalendar.component(.minute, from: date))
-        XCTAssertEqual(localDate.second, utcCalendar.component(.second, from: date))
-        XCTAssertEqual(localDate.nano, utcCalendar.component(.nanosecond, from: date))
+        let localDate1 = ZonedDateTime(timeZone: utcCalendar.timeZone)
+        let localDate2 = ZonedDateTime(date, timeZone: utcCalendar.timeZone)
+        XCTAssertEqual(localDate2.year, utcCalendar.component(.year, from: date))
+        XCTAssertEqual(localDate2.month, utcCalendar.component(.month, from: date))
+        XCTAssertEqual(localDate2.day, utcCalendar.component(.day, from: date))
+        XCTAssertEqual(localDate2.hour, utcCalendar.component(.hour, from: date))
+        XCTAssertEqual(localDate2.minute, utcCalendar.component(.minute, from: date))
+        XCTAssertEqual(localDate2.second, utcCalendar.component(.second, from: date))
+        XCTAssertEqual(localDate2.nano, utcCalendar.component(.nanosecond, from: date))
+        XCTAssertGreaterThanOrEqual(localDate1, localDate2)
     }
     func testFormat() {
         let date = ZonedDateTime(year: 2017, month: 7, day: 24, hour: 3, minute: 46, second: 42, nanoOfSecond: 57_328_029, timeZone: self.utcTimeZone)
@@ -290,15 +327,23 @@ class ZonedDateTimeTests: XCTestCase {
         XCTAssertLessThanOrEqual(122_500_000, date1.nano)
         XCTAssertEqual(date1.timeZone, self.utcTimeZone)
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy--MM-dd...HH.mm.ss.SSSZZZZZ"
-        let date2 = ZonedDateTime.parse("2014--11-12...12.44.52.123+00:00", formatter: dateFormatter, timeZone: self.utcTimeZone)
+        let dateFormatter1 = DateFormatter()
+        dateFormatter1.dateFormat = "yyyy--MM-dd...HH.mm.ss.SSSZZZZZ"
+        let date2 = ZonedDateTime.parse("2014--11-12...12.44.52.123+00:00", formatter: dateFormatter1, timeZone: self.utcTimeZone)
         XCTAssertEqual(date1, date2)
+        
+        let dateFormatter2 = DateFormatter()
+        dateFormatter2.dateFormat = "yyyy--sadgasdgasdg"
+        let date3 = ZonedDateTime.parse("2014--11-12...12.44.52.123+00:00", formatter: dateFormatter2, timeZone: self.utcTimeZone)
+        XCTAssertEqual(date3, nil)
+        
+        let date4 = ZonedDateTime.parse("2014sadg", timeZone: self.utcTimeZone)
+        XCTAssertEqual(date4, nil)
     }
     func testAddDate() {
-        let oldDate = ZonedDateTime(year: 1000, month: 1, day: 1, hour: 11, minute: 51, second: 18, nanoOfSecond: 1573, timeZone: self.utcTimeZone)
+        var oldDate = ZonedDateTime(year: 1000, month: 1, day: 1, hour: 11, minute: 51, second: 18, nanoOfSecond: 1573, timeZone: self.utcTimeZone)
         let addDate = ZonedDateTime(year: 0, month: 1, day: 3, hour: 0, minute: 8, second: 0, nanoOfSecond: 0, timeZone: self.utcTimeZone)
-        let newDate = oldDate + addDate
+        var newDate = oldDate + addDate
         XCTAssertEqual(newDate.year, 1000)
         XCTAssertEqual(newDate.month, 2)
         XCTAssertEqual(newDate.day, 4)
@@ -306,11 +351,50 @@ class ZonedDateTimeTests: XCTestCase {
         XCTAssertEqual(newDate.minute, 59)
         XCTAssertEqual(newDate.second, 18)
         XCTAssertEqual(newDate.nano, 1573)
+        
+        oldDate += addDate
+        XCTAssertEqual(oldDate, newDate)
+        
+        newDate = oldDate + addDate.localDateTime
+        XCTAssertEqual(newDate.year, 1000)
+        XCTAssertEqual(newDate.month, 3)
+        XCTAssertEqual(newDate.day, 7)
+        XCTAssertEqual(newDate.hour, 12)
+        XCTAssertEqual(newDate.minute, 7)
+        XCTAssertEqual(newDate.second, 18)
+        XCTAssertEqual(newDate.nano, 1573)
+        
+        oldDate += addDate.localDateTime
+        XCTAssertEqual(oldDate, newDate)
+        
+        newDate = oldDate + addDate.localDate
+        XCTAssertEqual(newDate.year, 1000)
+        XCTAssertEqual(newDate.month, 4)
+        XCTAssertEqual(newDate.day, 10)
+        XCTAssertEqual(newDate.hour, 12)
+        XCTAssertEqual(newDate.minute, 7)
+        XCTAssertEqual(newDate.second, 18)
+        XCTAssertEqual(newDate.nano, 1573)
+        
+        oldDate += addDate.localDate
+        XCTAssertEqual(oldDate, newDate)
+        
+        newDate = oldDate + addDate.localTime
+        XCTAssertEqual(newDate.year, 1000)
+        XCTAssertEqual(newDate.month, 4)
+        XCTAssertEqual(newDate.day, 10)
+        XCTAssertEqual(newDate.hour, 12)
+        XCTAssertEqual(newDate.minute, 15)
+        XCTAssertEqual(newDate.second, 18)
+        XCTAssertEqual(newDate.nano, 1573)
+        
+        oldDate += addDate.localTime
+        XCTAssertEqual(oldDate, newDate)
     }
     func testSubtractDate() {
-        let oldDate = ZonedDateTime(year: 1000, month: 1, day: 7, hour: 11, minute: 51, second: 18, nanoOfSecond: 1573, timeZone: self.utcTimeZone)
+        var oldDate = ZonedDateTime(year: 1000, month: 1, day: 7, hour: 11, minute: 51, second: 18, nanoOfSecond: 1573, timeZone: self.utcTimeZone)
         let addDate = ZonedDateTime(year: 0, month: 1, day: 3, hour: 0, minute: 8, second: 0, nanoOfSecond: 0, timeZone: self.utcTimeZone)
-        let newDate = oldDate - addDate
+        var newDate = oldDate - addDate
         XCTAssertEqual(newDate.year, 999)
         XCTAssertEqual(newDate.month, 12)
         XCTAssertEqual(newDate.day, 4)
@@ -318,13 +402,52 @@ class ZonedDateTimeTests: XCTestCase {
         XCTAssertEqual(newDate.minute, 43)
         XCTAssertEqual(newDate.second, 18)
         XCTAssertEqual(newDate.nano, 1573)
+        
+        oldDate -= addDate
+        XCTAssertEqual(oldDate, newDate)
+        
+        newDate = oldDate - addDate.localDateTime
+        XCTAssertEqual(newDate.year, 999)
+        XCTAssertEqual(newDate.month, 11)
+        XCTAssertEqual(newDate.day, 1)
+        XCTAssertEqual(newDate.hour, 11)
+        XCTAssertEqual(newDate.minute, 35)
+        XCTAssertEqual(newDate.second, 18)
+        XCTAssertEqual(newDate.nano, 1573)
+        
+        oldDate -= addDate.localDateTime
+        XCTAssertEqual(oldDate, newDate)
+        
+        newDate = oldDate - addDate.localDate
+        XCTAssertEqual(newDate.year, 999)
+        XCTAssertEqual(newDate.month, 9)
+        XCTAssertEqual(newDate.day, 28)
+        XCTAssertEqual(newDate.hour, 11)
+        XCTAssertEqual(newDate.minute, 35)
+        XCTAssertEqual(newDate.second, 18)
+        XCTAssertEqual(newDate.nano, 1573)
+        
+        oldDate -= addDate.localDate
+        XCTAssertEqual(oldDate, newDate)
+        
+        newDate = oldDate - addDate.localTime
+        XCTAssertEqual(newDate.year, 999)
+        XCTAssertEqual(newDate.month, 9)
+        XCTAssertEqual(newDate.day, 28)
+        XCTAssertEqual(newDate.hour, 11)
+        XCTAssertEqual(newDate.minute, 27)
+        XCTAssertEqual(newDate.second, 18)
+        XCTAssertEqual(newDate.nano, 1573)
+        
+        oldDate -= addDate.localTime
+        XCTAssertEqual(oldDate, newDate)
     }
     func testToDate() {
         var calendar = Calendar.current
         calendar.timeZone = self.utcTimeZone
 
-        let localDate = ZonedDateTime(year: 1999, month: 10, day: 31, hour: 11, minute: 51, second: 18, nanoOfSecond: 153_000_000, timeZone: self.utcTimeZone)
-        let date = try! localDate.toDate()
+        let localDate = ZonedDateTime(year: 1999, month: 10, day: 31, hour: 11, minute: 51, second: 18, nanoOfSecond: 153_000_000, clock: .UTC)
+        let date = try! localDate.toDate(clock: .UTC)
 
         XCTAssertEqual(calendar.component(.year, from: date), 1999)
         XCTAssertEqual(calendar.component(.month, from: date), 10)
@@ -334,6 +457,11 @@ class ZonedDateTimeTests: XCTestCase {
         XCTAssertEqual(calendar.component(.second, from: date), 18)
         XCTAssertGreaterThanOrEqual(153_500_000, calendar.component(.nanosecond, from: date))
         XCTAssertLessThanOrEqual(152_500_000, calendar.component(.nanosecond, from: date))
+    }
+    func testDescription() {
+        let date = ZonedDateTime(year: 1999, month: 10, day: 31, hour: 11, minute: 51, second: 18, nanoOfSecond: 153_000_000, clock: .UTC)
+        XCTAssertEqual(date.description, "1999.10.31T11:51:18.153000000(00:00:00.000000000)")
+        XCTAssertEqual(date.debugDescription, "1999.10.31T11:51:18.153000000(00:00:00.000000000)")
     }
 
 }
