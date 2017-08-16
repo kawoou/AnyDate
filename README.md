@@ -1,14 +1,15 @@
 # AnyDate
 
+[![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/sindresorhus/awesome)
 ![Swift](https://img.shields.io/badge/Swift-3.1-orange.svg)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![CI Status](https://travis-ci.org/Kawoou/AnyDate.svg?branch=master)](https://travis-ci.org/Kawoou/AnyDate)
 [![Version](https://img.shields.io/cocoapods/v/AnyDate.svg?style=flat)](http://cocoadocs.org/docsets/AnyDate)
 [![License](https://img.shields.io/cocoapods/l/AnyDate.svg?style=flat)](https://github.com/kawoou/AnyDate/blob/master/LICENSE)
-[![Platform](https://img.shields.io/cocoapods/p/AnyDate.svg?style=flat)](http://cocoadocs.org/docsets/AnyDate)
+[![CI Status](https://travis-ci.org/Kawoou/AnyDate.svg?branch=master)](https://travis-ci.org/Kawoou/AnyDate)
 [![Codecov](https://img.shields.io/codecov/c/github/Kawoou/AnyDate.svg)](https://codecov.io/gh/Kawoou/AnyDate)
+[![Platform](https://img.shields.io/cocoapods/p/AnyDate.svg?style=flat)](http://cocoadocs.org/docsets/AnyDate)
 
-Swift Date & Time API inspired from Java 8 DateTime API.
+Swifty Date & Time API inspired from Java 8 DateTime API.
 
 
 ## Background
@@ -115,7 +116,7 @@ let date = LocalDateTime(
 )
 ```
 
-* Operators supported. Easy to comapre dates, datetimes, times.
+* Operators supported. Easy to compare dates, datetimes, times.
 
 ```swift
 let min = ZonedDateTime.min
@@ -163,13 +164,13 @@ print(newDate)
 ### [CocoaPods](https://cocoapods.org):
 
 ```ruby
-pod 'AnyDate', '~> 1.0.0'
+pod 'AnyDate', '~> 1.0.1'
 ```
 
 ### [Carthage](https://github.com/Carthage/Carthage):
 
 ```
-github "Kawoou/AnyDate" ~> 1.0.0
+github "Kawoou/AnyDate" ~> 1.0.1
 ```
 
 ### [Swift Package Manager](https://swift.org/package-manager):
@@ -205,8 +206,11 @@ You can either simply drag and drop the `Sources` folder into your existing proj
 
 ## Changelog
 
-* 1.0.0 - 2017-08-13
-   * First release AnyDate!
+* 1.0.0 - 2017/08/13
+  * First release AnyDate!
+* 1.0.1 - 2017/08/16
+  * Increase test codes.
+  * Implement CustomPlaygroundQuickLookable, CustomReflectable protocols.
 
 
 

@@ -203,7 +203,6 @@ public struct LocalTime {
     fileprivate var internalNano: Int64
     
     private func isValid() -> Bool {
-        guard self.internalHour >= Constant.minHour else { return false }
         guard self.internalMinute >= Constant.minMinute else { return false }
         guard self.internalMinute <= Constant.maxMinute else { return false }
         guard self.internalSecond >= Constant.minSecond else { return false }
@@ -557,15 +556,24 @@ extension LocalTime: CustomStringConvertible, CustomDebugStringConvertible {
     
     /// A textual representation of this instance, suitable for debugging.
     public var debugDescription: String {
-        return String(
-            format: "%02d:%02d:%02d.%09ld",
-            self.internalHour,
-            self.internalMinute,
-            self.internalSecond,
-            self.internalNano
-        )
+        return description
     }
     
+}
+extension LocalTime: CustomReflectable {
+    public var customMirror: Mirror {
+        var c = [(label: String?, value: Any)]()
+        c.append((label: "hour", value: self.internalHour))
+        c.append((label: "minute", value: self.internalMinute))
+        c.append((label: "second", value: self.internalSecond))
+        c.append((label: "nano", value: self.internalNano))
+        return Mirror(self, children: c, displayStyle: Mirror.DisplayStyle.struct)
+    }
+}
+extension LocalTime: CustomPlaygroundQuickLookable {
+    public var customPlaygroundQuickLook: PlaygroundQuickLook {
+        return .text(self.description)
+    }
 }
 
 

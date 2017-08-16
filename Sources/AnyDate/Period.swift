@@ -33,13 +33,13 @@ public struct Period {
 
     // MARK: - Private
 
-    private var internalYear: Int
-    private var internalMonth: Int
-    private var internalDay: Int
-    private var internalHour: Int
-    private var internalMinute: Int
-    private var internalSecond: Int
-    private var internalNano: Int
+    fileprivate var internalYear: Int
+    fileprivate var internalMonth: Int
+    fileprivate var internalDay: Int
+    fileprivate var internalHour: Int
+    fileprivate var internalMinute: Int
+    fileprivate var internalSecond: Int
+    fileprivate var internalNano: Int
 
     private mutating func normalize() {
         let year = self.internalYear
@@ -50,19 +50,30 @@ public struct Period {
         let second = self.internalSecond
         let nano = self.internalNano
 
-        self.internalNano = Int(nano)
+        var total = Int64(hour) * LocalTime.Constant.nanosPerHour
+        total += Int64(minute) * LocalTime.Constant.nanosPerMinute
+        total += Int64(second) * LocalTime.Constant.nanosPerSecond
+        total += Int64(nano)
+        
+        let dayAppend: Int
+        if total < 0 {
+            dayAppend = Int(total / LocalTime.Constant.nanosPerDay) - 1
+            total = (Int64(-dayAppend) * LocalTime.Constant.nanosPerDay) + total
+        } else {
+            dayAppend = Int(total / LocalTime.Constant.nanosPerDay)
+            total %= LocalTime.Constant.nanosPerDay
+        }
+        
+        self.internalNano = Int(total % LocalTime.Constant.nanosPerSecond)
+        total /= LocalTime.Constant.nanosPerSecond
+        
+        self.internalSecond = Int(total % Int64(LocalTime.Constant.secondsPerMinute))
+        total /= Int64(LocalTime.Constant.secondsPerMinute)
+        
+        self.internalMinute = Int(total % Int64(LocalTime.Constant.minutesPerHour))
+        self.internalHour = Int(total / Int64(LocalTime.Constant.minutesPerHour))
 
-        self.internalSecond = self.internalNano / Int(LocalTime.Constant.nanosPerSecond) + second
-        self.internalNano %= Int(LocalTime.Constant.nanosPerSecond)
-
-        self.internalMinute = self.internalSecond / LocalTime.Constant.secondsPerMinute + minute
-        self.internalSecond %= LocalTime.Constant.secondsPerMinute
-
-        self.internalHour = self.internalMinute / LocalTime.Constant.minutesPerHour + hour
-        self.internalMinute %= LocalTime.Constant.minutesPerHour
-
-        let days = self.internalHour / LocalTime.Constant.hoursPerDay + day
-        self.internalHour %= LocalTime.Constant.hoursPerDay
+        let days = day + dayAppend
 
         var newDate = LocalDate(year: year, month: month + 1, day: days + 1)
         self.internalYear = newDate.year
@@ -70,6 +81,15 @@ public struct Period {
         self.internalDay = newDate.day - 1
     }
 
+    public init() {
+        self.internalYear = 0
+        self.internalMonth = 0
+        self.internalDay = 0
+        self.internalHour = 0
+        self.internalMinute = 0
+        self.internalSecond = 0
+        self.internalNano = 0
+    }
     public init(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, nano: Int) {
         self.internalYear = year
         self.internalMonth = month
@@ -81,6 +101,51 @@ public struct Period {
         self.normalize()
     }
 }
+extension Period: CustomStringConvertible, CustomDebugStringConvertible {
+    
+    /// A textual representation of this instance.
+    public var description: String {
+        let list: [String?] = [
+            self.internalYear != 0 ? String(format: "%04dYear ", self.internalYear) : nil,
+            self.internalMonth != 0 ? String(format: "%02dMon ", self.internalMonth) : nil,
+            self.internalDay != 0 ? String(format: "%02dDay ", self.internalMonth) : nil,
+            self.internalHour != 0 ? String(format: "%02dHour ", self.internalMonth) : nil,
+            self.internalMinute != 0 ? String(format: "%02dMin ", self.internalMonth) : nil,
+            self.internalSecond != 0 || self.internalNano != 0 ? String(format: "%02d.%09dSec", self.internalSecond, self.internalNano) : nil
+        ]
+        
+        return list
+            .flatMap { $0 }
+            .joined()
+    }
+    
+    /// A textual representation of this instance, suitable for debugging.
+    public var debugDescription: String {
+        return description
+    }
+    
+}
+extension Period: CustomReflectable {
+    public var customMirror: Mirror {
+        var c = [(label: String?, value: Any)]()
+        c.append((label: "year", value: self.internalYear))
+        c.append((label: "month", value: self.internalMonth))
+        c.append((label: "day", value: self.internalDay))
+        c.append((label: "hour", value: self.internalHour))
+        c.append((label: "minute", value: self.internalMinute))
+        c.append((label: "second", value: self.internalSecond))
+        c.append((label: "nano", value: self.internalNano))
+        return Mirror(self, children: c, displayStyle: Mirror.DisplayStyle.struct)
+    }
+}
+extension Period: CustomPlaygroundQuickLookable {
+    public var customPlaygroundQuickLook: PlaygroundQuickLook {
+        return .text(self.description)
+    }
+}
+
+
+// MARK: - Operator
 
 /// Period
 public func + (lhs: Period, rhs: Period) -> Period {

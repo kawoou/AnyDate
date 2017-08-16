@@ -89,7 +89,7 @@ class LocalDateTests: XCTestCase {
         XCTAssertEqual(localDate1.year, utcCalendar.component(.year, from: date))
         XCTAssertEqual(localDate1.month, utcCalendar.component(.month, from: date))
         XCTAssertEqual(localDate1.day, utcCalendar.component(.day, from: date))
-        XCTAssertEqual(localDate1, localDate2)
+        XCTAssertGreaterThanOrEqual(localDate1, localDate2)
     }
     func testFormat() {
         let date = LocalDate(year: 2017, month: 7, day: 24)

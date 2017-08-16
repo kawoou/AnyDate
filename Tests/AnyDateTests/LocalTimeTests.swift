@@ -119,14 +119,15 @@ class LocalTimeTests: XCTestCase {
         let date = Date()
 
         let localTime1 = LocalTime(clock: .UTC)
-        XCTAssertEqual(localTime1.hour, utcCalendar.component(.hour, from: date))
-        XCTAssertEqual(localTime1.minute, utcCalendar.component(.minute, from: date))
-        XCTAssertEqual(localTime1.second, utcCalendar.component(.second, from: date))
-        XCTAssertGreaterThanOrEqual(localTime1.nano + 500_000, utcCalendar.component(.nanosecond, from: date))
-        XCTAssertLessThanOrEqual(localTime1.nano - 500_00, utcCalendar.component(.nanosecond, from: date))
+        let localTime2 = LocalTime(date, clock: .UTC)
+        XCTAssertEqual(localTime2.hour, utcCalendar.component(.hour, from: date))
+        XCTAssertEqual(localTime2.minute, utcCalendar.component(.minute, from: date))
+        XCTAssertEqual(localTime2.second, utcCalendar.component(.second, from: date))
+        XCTAssertEqual(localTime2.nano, utcCalendar.component(.nanosecond, from: date))
+        XCTAssertGreaterThanOrEqual(localTime1, localTime2)
 
-        let localTime2 = LocalTime(date, clock: Clock(offsetHour: 9))
-        XCTAssertNotEqual(localTime1.nanoOfDay, localTime2.nanoOfDay)
+        let localTime3 = LocalTime(date, clock: Clock(offsetHour: 9))
+        XCTAssertNotEqual(localTime2.nanoOfDay, localTime3.nanoOfDay)
     }
     func testFormat() {
         let time = LocalTime(hour: 3, minute: 46, second: 42, nanoOfSecond: 57_328_029)

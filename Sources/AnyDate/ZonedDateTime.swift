@@ -54,15 +54,13 @@ public struct ZonedDateTime {
     }
     
     /// Gets the LocalDate part of this date-time.
-    public fileprivate(set) var localDate: LocalDate {
-        get { return self.internalDateTime.date }
-        set { self.internalDateTime.date = newValue }
+    public var localDate: LocalDate {
+        return self.internalDateTime.date
     }
     
     /// Gets the LocalTime part of this date-time.
-    public fileprivate(set) var localTime: LocalTime {
-        get { return self.internalDateTime.time }
-        set { self.internalDateTime.time = newValue }
+    public var localTime: LocalTime {
+        return self.internalDateTime.time
     }
     
     /// Gets the year field.
@@ -553,15 +551,35 @@ extension ZonedDateTime: CustomStringConvertible, CustomDebugStringConvertible {
     
     /// A textual representation of this instance.
     public var description: String {
-        return self.internalDateTime.description + " " + self.internalClock.description
+        return "\(self.internalDateTime.description)(\(self.internalClock.description))"
     }
     
     /// A textual representation of this instance, suitable for debugging.
     public var debugDescription: String {
-        return self.internalDateTime.debugDescription + " " + self.internalClock.description
+        return description
     }
     
 }
+extension ZonedDateTime: CustomReflectable {
+    public var customMirror: Mirror {
+        var c = [(label: String?, value: Any)]()
+        c.append((label: "year", value: self.year))
+        c.append((label: "month", value: self.month))
+        c.append((label: "day", value: self.day))
+        c.append((label: "hour", value: self.hour))
+        c.append((label: "minute", value: self.minute))
+        c.append((label: "second", value: self.second))
+        c.append((label: "nano", value: self.nano))
+        c.append((label: "clock", value: self.clock))
+        return Mirror(self, children: c, displayStyle: Mirror.DisplayStyle.struct)
+    }
+}
+extension ZonedDateTime: CustomPlaygroundQuickLookable {
+    public var customPlaygroundQuickLook: PlaygroundQuickLook {
+        return .text(self.description)
+    }
+}
+
 
 // MARK: - Operator
 
