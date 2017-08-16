@@ -54,15 +54,13 @@ public struct ZonedDateTime {
     }
     
     /// Gets the LocalDate part of this date-time.
-    public fileprivate(set) var localDate: LocalDate {
-        get { return self.internalDateTime.date }
-        set { self.internalDateTime.date = newValue }
+    public var localDate: LocalDate {
+        return self.internalDateTime.date
     }
     
     /// Gets the LocalTime part of this date-time.
-    public fileprivate(set) var localTime: LocalTime {
-        get { return self.internalDateTime.time }
-        set { self.internalDateTime.time = newValue }
+    public var localTime: LocalTime {
+        return self.internalDateTime.time
     }
     
     /// Gets the year field.
