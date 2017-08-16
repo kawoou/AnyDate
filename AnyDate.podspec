@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
 
   s.name              = 'AnyDate'
-  s.version           = '1.0.0'
-  s.summary           = ' abcdefghijklnmopqrstuvwxyz... '
+  s.version           = '1.0.1'
+  s.summary           = 'Swifty Date & Time API inspired from Java 8 DateTime API.'
   s.license           = { :type => 'MIT', :file => 'LICENSE' }
   s.homepage          = 'https://github.com/Kawoou/AnyDate'
   s.authors           = { 'Jungwon An' => 'kawoou@kawoou.kr' }

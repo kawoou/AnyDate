@@ -9,7 +9,7 @@
 [![Codecov](https://img.shields.io/codecov/c/github/Kawoou/AnyDate.svg)](https://codecov.io/gh/Kawoou/AnyDate)
 [![Platform](https://img.shields.io/cocoapods/p/AnyDate.svg?style=flat)](http://cocoadocs.org/docsets/AnyDate)
 
-Swift Date & Time API inspired from Java 8 DateTime API.
+Swifty Date & Time API inspired from Java 8 DateTime API.
 
 
 ## Background
@@ -164,13 +164,13 @@ print(newDate)
 ### [CocoaPods](https://cocoapods.org):
 
 ```ruby
-pod 'AnyDate', '~> 1.0.0'
+pod 'AnyDate', '~> 1.0.1'
 ```
 
 ### [Carthage](https://github.com/Carthage/Carthage):
 
 ```
-github "Kawoou/AnyDate" ~> 1.0.0
+github "Kawoou/AnyDate" ~> 1.0.1
 ```
 
 ### [Swift Package Manager](https://swift.org/package-manager):
@@ -206,8 +206,11 @@ You can either simply drag and drop the `Sources` folder into your existing proj
 
 ## Changelog
 
-* 1.0.0 - 2017-08-13
-   * First release AnyDate!
+* 1.0.0 - 2017/08/13
+  * First release AnyDate!
+* 1.0.1 - 2017/08/16
+  * Increase test codes.
+  * Implement CustomPlaygroundQuickLookable, CustomReflectable protocols.
 
 
 
