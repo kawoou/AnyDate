@@ -469,6 +469,27 @@ class LocalDateTimeTests: XCTestCase {
         let date = LocalDateTime(year: 1999, month: 10, day: 31, hour: 11, minute: 51, second: 18, nanoOfSecond: 153_000_000)
         XCTAssertEqual(date.description, "1999.10.31T11:51:18.153000000")
         XCTAssertEqual(date.debugDescription, "1999.10.31T11:51:18.153000000")
+        if case .text(let text) = date.customPlaygroundQuickLook {
+            XCTAssertEqual(text, "1999.10.31T11:51:18.153000000")
+        }
+    }
+    func testMirror() {
+        let date = LocalDateTime(year: 1999, month: 10, day: 31, hour: 11, minute: 51, second: 18, nanoOfSecond: 153_000_000)
+        
+        var checkList = [
+            "year": 1999,
+            "month": 10,
+            "day": 31,
+            "hour": 11,
+            "minute": 51,
+            "second": 18,
+            "nano": 153_000_000
+        ]
+        for child in date.customMirror.children {
+            XCTAssertEqual(checkList[child.label!], (child.value as? Int)!)
+            checkList.removeValue(forKey: child.label!)
+        }
+        XCTAssertEqual(checkList.count, 0)
     }
 
 }

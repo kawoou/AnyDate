@@ -143,10 +143,54 @@ class InstantTests: XCTestCase {
         XCTAssertEqual(instant.with(component: .second, newValue: 500), compare1)
         XCTAssertEqual(instant.with(component: .nanosecond, newValue: 500), compare2)
     }
+    func testAddDate() {
+        var oldInstant = Instant(epochSecond: 306, nano: 124_233_521)
+        let addInstant = Instant(epochSecond: 10, nano: 100)
+        
+        var newInstant = oldInstant + addInstant
+        XCTAssertEqual(newInstant.second, 316)
+        XCTAssertEqual(newInstant.nano, 124_233_621)
+        
+        oldInstant += addInstant
+        XCTAssertEqual(oldInstant.second, 316)
+        XCTAssertEqual(oldInstant.nano, 124_233_621)
+    }
+    func testSubtractDate() {
+        var oldInstant = Instant(epochSecond: 306, nano: 124_233_521)
+        let addInstant = Instant(epochSecond: 10, nano: 100)
+        
+        var newInstant = oldInstant - addInstant
+        XCTAssertEqual(newInstant.second, 296)
+        XCTAssertEqual(newInstant.nano, 124_233_421)
+        
+        oldInstant -= addInstant
+        XCTAssertEqual(oldInstant.second, 296)
+        XCTAssertEqual(oldInstant.nano, 124_233_421)
+    }
     func testDescription() {
         let instant = Instant(epochSecond: 100_000, nano: 999_000_000)
         XCTAssertEqual(instant.description, "100000.999000000")
         XCTAssertEqual(instant.debugDescription, "100000.999000000")
+        if case .text(let text) = instant.customPlaygroundQuickLook {
+            XCTAssertEqual(text, "100000.999000000")
+        }
+    }
+    func testMirror() {
+        let instant = Instant(epochSecond: 100_000, nano: 999_000_000)
+        
+        var checkList: [String: Any] = [
+            "second": Int64(100_000),
+            "nano": 999_000_000
+        ]
+        for child in instant.customMirror.children {
+            if child.label! == "second" {
+                XCTAssertEqual(checkList[child.label!] as! Int64, child.value as! Int64)
+            } else {
+                XCTAssertEqual(checkList[child.label!] as! Int, child.value as! Int)
+            }
+            checkList.removeValue(forKey: child.label!)
+        }
+        XCTAssertEqual(checkList.count, 0)
     }
 
 }

@@ -90,6 +90,21 @@ class ClockTests: XCTestCase {
         let clock = Clock(offsetSecond: 10860)
         XCTAssertEqual(clock.description, "03:01:00.000000000")
         XCTAssertEqual(clock.debugDescription, "03:01:00.000000000")
+        if case .text(let text) = clock.customPlaygroundQuickLook {
+            XCTAssertEqual(text, "03:01:00.000000000")
+        }
+    }
+    func testMirror() {
+        let clock = Clock(offsetSecond: 10860)
+        
+        var checkList = [
+            "offsetSecond": 10860
+        ]
+        for child in clock.customMirror.children {
+            XCTAssertEqual(checkList[child.label!]!, (child.value as? Int)!)
+            checkList.removeValue(forKey: child.label!)
+        }
+        XCTAssertEqual(checkList.count, 0)
     }
 
 }

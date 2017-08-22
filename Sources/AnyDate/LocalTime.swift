@@ -101,38 +101,38 @@ public struct LocalTime {
     // MARK: - Static
     
     /// The time of midnight at the start of the day, '00:00'.
-    public static var midNight: LocalTime {
+    static public var midNight: LocalTime {
         return LocalTime(hour: 0, minute: 0, second: 0, nanoOfSecond: 0)
     }
     
     /// The time of noon in the middle of the day, '12:00'.
-    public static var noon: LocalTime {
+    static public var noon: LocalTime {
         return LocalTime(hour: 12, minute: 0, second: 0, nanoOfSecond: 0)
     }
     
     /// The minimum supported LocalTime, '00:00'.
     /// The maximum supported LocalTime, '23:59:59.999999999'.
-    public static var min: LocalTime {
+    static public var min: LocalTime {
         return LocalTime(hour: 0, minute: 0, second: 0, nanoOfSecond: 0)
     }
     
     /// The maximum supported LocalTime, '23:59:59.999999999'.
     /// This is the time just before midnight at the end of the day.
-    public static var max: LocalTime {
+    static public var max: LocalTime {
         return LocalTime(hour: Constant.maxHour, minute: Constant.maxMinute, second: Constant.maxSecond, nanoOfSecond: Int(Constant.maxNano))
     }
     
     /// Gets the local time of each hour.
-    public static func hour(_ hour: Int) -> LocalTime {
+    static public func hour(_ hour: Int) -> LocalTime {
         return LocalTime(hour: hour, minute: 0, second: 0, nanoOfSecond: 0)
     }
     
     /// Obtains an instance of LocalTime from a text string such as "10:15:00".
     /// If the input text and date format are mismatched, returns nil.
-    public static func parse(_ text: String, clock: Clock) -> LocalTime? {
+    static public func parse(_ text: String, clock: Clock) -> LocalTime? {
         return LocalTime.parse(text, timeZone: clock.toTimeZone())
     }
-    public static func parse(_ text: String, timeZone: TimeZone = TimeZone.current) -> LocalTime? {
+    static public func parse(_ text: String, timeZone: TimeZone = TimeZone.current) -> LocalTime? {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss"
         return LocalTime.parse(text, formatter: formatter, timeZone: timeZone)
@@ -140,10 +140,10 @@ public struct LocalTime {
     
     /// Obtains an instance of LocalTime from a text string using a specific formatter.
     /// If the input text and date format are mismatched, returns nil.
-    public static func parse(_ text: String, formatter: DateFormatter, clock: Clock) -> LocalTime? {
+    static public func parse(_ text: String, formatter: DateFormatter, clock: Clock) -> LocalTime? {
         return LocalTime.parse(text, formatter: formatter, timeZone: clock.toTimeZone())
     }
-    public static func parse(_ text: String, formatter: DateFormatter, timeZone: TimeZone = TimeZone.current) -> LocalTime? {
+    static public func parse(_ text: String, formatter: DateFormatter, timeZone: TimeZone = TimeZone.current) -> LocalTime? {
         formatter.timeZone = timeZone
         
         guard let date = formatter.date(from: text) else { return nil }
@@ -235,10 +235,10 @@ public struct LocalTime {
     // MARK: - Public
     
     /// Returns an instance of Date.
-    public func toDate(clock: Clock) throws -> Date {
-        return try self.toDate(timeZone: clock.toTimeZone())
+    public func toDate(clock: Clock) -> Date {
+        return self.toDate(timeZone: clock.toTimeZone())
     }
-    public func toDate(timeZone: TimeZone = TimeZone.current) throws -> Date {
+    public func toDate(timeZone: TimeZone = TimeZone.current) -> Date {
         /// Specify date components
         var dateComponents = DateComponents()
         dateComponents.timeZone = timeZone
@@ -251,12 +251,7 @@ public struct LocalTime {
         var calendar = Calendar.current
         calendar.timeZone = timeZone
         
-        if let date = calendar.date(from: dateComponents) {
-            return date
-        } else {
-            /// Failed to convert Date from LocalTime.
-            throw ParseException.failedConversionToDate
-        }
+        return calendar.date(from: dateComponents)!
     }
     
     /// Returns a copy of this time with the specified field set to a new value.
@@ -414,11 +409,39 @@ public struct LocalTime {
     
     /// Formats this time using the specified formatter.
     public func format(_ formatter: DateFormatter) -> String {
-        if let date = try? self.toDate() {
-            return formatter.string(from: date)
-        } else {
-            return ""
-        }
+        return formatter.string(from: self.toDate())
+    }
+    
+    
+    // MARK: - Operator
+    
+    static public func + (lhs: LocalTime, rhs: LocalTime) -> LocalTime {
+        return LocalTime(
+            hour: lhs.hour + rhs.hour,
+            minute: lhs.minute + rhs.minute,
+            second: lhs.second + rhs.second,
+            nanoOfSecond: lhs.nano + rhs.nano
+        )
+    }
+    static public func += (lhs: inout LocalTime, rhs: LocalTime) {
+        lhs.hour += rhs.hour
+        lhs.minute += rhs.minute
+        lhs.second += rhs.second
+        lhs.nano += rhs.nano
+    }
+    static public func - (lhs: LocalTime, rhs: LocalTime) -> LocalTime {
+        return LocalTime(
+            hour: lhs.hour - rhs.hour,
+            minute: lhs.minute - rhs.minute,
+            second: lhs.second - rhs.second,
+            nanoOfSecond: lhs.nano - rhs.nano
+        )
+    }
+    static public func -= (lhs: inout LocalTime, rhs: LocalTime) {
+        lhs.hour -= rhs.hour
+        lhs.minute -= rhs.minute
+        lhs.second -= rhs.second
+        lhs.nano -= rhs.nano
     }
     
     
@@ -566,7 +589,7 @@ extension LocalTime: CustomReflectable {
         c.append((label: "hour", value: self.internalHour))
         c.append((label: "minute", value: self.internalMinute))
         c.append((label: "second", value: self.internalSecond))
-        c.append((label: "nano", value: self.internalNano))
+        c.append((label: "nano", value: Int(self.internalNano)))
         return Mirror(self, children: c, displayStyle: Mirror.DisplayStyle.struct)
     }
 }
@@ -574,36 +597,4 @@ extension LocalTime: CustomPlaygroundQuickLookable {
     public var customPlaygroundQuickLook: PlaygroundQuickLook {
         return .text(self.description)
     }
-}
-
-
-// MARK: - Operator
-
-public func + (lhs: LocalTime, rhs: LocalTime) -> LocalTime {
-    return LocalTime(
-        hour: lhs.hour + rhs.hour,
-        minute: lhs.minute + rhs.minute,
-        second: lhs.second + rhs.second,
-        nanoOfSecond: lhs.nano + rhs.nano
-    )
-}
-public func += (lhs: inout LocalTime, rhs: LocalTime) {
-    lhs.hour += rhs.hour
-    lhs.minute += rhs.minute
-    lhs.second += rhs.second
-    lhs.nano += rhs.nano
-}
-public func - (lhs: LocalTime, rhs: LocalTime) -> LocalTime {
-    return LocalTime(
-        hour: lhs.hour - rhs.hour,
-        minute: lhs.minute - rhs.minute,
-        second: lhs.second - rhs.second,
-        nanoOfSecond: lhs.nano - rhs.nano
-    )
-}
-public func -= (lhs: inout LocalTime, rhs: LocalTime) {
-    lhs.hour -= rhs.hour
-    lhs.minute -= rhs.minute
-    lhs.second -= rhs.second
-    lhs.nano -= rhs.nano
 }

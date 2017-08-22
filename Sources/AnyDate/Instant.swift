@@ -251,6 +251,32 @@ public struct Instant {
         }
     }
 
+    
+    // MARK: - Operator
+    
+    static public func + (lhs: Instant, rhs: Instant) -> Instant {
+        return Instant(
+            epochSecond: lhs.internalSecond + rhs.internalSecond,
+            nano: Int64(lhs.internalNano + rhs.internalNano)
+        )
+    }
+    static public func += (lhs: inout Instant, rhs: Instant) {
+        lhs.internalSecond += rhs.internalSecond
+        lhs.internalNano += rhs.internalNano
+        lhs.normalize()
+    }
+    static public func - (lhs: Instant, rhs: Instant) -> Instant {
+        return Instant(
+            epochSecond: lhs.internalSecond - rhs.internalSecond,
+            nano: Int64(lhs.internalNano - rhs.internalNano)
+        )
+    }
+    static public func -= (lhs: inout Instant, rhs: Instant) {
+        lhs.internalSecond -= rhs.internalSecond
+        lhs.internalNano -= rhs.internalNano
+        lhs.normalize()
+    }
+    
 
     // MARK: - Lifecycle
 

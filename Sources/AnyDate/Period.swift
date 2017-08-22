@@ -1,3 +1,5 @@
+import Foundation
+
 public struct Period {
 
     // MARK: - Property
@@ -80,17 +82,142 @@ public struct Period {
         self.internalMonth = newDate.month - 1
         self.internalDay = newDate.day - 1
     }
-
-    public init() {
-        self.internalYear = 0
-        self.internalMonth = 0
-        self.internalDay = 0
-        self.internalHour = 0
-        self.internalMinute = 0
-        self.internalSecond = 0
-        self.internalNano = 0
+    
+    
+    // MARK: - Operator
+    
+    /// Period
+    static public func + (lhs: Period, rhs: Period) -> Period {
+        return Period(
+            year: lhs.year + rhs.year,
+            month: lhs.month + rhs.month,
+            day: lhs.day + rhs.day,
+            hour: lhs.hour + rhs.hour,
+            minute: lhs.minute + rhs.minute,
+            second: lhs.second + rhs.second,
+            nano: lhs.nano + rhs.nano
+        )
     }
-    public init(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, nano: Int) {
+    static public func += (lhs: inout Period, rhs: Period) {
+        lhs.year += rhs.year
+        lhs.month += rhs.month
+        lhs.day += rhs.day
+        lhs.hour += rhs.hour
+        lhs.minute += rhs.minute
+        lhs.second += rhs.second
+        lhs.nano += rhs.nano
+    }
+    static public func - (lhs: Period, rhs: Period) -> Period {
+        return Period(
+            year: lhs.year - rhs.year,
+            month: lhs.month - rhs.month,
+            day: lhs.day - rhs.day,
+            hour: lhs.hour - rhs.hour,
+            minute: lhs.minute - rhs.minute,
+            second: lhs.second - rhs.second,
+            nano: lhs.nano - rhs.nano
+        )
+    }
+    static public func -= (lhs: inout Period, rhs: Period) {
+        lhs.year -= rhs.year
+        lhs.month -= rhs.month
+        lhs.day -= rhs.day
+        lhs.hour -= rhs.hour
+        lhs.minute -= rhs.minute
+        lhs.second -= rhs.second
+        lhs.nano -= rhs.nano
+    }
+    
+    /// LocalDateTime
+    static public func + (lhs: LocalDateTime, rhs: Period) -> LocalDateTime {
+        return LocalDateTime(
+            year: lhs.year + rhs.year,
+            month: lhs.month + rhs.month,
+            day: lhs.day + rhs.day,
+            hour: lhs.hour + rhs.hour,
+            minute: lhs.minute + rhs.minute,
+            second: lhs.second + rhs.second,
+            nanoOfSecond: lhs.nano + rhs.nano
+        )
+    }
+    static public func += (lhs: inout LocalDateTime, rhs: Period) {
+        lhs.year += rhs.year
+        lhs.month += rhs.month
+        lhs.day += rhs.day
+        lhs.hour += rhs.hour
+        lhs.minute += rhs.minute
+        lhs.second += rhs.second
+        lhs.nano += rhs.nano
+    }
+    static public func - (lhs: LocalDateTime, rhs: Period) -> LocalDateTime {
+        return LocalDateTime(
+            year: lhs.year - rhs.year,
+            month: lhs.month - rhs.month,
+            day: lhs.day - rhs.day,
+            hour: lhs.hour - rhs.hour,
+            minute: lhs.minute - rhs.minute,
+            second: lhs.second - rhs.second,
+            nanoOfSecond: lhs.nano - rhs.nano
+        )
+    }
+    static public func -= (lhs: inout LocalDateTime, rhs: Period) {
+        lhs.year -= rhs.year
+        lhs.month -= rhs.month
+        lhs.day -= rhs.day
+        lhs.hour -= rhs.hour
+        lhs.minute -= rhs.minute
+        lhs.second -= rhs.second
+        lhs.nano -= rhs.nano
+    }
+    
+    /// ZonedDateTime
+    static public func + (lhs: ZonedDateTime, rhs: Period) -> ZonedDateTime {
+        return ZonedDateTime(
+            year: lhs.year + rhs.year,
+            month: lhs.month + rhs.month,
+            day: lhs.day + rhs.day,
+            hour: lhs.hour + rhs.hour,
+            minute: lhs.minute + rhs.minute,
+            second: lhs.second + rhs.second,
+            nanoOfSecond: lhs.nano + rhs.nano,
+            clock: lhs.clock
+        )
+    }
+    static public func += (lhs: inout ZonedDateTime, rhs: Period) {
+        lhs.year += rhs.year
+        lhs.month += rhs.month
+        lhs.day += rhs.day
+        lhs.hour += rhs.hour
+        lhs.minute += rhs.minute
+        lhs.second += rhs.second
+        lhs.nano += rhs.nano
+    }
+    static public func - (lhs: ZonedDateTime, rhs: Period) -> ZonedDateTime {
+        return ZonedDateTime(
+            year: lhs.year - rhs.year,
+            month: lhs.month - rhs.month,
+            day: lhs.day - rhs.day,
+            hour: lhs.hour - rhs.hour,
+            minute: lhs.minute - rhs.minute,
+            second: lhs.second - rhs.second,
+            nanoOfSecond: lhs.nano - rhs.nano,
+            clock: lhs.clock
+        )
+    }
+    static public func -= (lhs: inout ZonedDateTime, rhs: Period) {
+        lhs.year -= rhs.year
+        lhs.month -= rhs.month
+        lhs.day -= rhs.day
+        lhs.hour -= rhs.hour
+        lhs.minute -= rhs.minute
+        lhs.second -= rhs.second
+        lhs.nano -= rhs.nano
+    }
+    
+    
+    // MARK: - Lifecycle
+
+    public init(year: Int = 0, month: Int = 0, day: Int = 0, hour: Int = 0, minute: Int = 0, second: Int = 0, nano: Int = 0) {
         self.internalYear = year
         self.internalMonth = month
         self.internalDay = day
@@ -101,6 +228,63 @@ public struct Period {
         self.normalize()
     }
 }
+
+extension Period: Comparable {
+    
+    /// Returns a Boolean value indicating whether the value of the first
+    /// argument is less than that of the second argument.
+    public static func <(lhs: Period, rhs: Period) -> Bool {
+        if lhs.year < rhs.year { return true }
+        if lhs.month < rhs.month { return true }
+        if lhs.day < rhs.day { return true }
+        if lhs.hour < rhs.hour { return true }
+        if lhs.minute < rhs.minute { return true }
+        if lhs.second < rhs.second { return true }
+        if lhs.nano < rhs.nano { return true }
+        return false
+    }
+    
+    /// Returns a Boolean value indicating whether the value of the first
+    /// argument is greater than that of the second argument.
+    public static func >(lhs: Period, rhs: Period) -> Bool {
+        if lhs.year > rhs.year { return true }
+        if lhs.month > rhs.month { return true }
+        if lhs.day > rhs.day { return true }
+        if lhs.hour > rhs.hour { return true }
+        if lhs.minute > rhs.minute { return true }
+        if lhs.second > rhs.second { return true }
+        if lhs.nano > rhs.nano { return true }
+        return false
+    }
+    
+    /// Returns a Boolean value indicating whether the value of the first
+    /// argument is less than or equal to that of the second argument.
+    public static func <=(lhs: Period, rhs: Period) -> Bool {
+        return !(lhs > rhs)
+    }
+    
+    /// Returns a Boolean value indicating whether the value of the first
+    /// argument is greater than or equal to that of the second argument.
+    public static func >=(lhs: Period, rhs: Period) -> Bool {
+        return !(lhs < rhs)
+    }
+    
+}
+extension Period: Equatable {
+    
+    /// Returns a Boolean value indicating whether two values are equal.
+    public static func ==(lhs: Period, rhs: Period) -> Bool {
+        guard lhs.year == rhs.year else { return false }
+        guard lhs.month == rhs.month else { return false }
+        guard lhs.day == rhs.day else { return false }
+        guard lhs.hour == rhs.hour else { return false }
+        guard lhs.minute == rhs.minute else { return false }
+        guard lhs.second == rhs.second else { return false }
+        guard lhs.nano == rhs.nano else { return false }
+        return true
+    }
+    
+}
 extension Period: CustomStringConvertible, CustomDebugStringConvertible {
     
     /// A textual representation of this instance.
@@ -108,9 +292,9 @@ extension Period: CustomStringConvertible, CustomDebugStringConvertible {
         let list: [String?] = [
             self.internalYear != 0 ? String(format: "%04dYear ", self.internalYear) : nil,
             self.internalMonth != 0 ? String(format: "%02dMon ", self.internalMonth) : nil,
-            self.internalDay != 0 ? String(format: "%02dDay ", self.internalMonth) : nil,
-            self.internalHour != 0 ? String(format: "%02dHour ", self.internalMonth) : nil,
-            self.internalMinute != 0 ? String(format: "%02dMin ", self.internalMonth) : nil,
+            self.internalDay != 0 ? String(format: "%02dDay ", self.internalDay) : nil,
+            self.internalHour != 0 ? String(format: "%02dHour ", self.internalHour) : nil,
+            self.internalMinute != 0 ? String(format: "%02dMin ", self.internalMinute) : nil,
             self.internalSecond != 0 || self.internalNano != 0 ? String(format: "%02d.%09dSec", self.internalSecond, self.internalNano) : nil
         ]
         
@@ -142,135 +326,4 @@ extension Period: CustomPlaygroundQuickLookable {
     public var customPlaygroundQuickLook: PlaygroundQuickLook {
         return .text(self.description)
     }
-}
-
-
-// MARK: - Operator
-
-/// Period
-public func + (lhs: Period, rhs: Period) -> Period {
-    return Period(
-        year: lhs.year + rhs.year,
-        month: lhs.month + rhs.month,
-        day: lhs.day + rhs.day,
-        hour: lhs.hour + rhs.hour,
-        minute: lhs.minute + rhs.minute,
-        second: lhs.second + rhs.second,
-        nano: lhs.nano + rhs.nano
-    )
-}
-public func += (lhs: inout Period, rhs: Period) {
-    lhs.year += rhs.year
-    lhs.month += rhs.month
-    lhs.day += rhs.day
-    lhs.hour += rhs.hour
-    lhs.minute += rhs.minute
-    lhs.second += rhs.second
-    lhs.nano += rhs.nano
-}
-public func - (lhs: Period, rhs: Period) -> Period {
-    return Period(
-        year: lhs.year - rhs.year,
-        month: lhs.month - rhs.month,
-        day: lhs.day - rhs.day,
-        hour: lhs.hour - rhs.hour,
-        minute: lhs.minute - rhs.minute,
-        second: lhs.second - rhs.second,
-        nano: lhs.nano - rhs.nano
-    )
-}
-public func -= (lhs: inout Period, rhs: Period) {
-    lhs.year -= rhs.year
-    lhs.month -= rhs.month
-    lhs.day -= rhs.day
-    lhs.hour -= rhs.hour
-    lhs.minute -= rhs.minute
-    lhs.second -= rhs.second
-    lhs.nano -= rhs.nano
-}
-
-/// LocalDateTime
-public func + (lhs: LocalDateTime, rhs: Period) -> LocalDateTime {
-    return LocalDateTime(
-        year: lhs.year + rhs.year,
-        month: lhs.month + rhs.month,
-        day: lhs.day + rhs.day,
-        hour: lhs.hour + rhs.hour,
-        minute: lhs.minute + rhs.minute,
-        second: lhs.second + rhs.second,
-        nanoOfSecond: lhs.nano + rhs.nano
-    )
-}
-public func += (lhs: inout LocalDateTime, rhs: Period) {
-    lhs.year += rhs.year
-    lhs.month += rhs.month
-    lhs.day += rhs.day
-    lhs.hour += rhs.hour
-    lhs.minute += rhs.minute
-    lhs.second += rhs.second
-    lhs.nano += rhs.nano
-}
-public func - (lhs: LocalDateTime, rhs: Period) -> LocalDateTime {
-    return LocalDateTime(
-        year: lhs.year - rhs.year,
-        month: lhs.month - rhs.month,
-        day: lhs.day - rhs.day,
-        hour: lhs.hour - rhs.hour,
-        minute: lhs.minute - rhs.minute,
-        second: lhs.second - rhs.second,
-        nanoOfSecond: lhs.nano - rhs.nano
-    )
-}
-public func -= (lhs: inout LocalDateTime, rhs: Period) {
-    lhs.year -= rhs.year
-    lhs.month -= rhs.month
-    lhs.day -= rhs.day
-    lhs.hour -= rhs.hour
-    lhs.minute -= rhs.minute
-    lhs.second -= rhs.second
-    lhs.nano -= rhs.nano
-}
-
-/// ZonedDateTime
-public func + (lhs: ZonedDateTime, rhs: Period) -> ZonedDateTime {
-    return ZonedDateTime(
-        year: lhs.year + rhs.year,
-        month: lhs.month + rhs.month,
-        day: lhs.day + rhs.day,
-        hour: lhs.hour + rhs.hour,
-        minute: lhs.minute + rhs.minute,
-        second: lhs.second + rhs.second,
-        nanoOfSecond: lhs.nano + rhs.nano,
-        clock: lhs.clock
-    )
-}
-public func += (lhs: inout ZonedDateTime, rhs: Period) {
-    lhs.year += rhs.year
-    lhs.month += rhs.month
-    lhs.day += rhs.day
-    lhs.hour += rhs.hour
-    lhs.minute += rhs.minute
-    lhs.second += rhs.second
-    lhs.nano += rhs.nano
-}
-public func - (lhs: ZonedDateTime, rhs: Period) -> ZonedDateTime {
-    return ZonedDateTime(
-        year: lhs.year - rhs.year,
-        month: lhs.month - rhs.month,
-        day: lhs.day - rhs.day,
-        hour: lhs.hour - rhs.hour,
-        minute: lhs.minute - rhs.minute,
-        second: lhs.second - rhs.second,
-        nanoOfSecond: lhs.nano - rhs.nano,
-        clock: lhs.clock
-    )
-}
-public func -= (lhs: inout ZonedDateTime, rhs: Period) {
-    lhs.year -= rhs.year
-    lhs.month -= rhs.month
-    lhs.day -= rhs.day
-    lhs.hour -= rhs.hour
-    lhs.minute -= rhs.minute
-    lhs.second -= rhs.second
-    lhs.nano -= rhs.nano
 }

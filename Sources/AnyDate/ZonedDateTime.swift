@@ -135,10 +135,10 @@ public struct ZonedDateTime {
     }
     
     /// Returns an instance of Date.
-    public func toDate(clock: Clock?) throws -> Date {
-        return try self.toDate(timeZone: clock?.toTimeZone())
+    public func toDate(clock: Clock?) -> Date {
+        return self.toDate(timeZone: clock?.toTimeZone())
     }
-    public func toDate(timeZone: TimeZone? = nil) throws -> Date {
+    public func toDate(timeZone: TimeZone? = nil) -> Date {
         /// Specify date components
         var dateComponents = DateComponents()
         dateComponents.timeZone = self.internalClock.toTimeZone()
@@ -154,12 +154,7 @@ public struct ZonedDateTime {
         var calendar = Calendar.current
         calendar.timeZone = timeZone ?? self.internalClock.toTimeZone()
         
-        if let date = calendar.date(from: dateComponents) {
-            return date
-        } else {
-            /// Failed to convert Date from ZonedDateTime.
-            throw ParseException.failedConversionToDate
-        }
+        return calendar.date(from: dateComponents)!
     }
 
     /// Returns a copy of this date-time with a different time-zone,
@@ -412,11 +407,102 @@ public struct ZonedDateTime {
     
     /// Formats this time using the specified formatter.
     public func format(_ formatter: DateFormatter) -> String {
-        let date = try! self.toDate()
-        
         let formatter = formatter
         formatter.timeZone = self.internalClock.toTimeZone()
-        return formatter.string(from: date)
+        return formatter.string(from: self.toDate())
+    }
+    
+    
+    // MARK: - Operator
+    
+    /// ZonedDateTime
+    static public func + (lhs: ZonedDateTime, rhs: ZonedDateTime) -> ZonedDateTime {
+        let timeZoneAmount = rhs.internalClock.offsetSecond - lhs.internalClock.offsetSecond
+        
+        return ZonedDateTime(
+            (lhs.localDateTime + rhs.localDateTime).plus(second: timeZoneAmount),
+            clock: lhs.internalClock
+        )
+    }
+    static public func += (lhs: inout ZonedDateTime, rhs: ZonedDateTime) {
+        let timeZoneAmount = rhs.internalClock.offsetSecond - lhs.internalClock.offsetSecond
+        
+        lhs.localDateTime += rhs.localDateTime
+        lhs.second += timeZoneAmount
+    }
+    static public func - (lhs: ZonedDateTime, rhs: ZonedDateTime) -> ZonedDateTime {
+        let timeZoneAmount = rhs.internalClock.offsetSecond - lhs.internalClock.offsetSecond
+        
+        return ZonedDateTime(
+            (lhs.localDateTime - rhs.localDateTime).minus(second: timeZoneAmount),
+            clock: lhs.internalClock
+        )
+    }
+    static public func -= (lhs: inout ZonedDateTime, rhs: ZonedDateTime) {
+        let timeZoneAmount = rhs.internalClock.offsetSecond - lhs.internalClock.offsetSecond
+        
+        lhs.localDateTime -= rhs.localDateTime
+        lhs.second -= timeZoneAmount
+    }
+    
+    /// LocalDateTime
+    static public func + (lhs: ZonedDateTime, rhs: LocalDateTime) -> ZonedDateTime {
+        return ZonedDateTime(
+            (lhs.localDateTime + rhs),
+            clock: lhs.internalClock
+        )
+    }
+    static public func += (lhs: inout ZonedDateTime, rhs: LocalDateTime) {
+        lhs.localDateTime += rhs
+    }
+    static public func - (lhs: ZonedDateTime, rhs: LocalDateTime) -> ZonedDateTime {
+        return ZonedDateTime(
+            (lhs.localDateTime - rhs),
+            clock: lhs.internalClock
+        )
+    }
+    static public func -= (lhs: inout ZonedDateTime, rhs: LocalDateTime) {
+        lhs.localDateTime -= rhs
+    }
+    
+    /// LocalDate
+    static public func + (lhs: ZonedDateTime, rhs: LocalDate) -> ZonedDateTime {
+        return ZonedDateTime(
+            (lhs.localDateTime + rhs),
+            clock: lhs.internalClock
+        )
+    }
+    static public func += (lhs: inout ZonedDateTime, rhs: LocalDate) {
+        lhs.localDateTime += rhs
+    }
+    static public func - (lhs: ZonedDateTime, rhs: LocalDate) -> ZonedDateTime {
+        return ZonedDateTime(
+            (lhs.localDateTime - rhs),
+            clock: lhs.internalClock
+        )
+    }
+    static public func -= (lhs: inout ZonedDateTime, rhs: LocalDate) {
+        lhs.localDateTime -= rhs
+    }
+    
+    /// LocalTime
+    static public func + (lhs: ZonedDateTime, rhs: LocalTime) -> ZonedDateTime {
+        return ZonedDateTime(
+            (lhs.localDateTime + rhs),
+            clock: lhs.internalClock
+        )
+    }
+    static public func += (lhs: inout ZonedDateTime, rhs: LocalTime) {
+        lhs.localDateTime += rhs
+    }
+    static public func - (lhs: ZonedDateTime, rhs: LocalTime) -> ZonedDateTime {
+        return ZonedDateTime(
+            (lhs.localDateTime - rhs),
+            clock: lhs.internalClock
+        )
+    }
+    static public func -= (lhs: inout ZonedDateTime, rhs: LocalTime) {
+        lhs.localDateTime -= rhs
     }
     
     
@@ -570,7 +656,7 @@ extension ZonedDateTime: CustomReflectable {
         c.append((label: "minute", value: self.minute))
         c.append((label: "second", value: self.second))
         c.append((label: "nano", value: self.nano))
-        c.append((label: "clock", value: self.clock))
+        c.append((label: "clock", value: self.clock.description))
         return Mirror(self, children: c, displayStyle: Mirror.DisplayStyle.struct)
     }
 }
@@ -578,97 +664,4 @@ extension ZonedDateTime: CustomPlaygroundQuickLookable {
     public var customPlaygroundQuickLook: PlaygroundQuickLook {
         return .text(self.description)
     }
-}
-
-
-// MARK: - Operator
-
-/// ZonedDateTime
-public func + (lhs: ZonedDateTime, rhs: ZonedDateTime) -> ZonedDateTime {
-    let timeZoneAmount = rhs.internalClock.offsetSecond - lhs.internalClock.offsetSecond
-    
-    return ZonedDateTime(
-        (lhs.localDateTime + rhs.localDateTime).plus(second: timeZoneAmount),
-        clock: lhs.internalClock
-    )
-}
-public func += (lhs: inout ZonedDateTime, rhs: ZonedDateTime) {
-    let timeZoneAmount = rhs.internalClock.offsetSecond - lhs.internalClock.offsetSecond
-    
-    lhs.localDateTime += rhs.localDateTime
-    lhs.second += timeZoneAmount
-}
-public func - (lhs: ZonedDateTime, rhs: ZonedDateTime) -> ZonedDateTime {
-    let timeZoneAmount = rhs.internalClock.offsetSecond - lhs.internalClock.offsetSecond
-    
-    return ZonedDateTime(
-        (lhs.localDateTime - rhs.localDateTime).minus(second: timeZoneAmount),
-        clock: lhs.internalClock
-    )
-}
-public func -= (lhs: inout ZonedDateTime, rhs: ZonedDateTime) {
-    let timeZoneAmount = rhs.internalClock.offsetSecond - lhs.internalClock.offsetSecond
-    
-    lhs.localDateTime -= rhs.localDateTime
-    lhs.second -= timeZoneAmount
-}
-
-/// LocalDateTime
-public func + (lhs: ZonedDateTime, rhs: LocalDateTime) -> ZonedDateTime {
-    return ZonedDateTime(
-        (lhs.localDateTime + rhs),
-        clock: lhs.internalClock
-    )
-}
-public func += (lhs: inout ZonedDateTime, rhs: LocalDateTime) {
-    lhs.localDateTime += rhs
-}
-public func - (lhs: ZonedDateTime, rhs: LocalDateTime) -> ZonedDateTime {
-    return ZonedDateTime(
-        (lhs.localDateTime - rhs),
-        clock: lhs.internalClock
-    )
-}
-public func -= (lhs: inout ZonedDateTime, rhs: LocalDateTime) {
-    lhs.localDateTime -= rhs
-}
-
-/// LocalDate
-public func + (lhs: ZonedDateTime, rhs: LocalDate) -> ZonedDateTime {
-    return ZonedDateTime(
-        (lhs.localDateTime + rhs),
-        clock: lhs.internalClock
-    )
-}
-public func += (lhs: inout ZonedDateTime, rhs: LocalDate) {
-    lhs.localDateTime += rhs
-}
-public func - (lhs: ZonedDateTime, rhs: LocalDate) -> ZonedDateTime {
-    return ZonedDateTime(
-        (lhs.localDateTime - rhs),
-        clock: lhs.internalClock
-    )
-}
-public func -= (lhs: inout ZonedDateTime, rhs: LocalDate) {
-    lhs.localDateTime -= rhs
-}
-
-/// LocalTime
-public func + (lhs: ZonedDateTime, rhs: LocalTime) -> ZonedDateTime {
-    return ZonedDateTime(
-        (lhs.localDateTime + rhs),
-        clock: lhs.internalClock
-    )
-}
-public func += (lhs: inout ZonedDateTime, rhs: LocalTime) {
-    lhs.localDateTime += rhs
-}
-public func - (lhs: ZonedDateTime, rhs: LocalTime) -> ZonedDateTime {
-    return ZonedDateTime(
-        (lhs.localDateTime - rhs),
-        clock: lhs.internalClock
-    )
-}
-public func -= (lhs: inout ZonedDateTime, rhs: LocalTime) {
-    lhs.localDateTime -= rhs
 }

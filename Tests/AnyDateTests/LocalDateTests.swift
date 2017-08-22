@@ -33,6 +33,7 @@ class LocalDateTests: XCTestCase {
         let oldDate = LocalDate(year: 1627, month: 2, day: 10)
         let newDate1 = LocalDate(year: 1627, month: 2, day: 11)
         let newDate2 = LocalDate(year: 1627, month: 3, day: 11)
+        let newDate3 = LocalDate(year: 1628, month: 2, day: 11)
         let equalDate = LocalDate(year: 1627, month: 2, day: 10)
 
         XCTAssertLessThan(min, oldDate)
@@ -40,9 +41,13 @@ class LocalDateTests: XCTestCase {
         XCTAssertLessThanOrEqual(oldDate, equalDate)
         XCTAssertGreaterThanOrEqual(oldDate, equalDate)
         XCTAssertLessThan(oldDate, newDate2)
+        XCTAssertGreaterThan(newDate3, oldDate)
         XCTAssertGreaterThan(newDate2, oldDate)
         XCTAssertGreaterThan(newDate1, oldDate)
         XCTAssertEqual(oldDate, equalDate)
+        XCTAssertNotEqual(oldDate, newDate1)
+        XCTAssertNotEqual(oldDate, newDate2)
+        XCTAssertNotEqual(oldDate, newDate3)
         XCTAssertLessThan(oldDate, newDate1)
     }
     func testFixOverflow() {
@@ -67,6 +72,11 @@ class LocalDateTests: XCTestCase {
         XCTAssertEqual(date2.year, 0)
         XCTAssertEqual(date2.month, 1)
         XCTAssertEqual(date2.day, 1)
+        
+        let date3 = LocalDate(epochDay: 11016)
+        XCTAssertEqual(date3.year, 2000)
+        XCTAssertEqual(date3.month, 2)
+        XCTAssertEqual(date3.day, 29)
     }
     func testToEpochDay() {
         let date = LocalDate(year: 1000, month: 1, day: 1)
@@ -280,6 +290,23 @@ class LocalDateTests: XCTestCase {
         let date = LocalDate(year: 1969, month: 12, day: 31)
         XCTAssertEqual(date.description, "1969.12.31")
         XCTAssertEqual(date.debugDescription, "1969.12.31")
+        if case .text(let text) = date.customPlaygroundQuickLook {
+            XCTAssertEqual(text, "1969.12.31")
+        }
+    }
+    func testMirror() {
+        let date = LocalDate(year: 1969, month: 12, day: 31)
+        
+        var checkList = [
+            "year": 1969,
+            "month": 12,
+            "day": 31
+        ]
+        for child in date.customMirror.children {
+            XCTAssertEqual(checkList[child.label!], (child.value as? Int)!)
+            checkList.removeValue(forKey: child.label!)
+        }
+        XCTAssertEqual(checkList.count, 0)
     }
 
 }

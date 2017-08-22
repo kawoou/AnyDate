@@ -270,5 +270,26 @@ class LocalTimeTests: XCTestCase {
         oldTime -= addTime
         XCTAssertEqual(oldTime, newTime)
     }
+    func testDescription() {
+        let date = LocalTime(hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
+        if case .text(let text) = date.customPlaygroundQuickLook {
+            XCTAssertEqual(text, "11:51:18.000001573")
+        }
+    }
+    func testMirror() {
+        let date = LocalTime(hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
+        
+        var checkList = [
+            "hour": 11,
+            "minute": 51,
+            "second": 18,
+            "nano": 1573
+        ]
+        for child in date.customMirror.children {
+            XCTAssertEqual(checkList[child.label!], (child.value as? Int)!)
+            checkList.removeValue(forKey: child.label!)
+        }
+        XCTAssertEqual(checkList.count, 0)
+    }
 
 }

@@ -62,13 +62,13 @@ public struct LocalDate {
     
     /// The minimum supported LocalDate, '-999999999-01-01'.
     /// This could be used by an application as a "far past" date.
-    public static var min: LocalDate {
+    static public var min: LocalDate {
         return LocalDate(year: Constant.minYear, month: Constant.minMonth, day: 1)
     }
     
     /// The maximum supported LocalDate, '+999999999-12-31'.
     /// This could be used by an application as a "far future" date.
-    public static var max: LocalDate {
+    static public var max: LocalDate {
         var date = LocalDate(year: Constant.maxYear, month: Constant.maxMonth, day: 1)
         date.day = date.lengthOfMonth()
         
@@ -77,10 +77,10 @@ public struct LocalDate {
     
     /// Obtains an instance of LocalDate from a text string such as "2007-12-03".
     /// If the input text and date format are mismatched, returns nil.
-    public static func parse(_ text: String, clock: Clock) -> LocalDate? {
+    static public func parse(_ text: String, clock: Clock) -> LocalDate? {
         return LocalDate.parse(text, timeZone: clock.toTimeZone())
     }
-    public static func parse(_ text: String, timeZone: TimeZone = TimeZone.current) -> LocalDate? {
+    static public func parse(_ text: String, timeZone: TimeZone = TimeZone.current) -> LocalDate? {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         return LocalDate.parse(text, formatter: formatter, timeZone: timeZone)
@@ -88,10 +88,10 @@ public struct LocalDate {
     
     /// Obtains an instance of LocalDate from a text string using a specific formatter.
     /// If the input text and date format are mismatched, returns nil.
-    public static func parse(_ text: String, formatter: DateFormatter, clock: Clock) -> LocalDate? {
+    static public func parse(_ text: String, formatter: DateFormatter, clock: Clock) -> LocalDate? {
         return LocalDate.parse(text, formatter: formatter, timeZone: clock.toTimeZone())
     }
-    public static func parse(_ text: String, formatter: DateFormatter, timeZone: TimeZone = TimeZone.current) -> LocalDate? {
+    static public func parse(_ text: String, formatter: DateFormatter, timeZone: TimeZone = TimeZone.current) -> LocalDate? {
         formatter.timeZone = timeZone
 
         guard let date = formatter.date(from: text) else { return nil }
@@ -262,10 +262,10 @@ public struct LocalDate {
     }
     
     /// Returns an instance of Date.
-    public func toDate(clock: Clock) throws -> Date {
-        return try self.toDate(timeZone: clock.toTimeZone())
+    public func toDate(clock: Clock) -> Date {
+        return self.toDate(timeZone: clock.toTimeZone())
     }
-    public func toDate(timeZone: TimeZone = TimeZone.current) throws -> Date {
+    public func toDate(timeZone: TimeZone = TimeZone.current) -> Date {
         /// Specify date components
         var dateComponents = DateComponents()
         dateComponents.timeZone = timeZone
@@ -277,12 +277,7 @@ public struct LocalDate {
         var calendar = Calendar.current
         calendar.timeZone = timeZone
         
-        if let date = calendar.date(from: dateComponents) {
-            return date
-        } else {
-            /// Failed to convert Date from LocalDate.
-            throw ParseException.failedConversionToDate
-        }
+        return calendar.date(from: dateComponents)!
     }
     
     /// Returns a copy of this date with the specified field set to a new value.
@@ -448,11 +443,35 @@ public struct LocalDate {
     
     /// Formats this date using the specified formatter.
     public func format(_ formatter: DateFormatter) -> String {
-        if let date = try? self.toDate() {
-            return formatter.string(from: date)
-        } else {
-            return ""
-        }
+        return formatter.string(from: self.toDate())
+    }
+    
+    
+    // MARK: - Operator
+    
+    static public func + (lhs: LocalDate, rhs: LocalDate) -> LocalDate {
+        return LocalDate(
+            year: lhs.year + rhs.year,
+            month: lhs.month + rhs.month,
+            day: lhs.day + rhs.day
+        )
+    }
+    static public func += (lhs: inout LocalDate, rhs: LocalDate) {
+        lhs.year += rhs.year
+        lhs.month += rhs.month
+        lhs.day += rhs.day
+    }
+    static public func - (lhs: LocalDate, rhs: LocalDate) -> LocalDate {
+        return LocalDate(
+            year: lhs.year - rhs.year,
+            month: lhs.month - rhs.month,
+            day: lhs.day - rhs.day
+        )
+    }
+    static public func -= (lhs: inout LocalDate, rhs: LocalDate) {
+        lhs.year -= rhs.year
+        lhs.month -= rhs.month
+        lhs.day -= rhs.day
     }
     
     
@@ -594,7 +613,10 @@ extension LocalDate: Equatable {
     
     /// Returns a Boolean value indicating whether two values are equal.
     public static func ==(lhs: LocalDate, rhs: LocalDate) -> Bool {
-        return lhs.year == rhs.year && lhs.month == rhs.month && lhs.day == rhs.day
+        guard lhs.year == rhs.year else { return false }
+        guard lhs.month == rhs.month else { return false }
+        guard lhs.day == rhs.day else { return false }
+        return true
     }
     
 }
@@ -629,32 +651,4 @@ extension LocalDate: CustomPlaygroundQuickLookable {
     public var customPlaygroundQuickLook: PlaygroundQuickLook {
         return .text(self.description)
     }
-}
-
-
-// MARK: - Operator
-
-public func + (lhs: LocalDate, rhs: LocalDate) -> LocalDate {
-    return LocalDate(
-        year: lhs.year + rhs.year,
-        month: lhs.month + rhs.month,
-        day: lhs.day + rhs.day
-    )
-}
-public func += (lhs: inout LocalDate, rhs: LocalDate) {
-    lhs.year += rhs.year
-    lhs.month += rhs.month
-    lhs.day += rhs.day
-}
-public func - (lhs: LocalDate, rhs: LocalDate) -> LocalDate {
-    return LocalDate(
-        year: lhs.year - rhs.year,
-        month: lhs.month - rhs.month,
-        day: lhs.day - rhs.day
-    )
-}
-public func -= (lhs: inout LocalDate, rhs: LocalDate) {
-    lhs.year -= rhs.year
-    lhs.month -= rhs.month
-    lhs.day -= rhs.day
 }

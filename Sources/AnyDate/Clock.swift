@@ -29,9 +29,8 @@ public struct Clock {
             let newOffset = TimeZone.current.secondsFromGMT()
             
             return internalOffset - oldOffset + newOffset
-        } else {
-            return internalOffset
         }
+        return internalOffset
     }
     public var isAutoUpdatingFromCurrent: Bool = false
     

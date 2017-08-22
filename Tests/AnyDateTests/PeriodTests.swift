@@ -22,6 +22,48 @@ class PeriodTests: XCTestCase {
         XCTAssertEqual(zero.second, 47)
         XCTAssertEqual(zero.nano, 999_874_779)
     }
+    func testComparable() {
+        let min = Period()
+        let max = Period(year: 1000)
+        
+        let oldPeriod = Period(month: 2)
+        let newPeriod1 = Period(year: 1, month: 2)
+        let newPeriod2 = Period(month: 3)
+        let newPeriod3 = Period(month: 2, day: 1)
+        let newPeriod4 = Period(month: 2, hour: 1)
+        let newPeriod5 = Period(month: 2, minute: 1)
+        let newPeriod6 = Period(month: 2, second: 1)
+        let newPeriod7 = Period(month: 2, nano: 1)
+        let equalPeriod = Period(year: 0, month: 2)
+        
+        XCTAssertLessThan(min, oldPeriod)
+        XCTAssertGreaterThan(max, newPeriod1)
+        XCTAssertLessThanOrEqual(oldPeriod, equalPeriod)
+        XCTAssertGreaterThanOrEqual(oldPeriod, equalPeriod)
+        XCTAssertGreaterThan(newPeriod1, oldPeriod)
+        XCTAssertGreaterThan(newPeriod2, oldPeriod)
+        XCTAssertGreaterThan(newPeriod3, oldPeriod)
+        XCTAssertGreaterThan(newPeriod4, oldPeriod)
+        XCTAssertGreaterThan(newPeriod5, oldPeriod)
+        XCTAssertGreaterThan(newPeriod6, oldPeriod)
+        XCTAssertGreaterThan(newPeriod7, oldPeriod)
+        XCTAssertLessThan(oldPeriod, newPeriod1)
+        XCTAssertLessThan(oldPeriod, newPeriod2)
+        XCTAssertLessThan(oldPeriod, newPeriod3)
+        XCTAssertLessThan(oldPeriod, newPeriod4)
+        XCTAssertLessThan(oldPeriod, newPeriod5)
+        XCTAssertLessThan(oldPeriod, newPeriod6)
+        XCTAssertLessThan(oldPeriod, newPeriod7)
+        XCTAssertNotEqual(oldPeriod, newPeriod1)
+        XCTAssertNotEqual(oldPeriod, newPeriod2)
+        XCTAssertNotEqual(oldPeriod, newPeriod3)
+        XCTAssertNotEqual(oldPeriod, newPeriod4)
+        XCTAssertNotEqual(oldPeriod, newPeriod5)
+        XCTAssertNotEqual(oldPeriod, newPeriod6)
+        XCTAssertNotEqual(oldPeriod, newPeriod7)
+        XCTAssertEqual(oldPeriod, equalPeriod)
+        XCTAssertLessThan(oldPeriod, newPeriod1)
+    }
     func testNormalize() {
         let period = Period(year: 0, month: 11, day: 30, hour: 23, minute: 59, second: 59, nano: 1000_000_000)
         XCTAssertEqual(period.year, 1)
@@ -33,8 +75,8 @@ class PeriodTests: XCTestCase {
         XCTAssertEqual(period.nano, 0)
     }
     func testAddOperator() {
-        let localDate = LocalDateTime(year: 1000, month: 1, day: 1, hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
-        let zonedDate = ZonedDateTime(year: 1000, month: 1, day: 1, hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
+        var localDate = LocalDateTime(year: 1000, month: 1, day: 1, hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
+        var zonedDate = ZonedDateTime(year: 1000, month: 1, day: 1, hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
         let addPeriod = Period(year: 0, month: 1, day: 3, hour: 0, minute: 8, second: 0, nano: 0)
 
         let newLocalDate = localDate + addPeriod
@@ -55,11 +97,40 @@ class PeriodTests: XCTestCase {
         XCTAssertEqual(newZonedDate.minute, 59)
         XCTAssertEqual(newZonedDate.second, 18)
         XCTAssertEqual(newZonedDate.nano, 1573)
+        
+        localDate += addPeriod
+        zonedDate += addPeriod
+        
+        XCTAssertEqual(localDate.year, 1000)
+        XCTAssertEqual(localDate.month, 2)
+        XCTAssertEqual(localDate.day, 4)
+        XCTAssertEqual(localDate.hour, 11)
+        XCTAssertEqual(localDate.minute, 59)
+        XCTAssertEqual(localDate.second, 18)
+        XCTAssertEqual(localDate.nano, 1573)
+        
+        XCTAssertEqual(zonedDate.year, 1000)
+        XCTAssertEqual(zonedDate.month, 2)
+        XCTAssertEqual(zonedDate.day, 4)
+        XCTAssertEqual(zonedDate.hour, 11)
+        XCTAssertEqual(zonedDate.minute, 59)
+        XCTAssertEqual(zonedDate.second, 18)
+        XCTAssertEqual(zonedDate.nano, 1573)
+        
+        var period1 = 1.year
+        let period2 = 2.month
+        
+        let sumPeriod = period1 + period2
+        let checkPeriod = Period(year: 1, month: 2)
+        XCTAssertEqual(sumPeriod, checkPeriod)
+        
+        period1 += period2
+        XCTAssertEqual(period1, checkPeriod)
     }
 
     func testSubtractOperator() {
-        let localDate = LocalDateTime(year: 1000, month: 1, day: 7, hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
-        let zonedDate = ZonedDateTime(year: 1000, month: 1, day: 7, hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
+        var localDate = LocalDateTime(year: 1000, month: 1, day: 7, hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
+        var zonedDate = ZonedDateTime(year: 1000, month: 1, day: 7, hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
         let addPeriod = Period(year: 0, month: 1, day: 3, hour: 0, minute: 8, second: 0, nano: 0)
 
         let newLocalDate = localDate - addPeriod
@@ -80,6 +151,67 @@ class PeriodTests: XCTestCase {
         XCTAssertEqual(newZonedDate.minute, 43)
         XCTAssertEqual(newZonedDate.second, 18)
         XCTAssertEqual(newZonedDate.nano, 1573)
+        
+        localDate -= addPeriod
+        zonedDate -= addPeriod
+        
+        XCTAssertEqual(localDate.year, 999)
+        XCTAssertEqual(localDate.month, 12)
+        XCTAssertEqual(localDate.day, 4)
+        XCTAssertEqual(localDate.hour, 11)
+        XCTAssertEqual(localDate.minute, 43)
+        XCTAssertEqual(localDate.second, 18)
+        XCTAssertEqual(localDate.nano, 1573)
+        
+        XCTAssertEqual(zonedDate.year, 999)
+        XCTAssertEqual(zonedDate.month, 12)
+        XCTAssertEqual(zonedDate.day, 4)
+        XCTAssertEqual(zonedDate.hour, 11)
+        XCTAssertEqual(zonedDate.minute, 43)
+        XCTAssertEqual(zonedDate.second, 18)
+        XCTAssertEqual(zonedDate.nano, 1573)
+        
+        var period1 = 1.year
+        let period2 = 2.month
+        
+        let subtractPeriod = period1 - period2
+        let checkPeriod = Period(month: 10)
+        XCTAssertEqual(subtractPeriod, checkPeriod)
+        
+        period1 -= period2
+        XCTAssertEqual(period1, checkPeriod)
+    }
+    func testDescription() {
+        let period1 = Period(year: 1, month: 1, day: 3, hour: 1, minute: 8, second: 1, nano: 10)
+        let period2 = Period(year: 0, month: 0, day: 0, hour: 0, minute: 0, second: 0, nano: 0)
+        XCTAssertEqual(period1.description, "0001Year 01Mon 03Day 01Hour 08Min 01.000000010Sec")
+        XCTAssertEqual(period1.debugDescription, "0001Year 01Mon 03Day 01Hour 08Min 01.000000010Sec")
+        if case .text(let text) = period1.customPlaygroundQuickLook {
+            XCTAssertEqual(text, "0001Year 01Mon 03Day 01Hour 08Min 01.000000010Sec")
+        }
+        XCTAssertEqual(period2.description, "")
+        XCTAssertEqual(period2.debugDescription, "")
+        if case .text(let text) = period2.customPlaygroundQuickLook {
+            XCTAssertEqual(text, "")
+        }
+    }
+    func testMirror() {
+        let period = Period(year: 1, month: 1, day: 3, hour: 1, minute: 8, second: 1, nano: 10)
+        
+        var checkList = [
+            "year": 1,
+            "month": 1,
+            "day": 3,
+            "hour": 1,
+            "minute": 8,
+            "second": 1,
+            "nano": 10
+        ]
+        for child in period.customMirror.children {
+            XCTAssertEqual(checkList[child.label!], (child.value as? Int)!)
+            checkList.removeValue(forKey: child.label!)
+        }
+        XCTAssertEqual(checkList.count, 0)
     }
 
 }

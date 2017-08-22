@@ -462,6 +462,32 @@ class ZonedDateTimeTests: XCTestCase {
         let date = ZonedDateTime(year: 1999, month: 10, day: 31, hour: 11, minute: 51, second: 18, nanoOfSecond: 153_000_000, clock: .UTC)
         XCTAssertEqual(date.description, "1999.10.31T11:51:18.153000000(00:00:00.000000000)")
         XCTAssertEqual(date.debugDescription, "1999.10.31T11:51:18.153000000(00:00:00.000000000)")
+        if case .text(let text) = date.customPlaygroundQuickLook {
+            XCTAssertEqual(text, "1999.10.31T11:51:18.153000000(00:00:00.000000000)")
+        }
+    }
+    func testMirror() {
+        let date = ZonedDateTime(year: 1999, month: 10, day: 31, hour: 11, minute: 51, second: 18, nanoOfSecond: 153_000_000, clock: .UTC)
+        
+        var checkList: [String: Any] = [
+            "year": 1999,
+            "month": 10,
+            "day": 31,
+            "hour": 11,
+            "minute": 51,
+            "second": 18,
+            "nano": 153_000_000,
+            "clock": Clock.UTC.description
+        ]
+        for child in date.customMirror.children {
+            if child.label! == "clock" {
+                XCTAssertEqual(checkList[child.label!] as! String, child.value as! String)
+            } else {
+                XCTAssertEqual(checkList[child.label!] as! Int, child.value as! Int)
+            }
+            checkList.removeValue(forKey: child.label!)
+        }
+        XCTAssertEqual(checkList.count, 0)
     }
 
 }
