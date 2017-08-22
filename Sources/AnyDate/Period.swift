@@ -82,7 +82,7 @@ public struct Period {
         self.internalMonth = newDate.month - 1
         self.internalDay = newDate.day - 1
     }
-    
+
     
     // MARK: - Operator
     
@@ -327,3 +327,37 @@ extension Period: CustomPlaygroundQuickLookable {
         return .text(self.description)
     }
 }
+
+#if swift(>=3.2)
+extension Period: Codable {
+    private enum CodingKeys: Int, CodingKey {
+        case year
+        case month
+        case day
+        case hour
+        case minute
+        case second
+        case nano
+    }
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.internalYear = try container.decode(Int.self, forKey: .year)
+        self.internalMonth = try container.decode(Int.self, forKey: .month)
+        self.internalDay = try container.decode(Int.self, forKey: .day)
+        self.internalHour = try container.decode(Int.self, forKey: .hour)
+        self.internalMinute = try container.decode(Int.self, forKey: .minute)
+        self.internalSecond = try container.decode(Int.self, forKey: .second)
+        self.internalNano = try container.decode(Int.self, forKey: .nano)
+    }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.internalYear, forKey: .year)
+        try container.encode(self.internalMonth, forKey: .month)
+        try container.encode(self.internalDay, forKey: .day)
+        try container.encode(self.internalHour, forKey: .hour)
+        try container.encode(self.internalMinute, forKey: .minute)
+        try container.encode(self.internalSecond, forKey: .second)
+        try container.encode(self.internalNano, forKey: .nano)
+    }
+}
+#endif

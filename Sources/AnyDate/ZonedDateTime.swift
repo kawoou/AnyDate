@@ -665,3 +665,22 @@ extension ZonedDateTime: CustomPlaygroundQuickLookable {
         return .text(self.description)
     }
 }
+
+#if swift(>=3.2)
+extension ZonedDateTime: Codable {
+    private enum CodingKeys: Int, CodingKey {
+        case datetime
+        case clock
+    }
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.internalDateTime = try container.decode(LocalDateTime.self, forKey: .datetime)
+        self.internalClock = try container.decode(Clock.self, forKey: .clock)
+    }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.internalDateTime, forKey: .datetime)
+        try container.encode(self.internalClock, forKey: .clock)
+    }
+}
+#endif

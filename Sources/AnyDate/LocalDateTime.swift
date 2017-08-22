@@ -660,3 +660,22 @@ extension LocalDateTime: CustomPlaygroundQuickLookable {
         return .text(self.description)
     }
 }
+
+#if swift(>=3.2)
+extension LocalDateTime: Codable {
+    private enum CodingKeys: Int, CodingKey {
+        case date
+        case time
+    }
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.internalDate = try container.decode(LocalDate.self, forKey: .date)
+        self.internalTime = try container.decode(LocalTime.self, forKey: .time)
+    }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.internalDate, forKey: .date)
+        try container.encode(self.internalTime, forKey: .time)
+    }
+}
+#endif

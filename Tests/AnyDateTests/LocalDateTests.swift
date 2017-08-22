@@ -206,7 +206,7 @@ class LocalDateTests: XCTestCase {
     func testToDate() {
         let calendar = Calendar.current
         let localDate = LocalDate(year: 1999, month: 10, day: 31)
-        let date = try! localDate.toDate(clock: .current)
+        let date = localDate.toDate(clock: .current)
 
         XCTAssertEqual(calendar.component(.year, from: date), 1999)
         XCTAssertEqual(calendar.component(.month, from: date), 10)
@@ -308,5 +308,16 @@ class LocalDateTests: XCTestCase {
         }
         XCTAssertEqual(checkList.count, 0)
     }
+#if swift(>=3.2)
+    func testCodable() {
+        let date1 = LocalDate(year: 1969, month: 12, day: 31)
+        let jsonString = String(data: try! JSONEncoder().encode(date1), encoding: .utf8)!
+
+        let jsonData = jsonString.data(using: .utf8)!
+        let date2 = try! JSONDecoder().decode(LocalDate.self, from: jsonData)
+
+        XCTAssertEqual(date1, date2)
+    }
+#endif
 
 }

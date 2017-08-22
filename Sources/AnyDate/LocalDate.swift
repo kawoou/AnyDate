@@ -652,3 +652,25 @@ extension LocalDate: CustomPlaygroundQuickLookable {
         return .text(self.description)
     }
 }
+
+#if swift(>=3.2)
+extension LocalDate: Codable {
+    private enum CodingKeys: Int, CodingKey {
+        case year
+        case month
+        case day
+    }
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.internalYear = try container.decode(Int.self, forKey: .year)
+        self.internalMonth = try container.decode(Int.self, forKey: .month)
+        self.internalDay = try container.decode(Int.self, forKey: .day)
+    }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.internalYear, forKey: .year)
+        try container.encode(self.internalMonth, forKey: .month)
+        try container.encode(self.internalDay, forKey: .day)
+    }
+}
+#endif

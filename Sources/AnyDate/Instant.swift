@@ -371,3 +371,22 @@ extension Instant: CustomPlaygroundQuickLookable {
         return .text(self.description)
     }
 }
+
+#if swift(>=3.2)
+extension Instant: Codable {
+    private enum CodingKeys: Int, CodingKey {
+        case second
+        case nano
+    }
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.internalSecond = try container.decode(Int64.self, forKey: .second)
+        self.internalNano = try container.decode(Int.self, forKey: .nano)
+    }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.internalSecond, forKey: .second)
+        try container.encode(self.internalNano, forKey: .nano)
+    }
+}
+#endif

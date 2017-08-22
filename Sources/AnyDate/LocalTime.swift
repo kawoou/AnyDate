@@ -598,3 +598,28 @@ extension LocalTime: CustomPlaygroundQuickLookable {
         return .text(self.description)
     }
 }
+
+#if swift(>=3.2)
+extension LocalTime: Codable {
+    private enum CodingKeys: Int, CodingKey {
+        case hour
+        case minute
+        case second
+        case nano
+    }
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.internalHour = try container.decode(Int.self, forKey: .hour)
+        self.internalMinute = try container.decode(Int.self, forKey: .minute)
+        self.internalSecond = try container.decode(Int.self, forKey: .second)
+        self.internalNano = try container.decode(Int64.self, forKey: .nano)
+    }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.internalHour, forKey: .hour)
+        try container.encode(self.internalMinute, forKey: .minute)
+        try container.encode(self.internalSecond, forKey: .second)
+        try container.encode(self.internalNano, forKey: .nano)
+    }
+}
+#endif

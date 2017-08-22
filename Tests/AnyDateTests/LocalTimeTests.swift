@@ -222,7 +222,7 @@ class LocalTimeTests: XCTestCase {
         calendar.timeZone = TimeZone(identifier: "UTC")!
 
         let localTime = LocalTime(hour: 14, minute: 2, second: 18, nanoOfSecond: 153_000_000)
-        let date = try! localTime.toDate(clock: .UTC)
+        let date = localTime.toDate(clock: .UTC)
 
         XCTAssertEqual(calendar.component(.hour, from: date), 14)
         XCTAssertEqual(calendar.component(.minute, from: date), 2)
@@ -291,5 +291,16 @@ class LocalTimeTests: XCTestCase {
         }
         XCTAssertEqual(checkList.count, 0)
     }
+#if swift(>=3.2)
+    func testCodable() {
+        let date1 = LocalTime(hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
+        let jsonString = String(data: try! JSONEncoder().encode(date1), encoding: .utf8)!
+
+        let jsonData = jsonString.data(using: .utf8)!
+        let date2 = try! JSONDecoder().decode(LocalTime.self, from: jsonData)
+
+        XCTAssertEqual(date1, date2)
+    }
+#endif
 
 }

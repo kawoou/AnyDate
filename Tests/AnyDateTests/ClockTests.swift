@@ -106,5 +106,16 @@ class ClockTests: XCTestCase {
         }
         XCTAssertEqual(checkList.count, 0)
     }
+#if swift(>=3.2)
+    func testCodable() {
+        let clock1 = Clock(offsetSecond: 10860)
+        let jsonString = String(data: try! JSONEncoder().encode(clock1), encoding: .utf8)!
+
+        let jsonData = jsonString.data(using: .utf8)!
+        let clock2 = try! JSONDecoder().decode(Clock.self, from: jsonData)
+
+        XCTAssertEqual(clock1, clock2)
+    }
+#endif
 
 }

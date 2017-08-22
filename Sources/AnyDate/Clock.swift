@@ -145,3 +145,24 @@ extension Clock: CustomPlaygroundQuickLookable {
         return .text(self.description)
     }
 }
+
+#if swift(>=3.2)
+extension Clock: Codable {
+    private enum CodingKeys: String, CodingKey {
+        case offsetSecond
+        case currentTimeZone = "_curr"
+    }
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.internalOffset = try container.decode(Int.self, forKey: .offsetSecond)
+        
+        let seconds = try container.decode(Int.self, forKey: .currentTimeZone)
+        self.internalCurrentTimeZone = TimeZone(secondsFromGMT: seconds)!
+    }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.internalOffset, forKey: .offsetSecond)
+        try container.encode(self.internalCurrentTimeZone.secondsFromGMT(), forKey: .currentTimeZone)
+    }
+}
+#endif

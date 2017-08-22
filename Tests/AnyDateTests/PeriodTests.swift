@@ -213,5 +213,16 @@ class PeriodTests: XCTestCase {
         }
         XCTAssertEqual(checkList.count, 0)
     }
+#if swift(>=3.2)
+    func testCodable() {
+        let period1 = Period(year: 1, month: 1, day: 3, hour: 1, minute: 8, second: 1, nano: 10)
+        let jsonString = String(data: try! JSONEncoder().encode(period1), encoding: .utf8)!
+
+        let jsonData = jsonString.data(using: .utf8)!
+        let period2 = try! JSONDecoder().decode(Period.self, from: jsonData)
+
+        XCTAssertEqual(period1, period2)
+    }
+#endif
 
 }

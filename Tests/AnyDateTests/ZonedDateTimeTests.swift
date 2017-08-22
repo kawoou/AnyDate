@@ -447,7 +447,7 @@ class ZonedDateTimeTests: XCTestCase {
         calendar.timeZone = self.utcTimeZone
 
         let localDate = ZonedDateTime(year: 1999, month: 10, day: 31, hour: 11, minute: 51, second: 18, nanoOfSecond: 153_000_000, clock: .UTC)
-        let date = try! localDate.toDate(clock: .UTC)
+        let date = localDate.toDate(clock: .UTC)
 
         XCTAssertEqual(calendar.component(.year, from: date), 1999)
         XCTAssertEqual(calendar.component(.month, from: date), 10)
@@ -489,5 +489,16 @@ class ZonedDateTimeTests: XCTestCase {
         }
         XCTAssertEqual(checkList.count, 0)
     }
+#if swift(>=3.2)
+    func testCodable() {
+        let date1 = ZonedDateTime(year: 1999, month: 10, day: 31, hour: 11, minute: 51, second: 18, nanoOfSecond: 153_000_000, clock: .UTC)
+        let jsonString = String(data: try! JSONEncoder().encode(date1), encoding: .utf8)!
+
+        let jsonData = jsonString.data(using: .utf8)!
+        let date2 = try! JSONDecoder().decode(ZonedDateTime.self, from: jsonData)
+
+        XCTAssertEqual(date1, date2)
+    }
+#endif
 
 }

@@ -192,5 +192,16 @@ class InstantTests: XCTestCase {
         }
         XCTAssertEqual(checkList.count, 0)
     }
+#if swift(>=3.2)
+    func testCodable() {
+        let instant1 = Instant(epochSecond: 100_000, nano: 999_000_000)
+        let jsonString = String(data: try! JSONEncoder().encode(instant1), encoding: .utf8)!
+
+        let jsonData = jsonString.data(using: .utf8)!
+        let instant2 = try! JSONDecoder().decode(Instant.self, from: jsonData)
+
+        XCTAssertEqual(instant1, instant2)
+    }
+#endif
 
 }
