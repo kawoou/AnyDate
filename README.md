@@ -5,8 +5,8 @@
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Version](https://img.shields.io/cocoapods/v/AnyDate.svg?style=flat)](http://cocoadocs.org/docsets/AnyDate)
 [![License](https://img.shields.io/cocoapods/l/AnyDate.svg?style=flat)](https://github.com/kawoou/AnyDate/blob/master/LICENSE)
-[![CI Status](https://travis-ci.org/Kawoou/AnyDate.svg?branch=master)](https://travis-ci.org/Kawoou/AnyDate)
-[![Codecov](https://img.shields.io/codecov/c/github/Kawoou/AnyDate.svg)](https://codecov.io/gh/Kawoou/AnyDate)
+[![CI Status](https://travis-ci.org/kawoou/AnyDate.svg?branch=master)](https://travis-ci.org/kawoou/AnyDate)
+[![Codecov](https://img.shields.io/codecov/c/github/kawoou/AnyDate.svg)](https://codecov.io/gh/kawoou/AnyDate)
 [![Platform](https://img.shields.io/cocoapods/p/AnyDate.svg?style=flat)](http://cocoadocs.org/docsets/AnyDate)
 
 Swifty Date & Time API inspired from Java 8 DateTime API.
