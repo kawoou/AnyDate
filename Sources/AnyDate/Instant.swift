@@ -66,9 +66,24 @@ public struct Instant {
     /// "2007-12-03T10:15:30.00Z".
     ///
     /// If the input text and date format are mismatched, returns nil.
+    ///
+    /// - Parameters:
+    ///     - text: The text to parse.
+    ///     - clock: The Clock instance.
+    /// - Returns: The parsed instant.
     public static func parse(_ text: String, clock: Clock = Clock.UTC) -> Instant? {
         return Instant.parse(text, timeZone: clock.toTimeZone())
     }
+
+    /// Obtains an instance of Instant from a text string such as
+    /// "2007-12-03T10:15:30.00Z".
+    ///
+    /// If the input text and date format are mismatched, returns nil.
+    ///
+    /// - Parameters:
+    ///     - text: The text to parse.
+    ///     - timeZone: The TimeZone instance.
+    /// - Returns: The parsed instant.
     public static func parse(_ text: String, timeZone: TimeZone) -> Instant? {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
@@ -77,9 +92,24 @@ public struct Instant {
 
     /// Obtains an instance of Instant from a text string using a specific formatter.
     /// If the input text and date format are mismatched, returns nil.
+    ///
+    /// - Parameters:
+    ///     - text: The text to parse.
+    ///     - formatter: The formatter to parse.
+    ///     - clock: The Clock instance.
+    /// - Returns: The parsed instant.
     public static func parse(_ text: String, formatter: DateFormatter, clock: Clock = Clock.UTC) -> Instant? {
         return Instant.parse(text, formatter: formatter, timeZone: clock.toTimeZone())
     }
+
+    /// Obtains an instance of Instant from a text string using a specific formatter.
+    /// If the input text and date format are mismatched, returns nil.
+    ///
+    /// - Parameters:
+    ///     - text: The text to parse.
+    ///     - formatter: The formatter to parse.
+    ///     - timeZone: The TimeZone instance.
+    /// - Returns: The parsed instant.
     public static func parse(_ text: String, formatter: DateFormatter, timeZone: TimeZone) -> Instant? {
         formatter.timeZone = timeZone
 
@@ -123,6 +153,8 @@ public struct Instant {
     // MARK: - Public
 
     /// Combines this instant with a time-zone to create a ZonedDateTime.
+    ///
+    /// - Parameters clock: The time zone information.
     public func toZone(clock: Clock = Clock.current) -> ZonedDateTime {
         let nanoAdd = self.internalSecond % 86400
         let dayAdd = self.internalSecond / 86400
@@ -135,6 +167,11 @@ public struct Instant {
     }
 
     /// Returns a copy of this instant with the specified field set to a new value.
+    ///
+    /// - Parameters:
+    ///     - component: The field to set in the result.
+    ///     - newValue: The new value of the field in the result.
+    /// - Returns: An Instant based on this with the specified field set.
     public func with(component: Component, newValue: Int64) -> Instant {
         switch component {
         case .second:
@@ -145,7 +182,10 @@ public struct Instant {
         }
     }
 
-    /// Returns a copy of this Instant with the second-of-minute value altered.
+    /// Returns a copy of this Instant with the second value altered.
+    ///
+    /// - Parameters second: The new value of the second field in the result.
+    /// - Returns: An Instant based on this with the specified field set.
     public func with(second: Int64) -> Instant {
         return Instant(
             epochSecond: second,
@@ -154,6 +194,9 @@ public struct Instant {
     }
 
     /// Returns a copy of this Instant with the nano-of-second value altered.
+    ///
+    /// - Parameters nano: The new value of the nano-of-second field in the result.
+    /// - Returns: An Instant based on this with the specified field set.
     public func with(nano: Int64) -> Instant {
         return Instant(
             epochSecond: self.internalSecond,
@@ -162,6 +205,11 @@ public struct Instant {
     }
 
     /// Returns a copy of this instant with the specified amount added.
+    ///
+    /// - Parameters:
+    ///     - component: The unit of the amount to add.
+    ///     - newValue: The amount of the unit to add to the result.
+    /// - Results: An Instant based on this instant with the specified amount added.
     public func plus(component: Component, newValue: Int64) -> Instant {
         switch component {
         case .second:
@@ -173,6 +221,9 @@ public struct Instant {
     }
 
     /// Returns a copy of this instant with the specified duration in seconds added.
+    ///
+    /// - Parameters second: The amount of the second field to add to the result.
+    /// - Results: An Instant based on this instant with the specified amount added.
     public func plus(second: Int64) -> Instant {
         return Instant(
             epochSecond: self.internalSecond + second,
@@ -181,6 +232,9 @@ public struct Instant {
     }
 
     /// Returns a copy of this instant with the specified duration in milliseconds added.
+    ///
+    /// - Parameters milli: The amount to add to the result.
+    /// - Results: An Instant based on this instant with the specified amount added.
     public func plus(milli: Int64) -> Instant {
         return Instant(
             epochSecond: self.internalSecond + milli / 1000,
@@ -189,6 +243,9 @@ public struct Instant {
     }
 
     /// Returns a copy of this instant with the specified duration in nanoseconds added.
+    ///
+    /// - Parameters nano: The amount of the nano-of-second field to add to the result.
+    /// - Results: An Instant based on this instant with the specified amount added.
     public func plus(nano: Int64) -> Instant {
         return Instant(
             epochSecond: self.internalSecond,
@@ -197,6 +254,11 @@ public struct Instant {
     }
 
     /// Returns a copy of this instant with the specified duration added.
+    ///
+    /// - Parameters:
+    ///     - second: The amount of the second field to add to the result.
+    ///     - nano: The amount of the nano-of-second field to add to the result.
+    /// - Results: An Instant based on this instant with the specified amount added.
     public func plus(second: Int64, nano: Int64) -> Instant {
         return Instant(
             epochSecond: self.internalSecond + second,
@@ -204,7 +266,12 @@ public struct Instant {
         )
     }
 
-    /// Returns a copy of this instant with the specified amount added.
+    /// Returns a copy of this instant with the specified amount subtracted.
+    ///
+    /// - Parameters:
+    ///     - component: The unit of the amount to subtract.
+    ///     - newValue: The amount of the unit to subtract to the result.
+    /// - Results: An Instant based on this instant with the specified amount subtracted.
     public func minus(component: Component, newValue: Int64) -> Instant {
         switch component {
         case .second:
@@ -216,26 +283,45 @@ public struct Instant {
     }
 
     /// Returns a copy of this instant with the specified duration in seconds subtracted.
+    ///
+    /// - Parameters second: The amount of the second field to subtract to the result.
+    /// - Results: An Instant based on this instant with the specified amount subtracted.
     public func minus(second: Int64) -> Instant {
         return self.plus(second: -second)
     }
 
     /// Returns a copy of this instant with the specified duration in milliseconds subtracted.
+    ///
+    /// - Parameters milli: The amount to subtract to the result.
+    /// - Results: An Instant based on this instant with the specified amount subtracted.
     public func minus(milli: Int64) -> Instant {
         return self.plus(milli: -milli)
     }
 
     /// Returns a copy of this instant with the specified duration in nanoseconds subtracted.
+    ///
+    /// - Parameters nano: The amount of the nano field to subtract to the result.
+    /// - Results: An Instant based on this instant with the specified amount subtracted.
     public func minus(nano: Int64) -> Instant {
         return self.plus(nano: -nano)
     }
 
     /// Returns a copy of this instant with the specified duration subtracted.
+    ///
+    /// - Parameters:
+    ///     - second: The amount of the second field to subtract to the result.
+    ///     - nano: The amount of the nano-of-second field to subtract to the result.
+    /// - Results: An Instant based on this instant with the specified amount subtracted.
     public func minus(second: Int64, nano: Int64) -> Instant {
         return self.plus(second: -second, nano: -nano)
     }
 
     /// Calculates the amount of time until another instant in terms of the specified unit.
+    ///
+    /// - Parameters:
+    ///     - endInstant: The end date, exclusive, which is converted to an Instant.
+    ///     - component: The unit to measure the amount in.
+    /// - Returns: The amount of time between this instant and the end instant.
     public func until(endInstant: Instant, component: UntilComponent) -> Int64 {
         switch component {
         case .nanosecond:
@@ -359,30 +445,64 @@ extension Instant: CustomStringConvertible, CustomDebugStringConvertible {
     
 }
 extension Instant: CustomReflectable {
+
+    /// The custom mirror for this instance.
+    ///
+    /// If this type has value semantics, the mirror should be unaffected by
+    /// subsequent mutations of the instance.
     public var customMirror: Mirror {
         var c = [(label: String?, value: Any)]()
         c.append((label: "second", value: self.second))
         c.append((label: "nano", value: self.nano))
         return Mirror(self, children: c, displayStyle: Mirror.DisplayStyle.struct)
     }
+
 }
 extension Instant: CustomPlaygroundQuickLookable {
+
+    /// A custom playground Quick Look for this instance.
+    ///
+    /// If this type has value semantics, the `PlaygroundQuickLook` instance
+    /// should be unaffected by subsequent mutations.
     public var customPlaygroundQuickLook: PlaygroundQuickLook {
         return .text(self.description)
     }
+
 }
 
 #if swift(>=3.2)
 extension Instant: Codable {
+
+    /// A type that can be used as a key for encoding and decoding.
+    ///
+    /// - second: The second.
+    /// - nano: The nano-of-second.
     private enum CodingKeys: Int, CodingKey {
         case second
         case nano
     }
+
+    /// Creates a new instance by decoding from the given decoder.
+    ///
+    /// This initializer throws an error if reading from the decoder fails, or
+    /// if the data read is corrupted or otherwise invalid.
+    ///
+    /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.internalSecond = try container.decode(Int64.self, forKey: .second)
         self.internalNano = try container.decode(Int.self, forKey: .nano)
     }
+
+    /// Encodes this value into the given encoder.
+    ///
+    /// If the value fails to encode anything, `encoder` will encode an empty
+    /// keyed container in its place.
+    ///
+    /// This function throws an error if any values are invalid for the given
+    /// encoder's format.
+    ///
+    /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.internalSecond, forKey: .second)

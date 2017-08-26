@@ -4,30 +4,43 @@ public struct Period {
 
     // MARK: - Property
 
+    /// Gets the year field.
     public var year: Int {
         get { return self.internalYear }
         set { self.internalYear = newValue; self.normalize() }
     }
+
+    /// Gets the month-of-year field from 1 to 12.
     public var month: Int {
         get { return self.internalMonth }
         set { self.internalMonth = newValue; self.normalize() }
     }
+
+    /// Gets the day-of-month field.
     public var day: Int {
         get { return self.internalDay }
         set { self.internalDay = newValue; self.normalize() }
     }
+
+    /// Gets the hour-of-day field.
     public var hour: Int {
         get { return self.internalHour }
         set { self.internalHour = newValue; self.normalize() }
     }
+
+    /// Gets the minute-of-hour field.
     public var minute: Int {
         get { return self.internalMinute }
         set { self.internalMinute = newValue; self.normalize() }
     }
+
+    /// Gets the second-of-minute field.
     public var second: Int {
         get { return self.internalSecond }
         set { self.internalSecond = newValue; self.normalize() }
     }
+
+    /// Gets the nano-of-second field.
     public var nano: Int {
         get { return self.internalNano }
         set { self.internalNano = newValue; self.normalize() }
@@ -217,6 +230,8 @@ public struct Period {
     
     // MARK: - Lifecycle
 
+    /// Creates an instance of LocalDateTime from year, month,
+    /// day, hour, minute, second and nanosecond.
     public init(year: Int = 0, month: Int = 0, day: Int = 0, hour: Int = 0, minute: Int = 0, second: Int = 0, nano: Int = 0) {
         self.internalYear = year
         self.internalMonth = month
@@ -310,6 +325,11 @@ extension Period: CustomStringConvertible, CustomDebugStringConvertible {
     
 }
 extension Period: CustomReflectable {
+
+    /// The custom mirror for this instance.
+    ///
+    /// If this type has value semantics, the mirror should be unaffected by
+    /// subsequent mutations of the instance.
     public var customMirror: Mirror {
         var c = [(label: String?, value: Any)]()
         c.append((label: "year", value: self.internalYear))
@@ -321,15 +341,32 @@ extension Period: CustomReflectable {
         c.append((label: "nano", value: self.internalNano))
         return Mirror(self, children: c, displayStyle: Mirror.DisplayStyle.struct)
     }
+
 }
 extension Period: CustomPlaygroundQuickLookable {
+
+    /// A custom playground Quick Look for this instance.
+    ///
+    /// If this type has value semantics, the `PlaygroundQuickLook` instance
+    /// should be unaffected by subsequent mutations.
     public var customPlaygroundQuickLook: PlaygroundQuickLook {
         return .text(self.description)
     }
+
 }
 
 #if swift(>=3.2)
 extension Period: Codable {
+
+    /// A type that can be used as a key for encoding and decoding.
+    ///
+    /// - year: The year.
+    /// - month: The month-of-year.
+    /// - day: The day-of-month.
+    /// - hour: The year.
+    /// - minute: The minute-of-hour.
+    /// - second: The second-of-minute.
+    /// - nano: The nano-of-second.
     private enum CodingKeys: Int, CodingKey {
         case year
         case month
@@ -339,6 +376,13 @@ extension Period: Codable {
         case second
         case nano
     }
+
+    /// Creates a new instance by decoding from the given decoder.
+    ///
+    /// This initializer throws an error if reading from the decoder fails, or
+    /// if the data read is corrupted or otherwise invalid.
+    ///
+    /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.internalYear = try container.decode(Int.self, forKey: .year)
@@ -349,6 +393,16 @@ extension Period: Codable {
         self.internalSecond = try container.decode(Int.self, forKey: .second)
         self.internalNano = try container.decode(Int.self, forKey: .nano)
     }
+
+    /// Encodes this value into the given encoder.
+    ///
+    /// If the value fails to encode anything, `encoder` will encode an empty
+    /// keyed container in its place.
+    ///
+    /// This function throws an error if any values are invalid for the given
+    /// encoder's format.
+    ///
+    /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.internalYear, forKey: .year)

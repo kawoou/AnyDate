@@ -76,10 +76,25 @@ public struct LocalDate {
     }
     
     /// Obtains an instance of LocalDate from a text string such as "2007-12-03".
+    ///
     /// If the input text and date format are mismatched, returns nil.
+    ///
+    /// - Parameters:
+    ///     - text: The text to parse.
+    ///     - clock: The Clock instance.
+    /// - Returns: The parsed local date.
     static public func parse(_ text: String, clock: Clock) -> LocalDate? {
         return LocalDate.parse(text, timeZone: clock.toTimeZone())
     }
+
+    /// Obtains an instance of LocalDate from a text string such as "2007-12-03".
+    ///
+    /// If the input text and date format are mismatched, returns nil.
+    ///
+    /// - Parameters:
+    ///     - text: The text to parse.
+    ///     - timeZone: The TimeZone instance.
+    /// - Returns: The parsed local date.
     static public func parse(_ text: String, timeZone: TimeZone = TimeZone.current) -> LocalDate? {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -87,10 +102,27 @@ public struct LocalDate {
     }
     
     /// Obtains an instance of LocalDate from a text string using a specific formatter.
+    ///
     /// If the input text and date format are mismatched, returns nil.
+    ///
+    /// - Parameters:
+    ///     - text: The text to parse.
+    ///     - formatter: The formatter to parse.
+    ///     - clock: The Clock instance.
+    /// - Returns: The parsed local date.
     static public func parse(_ text: String, formatter: DateFormatter, clock: Clock) -> LocalDate? {
         return LocalDate.parse(text, formatter: formatter, timeZone: clock.toTimeZone())
     }
+
+    /// Obtains an instance of LocalDate from a text string using a specific formatter.
+    ///
+    /// If the input text and date format are mismatched, returns nil.
+    ///
+    /// - Parameters:
+    ///     - text: The text to parse.
+    ///     - formatter: The formatter to parse.
+    ///     - timeZone: The TimeZone instance.
+    /// - Returns: The parsed local date.
     static public func parse(_ text: String, formatter: DateFormatter, timeZone: TimeZone = TimeZone.current) -> LocalDate? {
         formatter.timeZone = timeZone
 
@@ -121,14 +153,16 @@ public struct LocalDate {
     
     /// Gets the day-of-week field.
     ///
-    /// The start of one week is Sunday.
-    ///  - Monday = 0
-    ///  - Tuesday = 1
-    ///  - Wednesday = 2
-    ///  - Thursday = 3
-    ///  - Friday = 4
-    ///  - Saturday = 5
-    ///  - Sunday = 6
+    /// The start of one week is Monday.
+    ///
+    /// - Returns:
+    ///     - Monday = 0
+    ///     - Tuesday = 1
+    ///     - Wednesday = 2
+    ///     - Thursday = 3
+    ///     - Friday = 4
+    ///     - Saturday = 5
+    ///     - Sunday = 6
     public var dayOfWeek: Int {
         let ly = self.internalYear - 1
         let lm = self.internalMonth - 1
@@ -262,9 +296,15 @@ public struct LocalDate {
     }
     
     /// Returns an instance of Date.
+    ///
+    /// - Parameters clock: The time zone information.
     public func toDate(clock: Clock) -> Date {
         return self.toDate(timeZone: clock.toTimeZone())
     }
+
+    /// Returns an instance of Date.
+    ///
+    /// - Parameters timeZone: The time zone information.
     public func toDate(timeZone: TimeZone = TimeZone.current) -> Date {
         /// Specify date components
         var dateComponents = DateComponents()
@@ -281,6 +321,11 @@ public struct LocalDate {
     }
     
     /// Returns a copy of this date with the specified field set to a new value.
+    ///
+    /// - Parameters:
+    ///     - component: The field to set in the result.
+    ///     - newValue: The new value of the field in the result.
+    /// - Returns: An LocalDate based on this with the specified field set.
     public func with(component: Component, newValue: Int) -> LocalDate {
         switch component {
         case .year:
@@ -295,26 +340,43 @@ public struct LocalDate {
     }
     
     /// Returns a copy of this date with the year altered.
+    ///
+    /// - Parameters year: The new value of the year field in the result.
+    /// - Returns: An LocalDate based on this with the specified field set.
     public func with(year: Int) -> LocalDate {
         return LocalDate(year: year, month: self.month, day: self.day)
     }
     
     /// Returns a copy of this date with the month-of-year altered.
+    ///
+    /// - Parameters month: The new value of the month field in the result.
+    /// - Returns: An LocalDate based on this with the specified field set.
     public func with(month: Int) -> LocalDate {
         return LocalDate(year: self.year, month: month, day: self.day)
     }
     
     /// Returns a copy of this date with the day-of-month altered.
+    ///
+    /// - Parameters dayOfMonth: The new value of the day-of-month field in the result.
+    /// - Returns: An LocalDate based on this with the specified field set.
     public func with(dayOfMonth: Int) -> LocalDate {
         return LocalDate(year: self.year, month: self.month, day: dayOfMonth)
     }
     
     /// Returns a copy of this date with the day-of-year altered.
+    ///
+    /// - Parameters dayOfYear: The new value of the day-of-year field in the result.
+    /// - Returns: An LocalDate based on this with the specified field set.
     public func with(dayOfYear: Int) -> LocalDate {
         return LocalDate(year: self.year, month: 1, day: dayOfYear)
     }
     
     /// Returns a copy of this date with the specified amount added.
+    ///
+    /// - Parameters:
+    ///     - component: The unit of the amount to add.
+    ///     - newValue: The amount of the unit to add to the result.
+    /// - Results: An LocalDate based on this date with the specified amount added.
     public func plus(component: PlusComponent, newValue: Int) -> LocalDate {
         switch component {
         case .year:
@@ -332,53 +394,85 @@ public struct LocalDate {
     }
     
     /// Returns a copy of this LocalDate with the specified period in years added.
+    ///
+    /// - Parameters year: The amount of the year field to add to the result.
+    /// - Results: An LocalDate based on this date with the specified amount added.
     public func plus(year: Int) -> LocalDate {
         return LocalDate(year: self.internalYear + year, month: self.internalMonth, day: self.internalDay)
     }
     
     /// Returns a copy of this LocalDate with the specified period in months added.
+    ///
+    /// - Parameters month: The amount of the month field to add to the result.
+    /// - Results: An LocalDate based on this date with the specified amount added.
     public func plus(month: Int) -> LocalDate {
         return LocalDate(year: self.internalYear, month: self.internalMonth + month, day: self.internalDay)
     }
     
     /// Returns a copy of this LocalDate with the specified period in weeks added.
+    ///
+    /// - Parameters week: The amount of the week field to add to the result.
+    /// - Results: An LocalDate based on this date with the specified amount added.
     public func plus(week: Int) -> LocalDate {
         return LocalDate(year: self.internalYear, month: self.internalMonth, day: self.internalDay + week * 7)
     }
     
     /// Returns a copy of this LocalDate with the specified number of days added.
+    ///
+    /// - Parameters day: The amount of the day field to add to the result.
+    /// - Results: An LocalDate based on this date with the specified amount added.
     public func plus(day: Int) -> LocalDate {
         return LocalDate(year: self.internalYear, month: self.internalMonth, day: self.internalDay + day)
     }
     
     /// Returns a copy of this date with the specified amount subtracted.
+    ///
+    /// - Parameters:
+    ///     - component: The unit of the amount to subtract.
+    ///     - newValue: The amount of the unit to subtract to the result.
+    /// - Results: An LocalDate based on this date with the specified amount subtracted.
     public func minus(component: PlusComponent, newValue: Int) -> LocalDate {
         return self.plus(component: component, newValue: -newValue)
     }
     
     /// Returns a copy of this LocalDate with the specified period in years subtracted.
+    ///
+    /// - Parameters year: The amount of the year field to subtract to the result.
+    /// - Results: An LocalDate based on this date with the specified amount subtracted.
     public func minus(year: Int) -> LocalDate {
         return self.plus(year: -year)
     }
     
     /// Returns a copy of this LocalDate with the specified period in months subtracted.
+    ///
+    /// - Parameters month: The amount of the month field to subtract to the result.
+    /// - Results: An LocalDate based on this date with the specified amount subtracted.
     public func minus(month: Int) -> LocalDate {
         return self.plus(month: -month)
     }
     
     /// Returns a copy of this LocalDate with the specified period in weeks subtracted.
+    ///
+    /// - Parameters week: The amount of the week field to subtract to the result.
+    /// - Results: An LocalDate based on this date with the specified amount subtracted.
     public func minus(week: Int) -> LocalDate {
         return self.plus(week: -week)
     }
     
     /// Returns a copy of this LocalDate with the specified number of days subtracted.
+    ///
+    /// - Parameters day: The amount of the day field to subtract to the result.
+    /// - Results: An LocalDate based on this date with the specified amount subtracted.
     public func minus(day: Int) -> LocalDate {
         return self.plus(day: -day)
     }
     
     /// Gets the range of valid values for the specified field.
     ///
-    /// The start of one week is Sunday.
+    /// The start of one week is Monday.
+    ///
+    /// - Parameters component: The field to query the range for.
+    /// - Returns: The range of valid values for the field.
     public func range(_ component: RangeComponent) -> (Int, Int) {
         switch component {
         case .weekday:
@@ -404,6 +498,10 @@ public struct LocalDate {
     }
     
     /// Calculates the period between this date and another date as a Period.
+    ///
+    /// - Parameters:
+    ///     - endDate: The end date, exclusive, which is converted to an LocalDate.
+    /// - Returns: The Period of time between this date and the end date.
     public func until(endDate: LocalDate) -> Period {
         var totalMonth = endDate.prolepticMonth - self.prolepticMonth
         var days = endDate.day - self.day
@@ -425,6 +523,11 @@ public struct LocalDate {
     }
     
     /// Calculates the amount of time until another date in terms of the specified unit.
+    ///
+    /// - Parameters:
+    ///     - endDate: The end date, exclusive, which is converted to an LocalDate.
+    ///     - component: The unit to measure the amount in.
+    /// - Returns: The amount of time between this date and the end date.
     public func until(endDate: LocalDate, component: UntilComponent) -> Int64 {
         switch component {
         case .day:
@@ -442,6 +545,9 @@ public struct LocalDate {
     }
     
     /// Formats this date using the specified formatter.
+    ///
+    /// - Parameters formatter: The formatter to use.
+    /// - Returns: The formatted date string.
     public func format(_ formatter: DateFormatter) -> String {
         return formatter.string(from: self.toDate())
     }
@@ -477,10 +583,12 @@ public struct LocalDate {
     
     // MARK: - Lifecycle
     
-    /// Creates the current date from the system clock in the default time-zone.
+    /// Creates the current date from the time-zone.
     public init(clock: Clock) {
         self.init(timeZone: clock.toTimeZone())
     }
+
+    /// Creates the current date from the time-zone.
     public init(timeZone: TimeZone = TimeZone.current) {
         let now = Date()
         
@@ -497,6 +605,8 @@ public struct LocalDate {
     public init(_ date: Date, clock: Clock) {
         self.init(date, timeZone: clock.toTimeZone())
     }
+
+    /// Creates a local date from an instance of Date.
     public init(_ date: Date, timeZone: TimeZone = TimeZone.current) {
         var calendar = Calendar.current
         calendar.timeZone = timeZone
@@ -639,6 +749,11 @@ extension LocalDate: CustomStringConvertible, CustomDebugStringConvertible {
     
 }
 extension LocalDate: CustomReflectable {
+
+    /// The custom mirror for this instance.
+    ///
+    /// If this type has value semantics, the mirror should be unaffected by
+    /// subsequent mutations of the instance.
     public var customMirror: Mirror {
         var c = [(label: String?, value: Any)]()
         c.append((label: "year", value: self.internalYear))
@@ -646,26 +761,56 @@ extension LocalDate: CustomReflectable {
         c.append((label: "day", value: self.internalDay))
         return Mirror(self, children: c, displayStyle: Mirror.DisplayStyle.struct)
     }
+
 }
 extension LocalDate: CustomPlaygroundQuickLookable {
+
+    /// A custom playground Quick Look for this instance.
+    ///
+    /// If this type has value semantics, the `PlaygroundQuickLook` instance
+    /// should be unaffected by subsequent mutations.
     public var customPlaygroundQuickLook: PlaygroundQuickLook {
         return .text(self.description)
     }
+
 }
 
 #if swift(>=3.2)
 extension LocalDate: Codable {
+
+    /// A type that can be used as a key for encoding and decoding.
+    ///
+    /// - year: The year.
+    /// - month: The month-of-year.
+    /// - day: The day-of-month.
     private enum CodingKeys: Int, CodingKey {
         case year
         case month
         case day
     }
+
+    /// Creates a new instance by decoding from the given decoder.
+    ///
+    /// This initializer throws an error if reading from the decoder fails, or
+    /// if the data read is corrupted or otherwise invalid.
+    ///
+    /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.internalYear = try container.decode(Int.self, forKey: .year)
         self.internalMonth = try container.decode(Int.self, forKey: .month)
         self.internalDay = try container.decode(Int.self, forKey: .day)
     }
+
+    /// Encodes this value into the given encoder.
+    ///
+    /// If the value fails to encode anything, `encoder` will encode an empty
+    /// keyed container in its place.
+    ///
+    /// This function throws an error if any values are invalid for the given
+    /// encoder's format.
+    ///
+    /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.internalYear, forKey: .year)

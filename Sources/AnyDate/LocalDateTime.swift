@@ -59,9 +59,25 @@ public struct LocalDateTime {
     }
     
     /// Obtains an instance of LocalDateTime from a text string such as '2007-12-03T10:15:30.217'.
+    ///
+    /// If the input text and date format are mismatched, returns nil.
+    ///
+    /// - Parameters:
+    ///     - text: The text to parse.
+    ///     - clock: The Clock instance.
+    /// - Returns: The parsed local date-time.
     static public func parse(_ text: String, clock: Clock) -> LocalDateTime? {
         return LocalDateTime.parse(text, timeZone: clock.toTimeZone())
     }
+
+    /// Obtains an instance of LocalDateTime from a text string such as '2007-12-03T10:15:30.217'.
+    ///
+    /// If the input text and date format are mismatched, returns nil.
+    ///
+    /// - Parameters:
+    ///     - text: The text to parse.
+    ///     - timeZone: The TimeZone instance.
+    /// - Returns: The parsed local date-time.
     static public func parse(_ text: String, timeZone: TimeZone = TimeZone.current) -> LocalDateTime? {
         /// ISO8601 format
         let formatter = DateFormatter()
@@ -71,9 +87,27 @@ public struct LocalDateTime {
     }
     
     /// Obtains an instance of LocalDateTime from a text string using a specific formatter.
+    ///
+    /// If the input text and date format are mismatched, returns nil.
+    ///
+    /// - Parameters:
+    ///     - text: The text to parse.
+    ///     - formatter: The formatter to parse.
+    ///     - clock: The Clock instance.
+    /// - Returns: The parsed local date-time.
     static public func parse(_ text: String, formatter: DateFormatter, clock: Clock) -> LocalDateTime? {
         return LocalDateTime.parse(text, formatter: formatter, timeZone: clock.toTimeZone())
     }
+
+    /// Obtains an instance of LocalDateTime from a text string using a specific formatter.
+    ///
+    /// If the input text and date format are mismatched, returns nil.
+    ///
+    /// - Parameters:
+    ///     - text: The text to parse.
+    ///     - formatter: The formatter to parse.
+    ///     - timeZone: The TimeZone instance.
+    /// - Returns: The parsed local date-time.
     static public func parse(_ text: String, formatter: DateFormatter, timeZone: TimeZone = TimeZone.current) -> LocalDateTime? {
         formatter.timeZone = timeZone
 
@@ -174,9 +208,15 @@ public struct LocalDateTime {
     }
     
     /// Returns an instance of Date.
+    ///
+    /// - Parameters clock: The time zone information.
     public func toDate(clock: Clock) -> Date {
         return self.toDate(timeZone: clock.toTimeZone())
     }
+
+    /// Returns an instance of Date.
+    ///
+    /// - Parameters timeZone: The time zone information.
     public func toDate(timeZone: TimeZone = TimeZone.current) -> Date {
         /// Specify date components
         var dateComponents = DateComponents()
@@ -197,6 +237,11 @@ public struct LocalDateTime {
     }
     
     /// Returns a copy of this date-time with the specified field set to a new value.
+    ///
+    /// - Parameters:
+    ///     - component: The field to set in the result.
+    ///     - newValue: The new value of the field in the result.
+    /// - Returns: An LocalDateTime based on this with the specified field set.
     public func with(component: Component, newValue: Int) -> LocalDateTime {
         switch component {
         case .hour, .minute, .second, .nanosecond:
@@ -220,41 +265,67 @@ public struct LocalDateTime {
     }
     
     /// Returns a copy of this LocalDateTime with the year altered.
+    ///
+    /// - Parameters year: The new value of the year field in the result.
+    /// - Returns: An LocalDateTime based on this with the specified field set.
     public func with(year: Int) -> LocalDateTime {
         return self.with(component: .year, newValue: year)
     }
     
     /// Returns a copy of this LocalDateTime with the month-of-year altered.
+    ///
+    /// - Parameters month: The new value of the month field in the result.
+    /// - Returns: An LocalDateTime based on this with the specified field set.
     public func with(month: Int) -> LocalDateTime {
         return self.with(component: .month, newValue: month)
     }
     
     /// Returns a copy of this LocalDateTime with the day-of-month altered.
+    ///
+    /// - Parameters day: The new value of the day field in the result.
+    /// - Returns: An LocalDateTime based on this with the specified field set.
     public func with(day: Int) -> LocalDateTime {
         return self.with(component: .day, newValue: day)
     }
     
     /// Returns a copy of this LocalDateTime with the hour-of-day value altered.
+    ///
+    /// - Parameters hour: The new value of the hour field in the result.
+    /// - Returns: An LocalDateTime based on this with the specified field set.
     public func with(hour: Int) -> LocalDateTime {
         return self.with(component: .hour, newValue: hour)
     }
     
     /// Returns a copy of this LocalDateTime with the minute-of-hour value altered.
+    ///
+    /// - Parameters minute: The new value of the minute field in the result.
+    /// - Returns: An LocalDateTime based on this with the specified field set.
     public func with(minute: Int) -> LocalDateTime {
         return self.with(component: .minute, newValue: minute)
     }
     
     /// Returns a copy of this LocalDateTime with the second-of-minute value altered.
+    ///
+    /// - Parameters second: The new value of the second field in the result.
+    /// - Returns: An LocalDateTime based on this with the specified field set.
     public func with(second: Int) -> LocalDateTime {
         return self.with(component: .second, newValue: second)
     }
     
     /// Returns a copy of this LocalDateTime with the nano-of-second value altered.
+    ///
+    /// - Parameters nano: The new value of the nano-of-second field in the result.
+    /// - Returns: An LocalDateTime based on this with the specified field set.
     public func with(nano: Int) -> LocalDateTime {
         return self.with(component: .nanosecond, newValue: nano)
     }
     
     /// Returns a copy of this date-time with the specified amount added.
+    ///
+    /// - Parameters:
+    ///     - component: The unit of the amount to add.
+    ///     - newValue: The amount of the unit to add to the result.
+    /// - Results: An LocalDateTime based on this date-time with the specified amount added.
     public func plus(component: PlusComponent, newValue: Int) -> LocalDateTime {
         switch component {
         case .hour, .minute, .second, .nanosecond:
@@ -278,46 +349,75 @@ public struct LocalDateTime {
     }
     
     /// Returns a copy of this LocalDateTime with the specified period in years added.
+    ///
+    /// - Parameters year: The amount of the year field to add to the result.
+    /// - Results: An LocalDateTime based on this date-time with the specified amount added.
     public func plus(year: Int) -> LocalDateTime {
         return self.plus(component: .year, newValue: year)
     }
     
     /// Returns a copy of this LocalDateTime with the specified period in months added.
+    ///
+    /// - Parameters month: The amount of the month field to add to the result.
+    /// - Results: An LocalDateTime based on this date-time with the specified amount added.
     public func plus(month: Int) -> LocalDateTime {
         return self.plus(component: .month, newValue: month)
     }
     
     /// Returns a copy of this LocalDateTime with the specified period in weeks added.
+    ///
+    /// - Parameters week: The amount of the week field to add to the result.
+    /// - Results: An LocalDateTime based on this date-time with the specified amount added.
     public func plus(week: Int) -> LocalDateTime {
         return self.plus(component: .weekday, newValue: week)
     }
     
     /// Returns a copy of this LocalDateTime with the specified period in days added.
+    ///
+    /// - Parameters day: The amount of the day field to add to the result.
+    /// - Results: An LocalDateTime based on this date-time with the specified amount added.
     public func plus(day: Int) -> LocalDateTime {
         return self.plus(component: .day, newValue: day)
     }
     
     /// Returns a copy of this LocalDateTime with the specified period in hours added.
+    ///
+    /// - Parameters hour: The amount of the hour field to add to the result.
+    /// - Results: An LocalDateTime based on this date-time with the specified amount added.
     public func plus(hour: Int) -> LocalDateTime {
         return self.plus(component: .hour, newValue: hour)
     }
     
     /// Returns a copy of this LocalDateTime with the specified period in minutes added.
+    ///
+    /// - Parameters minute: The amount of the minute field to add to the result.
+    /// - Results: An LocalDateTime based on this date-time with the specified amount added.
     public func plus(minute: Int) -> LocalDateTime {
         return self.plus(component: .minute, newValue: minute)
     }
     
     /// Returns a copy of this LocalDateTime with the specified period in seconds added.
+    ///
+    /// - Parameters second: The amount of the second field to add to the result.
+    /// - Results: An LocalDateTime based on this date-time with the specified amount added.
     public func plus(second: Int) -> LocalDateTime {
         return self.plus(component: .second, newValue: second)
     }
     
     /// Returns a copy of this LocalDateTime with the specified period in nanoseconds added.
+    ///
+    /// - Parameters nano: The amount of the nanosecond field to add to the result.
+    /// - Results: An LocalDateTime based on this date-time with the specified amount added.
     public func plus(nano: Int) -> LocalDateTime {
         return self.plus(component: .nanosecond, newValue: nano)
     }
     
     /// Returns a copy of this date-time with the specified amount subtracted.
+    ///
+    /// - Parameters:
+    ///     - component: The unit of the amount to subtract.
+    ///     - newValue: The amount of the unit to subtract to the result.
+    /// - Results: An LocalDateTime based on this date-time with the specified amount subtracted.
     public func minus(component: PlusComponent, newValue: Int) -> LocalDateTime {
         switch component {
         case .hour, .minute, .second, .nanosecond:
@@ -341,46 +441,73 @@ public struct LocalDateTime {
     }
     
     /// Returns a copy of this LocalDateTime with the specified period in years subtracted.
+    ///
+    /// - Parameters year: The amount of the year field to subtract to the result.
+    /// - Results: An LocalDateTime based on this date-time with the specified amount subtracted.
     public func minus(year: Int) -> LocalDateTime {
         return self.minus(component: .year, newValue: year)
     }
     
     /// Returns a copy of this LocalDateTime with the specified period in months subtracted.
+    ///
+    /// - Parameters month: The amount of the month field to subtract to the result.
+    /// - Results: An LocalDateTime based on this date-time with the specified amount subtracted.
     public func minus(month: Int) -> LocalDateTime {
         return self.minus(component: .month, newValue: month)
     }
     
     /// Returns a copy of this LocalDateTime with the specified period in weeks subtracted.
+    ///
+    /// - Parameters week: The amount of the week field to subtract to the result.
+    /// - Results: An LocalDateTime based on this date-time with the specified amount subtracted.
     public func minus(week: Int) -> LocalDateTime {
         return self.minus(component: .weekday, newValue: week)
     }
     
     /// Returns a copy of this LocalDateTime with the specified period in days subtracted.
+    ///
+    /// - Parameters day: The amount of the day field to subtract to the result.
+    /// - Results: An LocalDateTime based on this date-time with the specified amount subtracted.
     public func minus(day: Int) -> LocalDateTime {
         return self.minus(component: .day, newValue: day)
     }
     
     /// Returns a copy of this LocalDateTime with the specified period in hours subtracted.
+    ///
+    /// - Parameters hour: The amount of the hour field to subtract to the result.
+    /// - Results: An LocalDateTime based on this date-time with the specified amount subtracted.
     public func minus(hour: Int) -> LocalDateTime {
         return self.minus(component: .hour, newValue: hour)
     }
     
     /// Returns a copy of this LocalDateTime with the specified period in minutes subtracted.
+    ///
+    /// - Parameters minute: The amount of the minute field to subtract to the result.
+    /// - Results: An LocalDateTime based on this date-time with the specified amount subtracted.
     public func minus(minute: Int) -> LocalDateTime {
         return self.minus(component: .minute, newValue: minute)
     }
     
     /// Returns a copy of this LocalDateTime with the specified period in seconds subtracted.
+    ///
+    /// - Parameters second: The amount of the second field to subtract to the result.
+    /// - Results: An LocalDateTime based on this date-time with the specified amount subtracted.
     public func minus(second: Int) -> LocalDateTime {
         return self.minus(component: .second, newValue: second)
     }
     
     /// Returns a copy of this LocalDateTime with the specified period in nanoseconds subtracted.
+    ///
+    /// - Parameters nano: The amount of the nanosecond field to subtract to the result.
+    /// - Results: An LocalDateTime based on this date-time with the specified amount subtracted.
     public func minus(nano: Int) -> LocalDateTime {
         return self.minus(component: .nanosecond, newValue: nano)
     }
     
     /// Gets the range of valid values for the specified field.
+    ///
+    /// - Parameters component: The field to query the range for.
+    /// - Returns: The range of valid values for the field.
     public func range(_ component: RangeComponent) -> (Int, Int) {
         switch component {
         case .hour, .minute, .second, .nanosecond:
@@ -392,6 +519,10 @@ public struct LocalDateTime {
     }
 
     /// Calculates the period between this date-time and another date-time as a Period.
+    ///
+    /// - Parameters:
+    ///     - endDateTime: The end date-time, exclusive, which is converted to an LocalDateTime.
+    /// - Returns: The Period of time between this date-time and the end date-time.
     public func until(endDateTime: LocalDateTime) -> Period {
         let datePeriod = self.internalDate.until(endDate: endDateTime.internalDate)
         let timePeriod = self.internalTime.until(endTime: endDateTime.internalTime)
@@ -408,6 +539,11 @@ public struct LocalDateTime {
     }
     
     /// Calculates the amount of time until another date-time in terms of the specified unit.
+    ///
+    /// - Parameters:
+    ///     - endDateTime: The end date-time, exclusive, which is converted to an LocalDateTime.
+    ///     - component: The unit to measure the amount in.
+    /// - Returns: The amount of time between this date-time and the end date-time.
     public func until(endDateTime: LocalDateTime, component: UntilComponent) -> Int64 {
         switch component {
         case .nanosecond, .second, .minute, .hour:
@@ -449,6 +585,9 @@ public struct LocalDateTime {
     }
     
     /// Formats this date-time using the specified formatter.
+    ///
+    /// - Parameters formatter: The formatter to use.
+    /// - Returns: The formatted date string.
     public func format(_ formatter: DateFormatter) -> String {
         return formatter.string(from: self.toDate())
     }
@@ -521,10 +660,12 @@ public struct LocalDateTime {
     
     // MARK: - Lifecycle
     
-    /// Creates the current date-time from the system clock in the default time-zone.
+    /// Creates the current date-time from the time-zone.
     public init(clock: Clock) {
         self.init(timeZone: clock.toTimeZone())
     }
+
+    /// Creates the current date-time from the time-zone.
     public init(timeZone: TimeZone = TimeZone.current) {
         let now = Date()
         
@@ -537,6 +678,8 @@ public struct LocalDateTime {
     public init(_ date: Date, clock: Clock) {
         self.init(date, timeZone: clock.toTimeZone())
     }
+
+    /// Creates a local date-time from an instance of Date.
     public init(_ date: Date, timeZone: TimeZone = TimeZone.current) {
         var calendar = Calendar.current
         calendar.timeZone = timeZone
@@ -641,6 +784,11 @@ extension LocalDateTime: CustomStringConvertible, CustomDebugStringConvertible {
     
 }
 extension LocalDateTime: CustomReflectable {
+
+    /// The custom mirror for this instance.
+    ///
+    /// If this type has value semantics, the mirror should be unaffected by
+    /// subsequent mutations of the instance.
     public var customMirror: Mirror {
         var c = [(label: String?, value: Any)]()
         c.append((label: "year", value: self.year))
@@ -652,24 +800,53 @@ extension LocalDateTime: CustomReflectable {
         c.append((label: "nano", value: Int(self.nano)))
         return Mirror(self, children: c, displayStyle: Mirror.DisplayStyle.struct)
     }
+
 }
 extension LocalDateTime: CustomPlaygroundQuickLookable {
+
+    /// A custom playground Quick Look for this instance.
+    ///
+    /// If this type has value semantics, the `PlaygroundQuickLook` instance
+    /// should be unaffected by subsequent mutations.
     public var customPlaygroundQuickLook: PlaygroundQuickLook {
         return .text(self.description)
     }
+
 }
 
 #if swift(>=3.2)
 extension LocalDateTime: Codable {
+
+    /// A type that can be used as a key for encoding and decoding.
+    ///
+    /// - date: The LocalDate.
+    /// - time: The LocalTime.
     private enum CodingKeys: Int, CodingKey {
         case date
         case time
     }
+
+    /// Creates a new instance by decoding from the given decoder.
+    ///
+    /// This initializer throws an error if reading from the decoder fails, or
+    /// if the data read is corrupted or otherwise invalid.
+    ///
+    /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.internalDate = try container.decode(LocalDate.self, forKey: .date)
         self.internalTime = try container.decode(LocalTime.self, forKey: .time)
     }
+
+    /// Encodes this value into the given encoder.
+    ///
+    /// If the value fails to encode anything, `encoder` will encode an empty
+    /// keyed container in its place.
+    ///
+    /// This function throws an error if any values are invalid for the given
+    /// encoder's format.
+    ///
+    /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.internalDate, forKey: .date)

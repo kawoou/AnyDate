@@ -15,6 +15,13 @@ public struct ZonedDateTime {
     }
     
     /// Obtains an instance of ZonedDateTime from a text string such as '2007-12-03T10:15:30.217Z'.
+    ///
+    /// If the input text and date format are mismatched, returns nil.
+    ///
+    /// - Parameters:
+    ///     - text: The text to parse.
+    ///     - clock: The Clock instance.
+    /// - Returns: The parsed zoned date-time.
     public static func parse(_ text: String, clock: Clock = Clock.current) -> ZonedDateTime? {
         let formatter = DateFormatter()
         formatter.calendar = Calendar(identifier: .iso8601)
@@ -25,15 +32,42 @@ public struct ZonedDateTime {
         guard let date = formatter.date(from: text) else { return nil }
         return ZonedDateTime(date, clock: clock)
     }
+
+    /// Obtains an instance of ZonedDateTime from a text string such as '2007-12-03T10:15:30.217Z'.
+    ///
+    /// If the input text and date format are mismatched, returns nil.
+    ///
+    /// - Parameters:
+    ///     - text: The text to parse.
+    ///     - timeZone: The TimeZone instance.
+    /// - Returns: The parsed zoned date-time.
     public static func parse(_ text: String, timeZone: TimeZone) -> ZonedDateTime? {
         return ZonedDateTime.parse(text, clock: Clock(timeZone))
     }
     
     /// Obtains an instance of ZonedDateTime from a text string using a specific formatter.
+    ///
+    /// If the input text and date format are mismatched, returns nil.
+    ///
+    /// - Parameters:
+    ///     - text: The text to parse.
+    ///     - formatter: The formatter to parse.
+    ///     - clock: The Clock instance.
+    /// - Returns: The parsed zoned date-time.
     public static func parse(_ text: String, formatter: DateFormatter, clock: Clock = Clock.current) -> ZonedDateTime? {
         guard let date = formatter.date(from: text) else { return nil }
         return ZonedDateTime(date, clock: clock)
     }
+
+    /// Obtains an instance of ZonedDateTime from a text string using a specific formatter.
+    ///
+    /// If the input text and date format are mismatched, returns nil.
+    ///
+    /// - Parameters:
+    ///     - text: The text to parse.
+    ///     - formatter: The formatter to parse.
+    ///     - timeZone: The TimeZone instance.
+    /// - Returns: The parsed zoned date-time.
     public static func parse(_ text: String, formatter: DateFormatter, timeZone: TimeZone) -> ZonedDateTime? {
         return ZonedDateTime.parse(text, formatter: formatter, clock: Clock(timeZone))
     }
@@ -135,9 +169,15 @@ public struct ZonedDateTime {
     }
     
     /// Returns an instance of Date.
+    ///
+    /// - Parameters clock: The time zone information.
     public func toDate(clock: Clock?) -> Date {
         return self.toDate(timeZone: clock?.toTimeZone())
     }
+
+    /// Returns an instance of Date.
+    ///
+    /// - Parameters timeZone: The time zone information.
     public func toDate(timeZone: TimeZone? = nil) -> Date {
         /// Specify date components
         var dateComponents = DateComponents()
@@ -159,6 +199,9 @@ public struct ZonedDateTime {
 
     /// Returns a copy of this date-time with a different time-zone,
     /// retaining the local date-time if possible.
+    ///
+    /// - Parameters zoneSameLocal: the time-zone to change to.
+    /// - Returns: A ZonedDateTime based on this date-time with the requested zone.
     public func with(zoneSameLocal clock: Clock) -> ZonedDateTime {
         var dateTime = ZonedDateTime(self)
         
@@ -170,23 +213,41 @@ public struct ZonedDateTime {
         
         return dateTime
     }
+
+    /// Returns a copy of this date-time with a different time-zone,
+    /// retaining the local date-time if possible.
+    ///
+    /// - Parameters zoneSameLocal: the time-zone to change to.
+    /// - Returns: A ZonedDateTime based on this date-time with the requested zone.
     public func with(zoneSameLocal timeZone: TimeZone) -> ZonedDateTime {
         return self.with(zoneSameLocal: Clock(timeZone))
     }
 
     /// Returns a copy of this date-time with a different time-zone,
     /// retaining the instant.
+    ///
+    /// - Parameters zoneSameLocal: the time-zone to change to.
+    /// - Returns: A ZonedDateTime based on this date-time with the requested zone.
     public func with(zoneSameInstant clock: Clock) -> ZonedDateTime {
         var dateTime = ZonedDateTime(self)
         dateTime.internalClock = clock
         
         return dateTime
     }
+
+    /// Returns a copy of this date-time with a different time-zone,
+    /// retaining the instant.
+    ///
+    /// - Parameters zoneSameLocal: the time-zone to change to.
+    /// - Returns: A ZonedDateTime based on this date-time with the requested zone.
     public func with(zoneSameInstant timeZone: TimeZone) -> ZonedDateTime {
         return self.with(zoneSameInstant: Clock(timeZone))
     }
     
     /// Returns a copy of this ZonedDateTime with the year value altered.
+    ///
+    /// - Parameters year: The new value of the year field in the result.
+    /// - Returns: An ZonedDateTime based on this with the specified field set.
     public func with(year: Int) -> ZonedDateTime {
         return ZonedDateTime(
             year: year,
@@ -201,6 +262,9 @@ public struct ZonedDateTime {
     }
     
     /// Returns a copy of this ZonedDateTime with the month-of-year value altered.
+    ///
+    /// - Parameters month: The new value of the month field in the result.
+    /// - Returns: An ZonedDateTime based on this with the specified field set.
     public func with(month: Int) -> ZonedDateTime {
         return ZonedDateTime(
             year: self.internalDateTime.year,
@@ -215,6 +279,9 @@ public struct ZonedDateTime {
     }
     
     /// Returns a copy of this ZonedDateTime with the day-of-month value altered.
+    ///
+    /// - Parameters day: The new value of the day field in the result.
+    /// - Returns: An ZonedDateTime based on this with the specified field set.
     public func with(day: Int) -> ZonedDateTime {
         return ZonedDateTime(
             year: self.internalDateTime.year,
@@ -229,6 +296,9 @@ public struct ZonedDateTime {
     }
     
     /// Returns a copy of this ZonedDateTime with the hour-of-day value altered.
+    ///
+    /// - Parameters hour: The new value of the hour field in the result.
+    /// - Returns: An ZonedDateTime based on this with the specified field set.
     public func with(hour: Int) -> ZonedDateTime {
         return ZonedDateTime(
             year: self.internalDateTime.year,
@@ -243,6 +313,9 @@ public struct ZonedDateTime {
     }
     
     /// Returns a copy of this ZonedDateTime with the minute-of-hour value altered.
+    ///
+    /// - Parameters minute: The new value of the minute field in the result.
+    /// - Returns: An ZonedDateTime based on this with the specified field set.
     public func with(minute: Int) -> ZonedDateTime {
         return ZonedDateTime(
             year: self.internalDateTime.year,
@@ -257,6 +330,9 @@ public struct ZonedDateTime {
     }
     
     /// Returns a copy of this ZonedDateTime with the second-of-minute value altered.
+    ///
+    /// - Parameters second: The new value of the second field in the result.
+    /// - Returns: An ZonedDateTime based on this with the specified field set.
     public func with(second: Int) -> ZonedDateTime {
         return ZonedDateTime(
             year: self.internalDateTime.year,
@@ -271,6 +347,9 @@ public struct ZonedDateTime {
     }
     
     /// Returns a copy of this ZonedDateTime with the nano-of-second value altered.
+    ///
+    /// - Parameters nano: The new value of the nano field in the result.
+    /// - Returns: An ZonedDateTime based on this with the specified field set.
     public func with(nano: Int) -> ZonedDateTime {
         return ZonedDateTime(
             year: self.internalDateTime.year,
@@ -285,6 +364,11 @@ public struct ZonedDateTime {
     }
     
     /// Returns a copy of this ZonedDateTime with the specified amount added.
+    ///
+    /// - Parameters:
+    ///     - component: The unit of the amount to add.
+    ///     - newValue: The amount of the unit to add to the result.
+    /// - Results: An ZonedDateTime based on this date-time with the specified amount added.
     public func plus(component: LocalDateTime.PlusComponent, newValue: Int) -> ZonedDateTime {
         return ZonedDateTime(
             self.internalDateTime.plus(component: component, newValue: newValue),
@@ -293,46 +377,75 @@ public struct ZonedDateTime {
     }
     
     /// Returns a copy of this ZonedDateTime with the specified period in years added.
+    ///
+    /// - Parameters year: The amount of the year field to add to the result.
+    /// - Results: An ZonedDateTime based on this date-time with the specified amount added.
     public func plus(year: Int) -> ZonedDateTime {
         return self.plus(component: .year, newValue: year)
     }
     
     /// Returns a copy of this ZonedDateTime with the specified period in months added.
+    ///
+    /// - Parameters month: The amount of the month field to add to the result.
+    /// - Results: An ZonedDateTime based on this date-time with the specified amount added.
     public func plus(month: Int) -> ZonedDateTime {
         return self.plus(component: .month, newValue: month)
     }
     
     /// Returns a copy of this ZonedDateTime with the specified period in weeks added.
+    ///
+    /// - Parameters week: The amount of the weelk field to add to the result.
+    /// - Results: An ZonedDateTime based on this date-time with the specified amount added.
     public func plus(week: Int) -> ZonedDateTime {
         return self.plus(component: .weekday, newValue: week)
     }
     
     /// Returns a copy of this ZonedDateTime with the specified period in days added.
+    ///
+    /// - Parameters day: The amount of the day field to add to the result.
+    /// - Results: An ZonedDateTime based on this date-time with the specified amount added.
     public func plus(day: Int) -> ZonedDateTime {
         return self.plus(component: .day, newValue: day)
     }
     
     /// Returns a copy of this ZonedDateTime with the specified period in hours added.
+    ///
+    /// - Parameters hour: The amount of the hour field to add to the result.
+    /// - Results: An ZonedDateTime based on this date-time with the specified amount added.
     public func plus(hour: Int) -> ZonedDateTime {
         return self.plus(component: .hour, newValue: hour)
     }
     
     /// Returns a copy of this ZonedDateTime with the specified period in minutes added.
+    ///
+    /// - Parameters minute: The amount of the minute field to add to the result.
+    /// - Results: An ZonedDateTime based on this date-time with the specified amount added.
     public func plus(minute: Int) -> ZonedDateTime {
         return self.plus(component: .minute, newValue: minute)
     }
     
     /// Returns a copy of this ZonedDateTime with the specified period in seconds added.
+    ///
+    /// - Parameters second: The amount of the second field to add to the result.
+    /// - Results: An ZonedDateTime based on this date-time with the specified amount added.
     public func plus(second: Int) -> ZonedDateTime {
         return self.plus(component: .second, newValue: second)
     }
     
     /// Returns a copy of this ZonedDateTime with the specified period in nanoseconds added.
+    ///
+    /// - Parameters nano: The amount of the nanosecond field to add to the result.
+    /// - Results: An ZonedDateTime based on this date-time with the specified amount added.
     public func plus(nano: Int) -> ZonedDateTime {
         return self.plus(component: .nanosecond, newValue: nano)
     }
     
     /// Returns a copy of this ZonedDateTime with the specified amount subtracted.
+    ///
+    /// - Parameters:
+    ///     - component: The unit of the amount to subtract.
+    ///     - newValue: The amount of the unit to subtract to the result.
+    /// - Results: An ZonedDateTime based on this date-time with the specified amount subtracted.
     public func minus(component: LocalDateTime.PlusComponent, newValue: Int) -> ZonedDateTime {
         return ZonedDateTime(
             self.internalDateTime.minus(component: component, newValue: newValue),
@@ -341,51 +454,82 @@ public struct ZonedDateTime {
     }
     
     /// Returns a copy of this ZonedDateTime with the specified period in years subtracted.
+    ///
+    /// - Parameters year: The amount of the year field to subtract to the result.
+    /// - Results: An ZonedDateTime based on this date-time with the specified amount subtracted.
     public func minus(year: Int) -> ZonedDateTime {
         return self.minus(component: .year, newValue: year)
     }
     
     /// Returns a copy of this ZonedDateTime with the specified period in months subtracted.
+    ///
+    /// - Parameters month: The amount of the month field to subtract to the result.
+    /// - Results: An ZonedDateTime based on this date-time with the specified amount subtracted.
     public func minus(month: Int) -> ZonedDateTime {
         return self.minus(component: .month, newValue: month)
     }
     
     /// Returns a copy of this ZonedDateTime with the specified period in weeks subtracted.
+    ///
+    /// - Parameters week: The amount of the week field to subtract to the result.
+    /// - Results: An ZonedDateTime based on this date-time with the specified amount subtracted.
     public func minus(week: Int) -> ZonedDateTime {
         return self.minus(component: .weekday, newValue: week)
     }
     
     /// Returns a copy of this ZonedDateTime with the specified period in days subtracted.
+    ///
+    /// - Parameters day: The amount of the day field to subtract to the result.
+    /// - Results: An ZonedDateTime based on this date-time with the specified amount subtracted.
     public func minus(day: Int) -> ZonedDateTime {
         return self.minus(component: .day, newValue: day)
     }
     
     /// Returns a copy of this ZonedDateTime with the specified period in hours subtracted.
+    ///
+    /// - Parameters hour: The amount of the hour field to subtract to the result.
+    /// - Results: An ZonedDateTime based on this date-time with the specified amount subtracted.
     public func minus(hour: Int) -> ZonedDateTime {
         return self.minus(component: .hour, newValue: hour)
     }
     
     /// Returns a copy of this ZonedDateTime with the specified period in minutes subtracted.
+    ///
+    /// - Parameters minute: The amount of the minute field to subtract to the result.
+    /// - Results: An ZonedDateTime based on this date-time with the specified amount subtracted.
     public func minus(minute: Int) -> ZonedDateTime {
         return self.minus(component: .minute, newValue: minute)
     }
     
     /// Returns a copy of this ZonedDateTime with the specified period in seconds subtracted.
+    ///
+    /// - Parameters second: The amount of the second field to subtract to the result.
+    /// - Results: An ZonedDateTime based on this date-time with the specified amount subtracted.
     public func minus(second: Int) -> ZonedDateTime {
         return self.minus(component: .second, newValue: second)
     }
     
     /// Returns a copy of this ZonedDateTime with the specified period in nanoseconds subtracted.
+    ///
+    /// - Parameters nano: The amount of the nanosecond field to subtract to the result.
+    /// - Results: An ZonedDateTime based on this date-time with the specified amount subtracted.
     public func minus(nano: Int) -> ZonedDateTime {
         return self.minus(component: .nanosecond, newValue: nano)
     }
     
     /// Gets the range of valid values for the specified field.
+    ///
+    /// - Parameters component: The field to query the range for.
+    /// - Returns: The range of valid values for the field.
     public func range(_ component: LocalDateTime.RangeComponent) -> (Int, Int) {
         return self.internalDateTime.range(component)
     }
     
     /// Calculates the period between this ZonedDateTime and another ZonedDateTime as a Period.
+    ///
+    /// - Parameters:
+    ///     - endDateTime: The end date-time, exclusive, which is converted to an ZonedDateTime.
+    /// - Returns: The Period of time between this date-time and the end date-time.
     public func until(endDateTime: ZonedDateTime) -> Period {
         let timeZoneAmount = endDateTime.internalClock.offsetSecond - self.internalClock.offsetSecond
     
@@ -396,6 +540,11 @@ public struct ZonedDateTime {
     }
 
     /// Calculates the amount of time until another ZonedDateTime in terms of the specified unit.
+    ///
+    /// - Parameters:
+    ///     - endDateTime: The end date-time, exclusive, which is converted to an ZonedDateTime.
+    ///     - component: The unit to measure the amount in.
+    /// - Returns: The amount of time between this date-time and the end date-time.
     public func until(endDateTime: ZonedDateTime, component: LocalDateTime.UntilComponent) -> Int64 {
         let timeZoneAmount = endDateTime.internalClock.offsetSecond - self.internalClock.offsetSecond
         
@@ -406,6 +555,9 @@ public struct ZonedDateTime {
     }
     
     /// Formats this time using the specified formatter.
+    ///
+    /// - Parameters formatter: The formatter to use.
+    /// - Returns: The formatted date string.
     public func format(_ formatter: DateFormatter) -> String {
         let formatter = formatter
         formatter.timeZone = self.internalClock.toTimeZone()
@@ -508,11 +660,13 @@ public struct ZonedDateTime {
     
     // MARK: - Lifecycle
     
-    /// Creates the current date-time from the system clock in the default time-zone.
+    /// Creates the current date-time from the time-zone.
     public init(clock: Clock = Clock.current) {
         let date = Date()
         self.internalDateTime = LocalDateTime(date, clock: clock)
     }
+
+    /// Creates the current date-time from the time-zone.
     public init(timeZone: TimeZone) {
         self.init(clock: Clock(timeZone))
     }
@@ -522,6 +676,8 @@ public struct ZonedDateTime {
         self.internalClock = clock
         self.internalDateTime = LocalDateTime(date, clock: clock)
     }
+
+    /// Creates a ZonedDateTime from an instance of Date.
     public init(_ date: Date, timeZone: TimeZone) {
         self.init(date, clock: Clock(timeZone))
     }
@@ -537,6 +693,8 @@ public struct ZonedDateTime {
         self.internalClock = clock
         self.internalDateTime = LocalDateTime(dateTime)
     }
+
+    /// Creates an instance of ZonedDateTime from an instance of LocalDateTime.
     public init(_ dateTime: LocalDateTime, timeZone: TimeZone) {
         self.init(dateTime, clock: Clock(timeZone))
     }
@@ -547,6 +705,9 @@ public struct ZonedDateTime {
         self.internalClock = clock
         self.internalDateTime = LocalDateTime(date: date, time: time)
     }
+
+    /// Returns a copy of this date-time with the new date and time, checking
+    /// to see if a new object is in fact required.
     public init(date: LocalDate, time: LocalTime, timeZone: TimeZone) {
         self.init(date: date, time: time, clock: Clock(timeZone))
     }
@@ -565,6 +726,9 @@ public struct ZonedDateTime {
             nanoOfSecond: nanoOfSecond
         )
     }
+
+    /// Creates an instance of ZonedDateTime from year, month,
+    /// day, hour, minute, second and nanosecond.
     public init(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, nanoOfSecond: Int, timeZone: TimeZone) {
         self.init(
             year: year,
@@ -584,6 +748,9 @@ public struct ZonedDateTime {
         self.internalClock = clock
         self.internalDateTime = LocalDateTime(epochDay: epochDay, nanoOfDay: nanoOfDay)
     }
+
+    /// Creates an instance of ZonedDateTime using seconds from the
+    /// epoch of 1970-01-01T00:00:00Z.
     public init(epochDay: Int64, nanoOfDay: Int64, timeZone: TimeZone) {
         self.init(epochDay: epochDay, nanoOfDay: nanoOfDay, clock: Clock(timeZone))
     }
@@ -647,6 +814,11 @@ extension ZonedDateTime: CustomStringConvertible, CustomDebugStringConvertible {
     
 }
 extension ZonedDateTime: CustomReflectable {
+
+    /// The custom mirror for this instance.
+    ///
+    /// If this type has value semantics, the mirror should be unaffected by
+    /// subsequent mutations of the instance.
     public var customMirror: Mirror {
         var c = [(label: String?, value: Any)]()
         c.append((label: "year", value: self.year))
@@ -659,8 +831,14 @@ extension ZonedDateTime: CustomReflectable {
         c.append((label: "clock", value: self.clock.description))
         return Mirror(self, children: c, displayStyle: Mirror.DisplayStyle.struct)
     }
+
 }
 extension ZonedDateTime: CustomPlaygroundQuickLookable {
+
+    /// A custom playground Quick Look for this instance.
+    ///
+    /// If this type has value semantics, the `PlaygroundQuickLook` instance
+    /// should be unaffected by subsequent mutations.
     public var customPlaygroundQuickLook: PlaygroundQuickLook {
         return .text(self.description)
     }
@@ -668,15 +846,37 @@ extension ZonedDateTime: CustomPlaygroundQuickLookable {
 
 #if swift(>=3.2)
 extension ZonedDateTime: Codable {
+
+    /// A type that can be used as a key for encoding and decoding.
+    ///
+    /// - datetime: The LocalDateTime.
+    /// - clock: The Clock.
     private enum CodingKeys: Int, CodingKey {
         case datetime
         case clock
     }
+
+    /// Creates a new instance by decoding from the given decoder.
+    ///
+    /// This initializer throws an error if reading from the decoder fails, or
+    /// if the data read is corrupted or otherwise invalid.
+    ///
+    /// - Parameter decoder: The decoder to read data from.
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.internalDateTime = try container.decode(LocalDateTime.self, forKey: .datetime)
         self.internalClock = try container.decode(Clock.self, forKey: .clock)
     }
+
+    /// Encodes this value into the given encoder.
+    ///
+    /// If the value fails to encode anything, `encoder` will encode an empty
+    /// keyed container in its place.
+    ///
+    /// This function throws an error if any values are invalid for the given
+    /// encoder's format.
+    ///
+    /// - Parameter encoder: The encoder to write data to.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.internalDateTime, forKey: .datetime)
