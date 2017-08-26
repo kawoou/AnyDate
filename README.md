@@ -38,14 +38,13 @@ So, here's the AnyDate, whole new Swift date & time API that has coherence betwe
 
 ## Features
 
-* [x] Easily work with time components.
-* [x] Easy conversions to and from timezone.
-* [x] Immutable-value classes.
+* [x] Convinience typed year, month, day, time.
+* [x] Pre-defined Timezone Identifiers.
+* [x] Null-Safe types.
 * [x] Separation of chronologies.
 * [x] Coherence with Java.
-* [x] Compare dates with math operators.
-* [x] Simple component operations for the date.
-* [x] Support period class for time.
+* [x] Operators supported.
+* [x] Easy to manipulate.
 
 
 
