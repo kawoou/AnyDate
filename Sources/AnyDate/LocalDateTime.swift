@@ -429,10 +429,8 @@ public struct LocalDateTime {
             case .minute:
                 amount = amount * Int64(LocalTime.Constant.minutesPerDay)
                 
-            case .hour:
+            default:
                 amount = amount * Int64(LocalTime.Constant.hoursPerDay)
-                
-            default: break
             }
             return amount + timePart
             
