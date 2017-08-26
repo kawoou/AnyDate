@@ -1,5 +1,6 @@
 .DS_Store
-sourcekitten-output.json
+_sourcekitten.output.json
+_temp/
 docs/
 /.build
 /Packages

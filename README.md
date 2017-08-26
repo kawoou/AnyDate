@@ -8,6 +8,7 @@
 [![CI Status](https://travis-ci.org/kawoou/AnyDate.svg?branch=master)](https://travis-ci.org/kawoou/AnyDate)
 [![Codecov](https://img.shields.io/codecov/c/github/kawoou/AnyDate.svg)](https://codecov.io/gh/kawoou/AnyDate)
 [![Platform](https://img.shields.io/cocoapods/p/AnyDate.svg?style=flat)](http://cocoadocs.org/docsets/AnyDate)
+[![Jazzy](http://kawoou.kr/AnyDate/badge.svg)](http://kawoou.kr/AnyDate)
 
 Swifty Date & Time API inspired from Java 8 DateTime API.
 
