@@ -164,13 +164,13 @@ print(newDate)
 ### [CocoaPods](https://cocoapods.org):
 
 ```ruby
-pod 'AnyDate', '~> 1.0.1'
+pod 'AnyDate', '~> 1.0.2'
 ```
 
 ### [Carthage](https://github.com/Carthage/Carthage):
 
 ```
-github "Kawoou/AnyDate" ~> 1.0.1
+github "Kawoou/AnyDate" ~> 1.0.2
 ```
 
 ### [Swift Package Manager](https://swift.org/package-manager):
@@ -211,7 +211,10 @@ You can either simply drag and drop the `Sources` folder into your existing proj
 * 1.0.1 - 2017/08/16
   * Increase test codes.
   * Implement CustomPlaygroundQuickLookable, CustomReflectable protocols.
-
+* 1.0.2 - 2017/08/26
+  * Increase test codes.
+  * Support Codable protocol in swift 4.
+  * Add operators on Instant.
 
 
 
