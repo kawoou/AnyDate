@@ -28,6 +28,14 @@ class InstantTests: XCTestCase {
         XCTAssertGreaterThan(newDate, oldDate)
         XCTAssertEqual(oldDate, equalDate)
         XCTAssertLessThan(oldDate, newDate)
+
+        /// #15 TestCode
+        let test1 = Instant(epochSecond: 100_000, nano: 500_000_000)
+        let test2 = Instant(epochSecond: 99_999, nano: 500_000_001)
+        XCTAssertGreaterThan(test1, test2)
+
+        let test3 = Instant(epochSecond: 100_001, nano: 499_999_999)
+        XCTAssertLessThan(test1, test3)
     }
     func testNormalize() {
         var instant = Instant(epochSecond: -100, nano: -100)

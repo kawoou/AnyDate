@@ -397,17 +397,15 @@ extension Instant: Comparable {
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is less than that of the second argument.
     public static func <(lhs: Instant, rhs: Instant) -> Bool {
-        if lhs.second < rhs.second { return true }
-        if lhs.nano < rhs.nano { return true }
-        return false
+        guard lhs.second == rhs.second else { return lhs.second < rhs.second }
+        return lhs.nano < rhs.nano
     }
     
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is greater than that of the second argument.
     public static func >(lhs: Instant, rhs: Instant) -> Bool {
-        if lhs.second > rhs.second { return true }
-        if lhs.nano > rhs.nano { return true }
-        return false
+        guard lhs.second == rhs.second else { return lhs.second > rhs.second }
+        return lhs.nano > rhs.nano
     }
     
     /// Returns a Boolean value indicating whether the value of the first
