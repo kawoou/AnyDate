@@ -49,6 +49,18 @@ class LocalDateTests: XCTestCase {
         XCTAssertNotEqual(oldDate, newDate2)
         XCTAssertNotEqual(oldDate, newDate3)
         XCTAssertLessThan(oldDate, newDate1)
+
+        /// #15 TestCode
+        let test1 = LocalDate(year: 1500, month: 6, day: 15)
+        let test2 = LocalDate(year: 1499, month: 6, day: 16)
+        let test3 = LocalDate(year: 1499, month: 7, day: 15)
+        XCTAssertGreaterThan(test1, test2)
+        XCTAssertGreaterThan(test1, test3)
+
+        let test4 = LocalDate(year: 1501, month: 6, day: 14)
+        let test5 = LocalDate(year: 1501, month: 5, day: 15)
+        XCTAssertLessThan(test1, test4)
+        XCTAssertLessThan(test1, test5)
     }
     func testFixOverflow() {
         let date = LocalDate(year: 2000, month: 13, day: 32)

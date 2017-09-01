@@ -249,27 +249,25 @@ extension Period: Comparable {
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is less than that of the second argument.
     public static func <(lhs: Period, rhs: Period) -> Bool {
-        if lhs.year < rhs.year { return true }
-        if lhs.month < rhs.month { return true }
-        if lhs.day < rhs.day { return true }
-        if lhs.hour < rhs.hour { return true }
-        if lhs.minute < rhs.minute { return true }
-        if lhs.second < rhs.second { return true }
-        if lhs.nano < rhs.nano { return true }
-        return false
+        guard lhs.year == rhs.year else { return lhs.year < rhs.year }
+        guard lhs.month == rhs.month else { return lhs.month < rhs.month }
+        guard lhs.day == rhs.day else { return lhs.day < rhs.day }
+        guard lhs.hour == rhs.hour else { return lhs.hour < rhs.hour }
+        guard lhs.minute == rhs.minute else { return lhs.minute < rhs.minute }
+        guard lhs.second == rhs.second else { return lhs.second < rhs.second }
+        return lhs.nano < rhs.nano
     }
     
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is greater than that of the second argument.
     public static func >(lhs: Period, rhs: Period) -> Bool {
-        if lhs.year > rhs.year { return true }
-        if lhs.month > rhs.month { return true }
-        if lhs.day > rhs.day { return true }
-        if lhs.hour > rhs.hour { return true }
-        if lhs.minute > rhs.minute { return true }
-        if lhs.second > rhs.second { return true }
-        if lhs.nano > rhs.nano { return true }
-        return false
+        guard lhs.year == rhs.year else { return lhs.year > rhs.year }
+        guard lhs.month == rhs.month else { return lhs.month > rhs.month }
+        guard lhs.day == rhs.day else { return lhs.day > rhs.day }
+        guard lhs.hour == rhs.hour else { return lhs.hour > rhs.hour }
+        guard lhs.minute == rhs.minute else { return lhs.minute > rhs.minute }
+        guard lhs.second == rhs.second else { return lhs.second > rhs.second }
+        return lhs.nano > rhs.nano
     }
     
     /// Returns a Boolean value indicating whether the value of the first

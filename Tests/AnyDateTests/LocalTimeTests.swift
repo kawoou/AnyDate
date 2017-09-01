@@ -75,6 +75,23 @@ class LocalTimeTests: XCTestCase {
         XCTAssertNotEqual(oldTime, newTime3)
         XCTAssertNotEqual(oldTime, newTime4)
         XCTAssertLessThan(oldTime, newTime1)
+
+        /// #15 TestCode
+        let test1 = LocalTime(hour: 12, minute: 30, second: 30, nanoOfSecond: 500_000_000)
+        let test2 = LocalTime(hour: 11, minute: 30, second: 30, nanoOfSecond: 500_000_001)
+        let test3 = LocalTime(hour: 11, minute: 30, second: 31, nanoOfSecond: 500_000_000)
+        let test4 = LocalTime(hour: 11, minute: 31, second: 30, nanoOfSecond: 500_000_000)
+        XCTAssertGreaterThan(test1, test2)
+        XCTAssertGreaterThan(test1, test3)
+        XCTAssertGreaterThan(test1, test4)
+
+        let test5 = LocalTime(hour: 13, minute: 30, second: 30, nanoOfSecond: 499_999_999)
+        let test6 = LocalTime(hour: 13, minute: 30, second: 29, nanoOfSecond: 500_000_000)
+        let test7 = LocalTime(hour: 13, minute: 29, second: 30, nanoOfSecond: 500_000_000)
+        XCTAssertLessThan(test1, test5)
+        XCTAssertLessThan(test1, test6)
+        XCTAssertLessThan(test1, test7)
+
     }
     func testFixOverflow() {
         let time = LocalTime(hour: 14, minute: 61, second: 18, nanoOfSecond: 1573)

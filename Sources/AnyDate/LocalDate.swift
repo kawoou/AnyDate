@@ -691,19 +691,17 @@ extension LocalDate: Comparable {
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is less than that of the second argument.
     public static func <(lhs: LocalDate, rhs: LocalDate) -> Bool {
-        if lhs.year < rhs.year { return true }
-        if lhs.month < rhs.month { return true }
-        if lhs.day < rhs.day { return true }
-        return false
+        guard lhs.year == rhs.year else { return lhs.year < rhs.year }
+        guard lhs.month == rhs.month else { return lhs.month < rhs.month }
+        return lhs.day < rhs.day
     }
     
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is greater than that of the second argument.
     public static func >(lhs: LocalDate, rhs: LocalDate) -> Bool {
-        if lhs.year > rhs.year { return true }
-        if lhs.month > rhs.month { return true }
-        if lhs.day > rhs.day { return true }
-        return false
+        guard lhs.year == rhs.year else { return lhs.year > rhs.year }
+        guard lhs.month == rhs.month else { return lhs.month > rhs.month }
+        return lhs.day > rhs.day
     }
     
     /// Returns a Boolean value indicating whether the value of the first

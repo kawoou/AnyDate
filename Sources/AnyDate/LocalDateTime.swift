@@ -736,17 +736,15 @@ extension LocalDateTime: Comparable {
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is less than that of the second argument.
     public static func <(lhs: LocalDateTime, rhs: LocalDateTime) -> Bool {
-        if lhs.internalDate < rhs.internalDate { return true }
-        if lhs.internalTime < rhs.internalTime { return true }
-        return false
+        guard lhs.internalDate == rhs.internalDate else { return lhs.internalDate < rhs.internalDate }
+        return lhs.internalTime < rhs.internalTime
     }
     
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is greater than that of the second argument.
     public static func >(lhs: LocalDateTime, rhs: LocalDateTime) -> Bool {
-        if lhs.internalDate > rhs.internalDate { return true }
-        if lhs.internalTime > rhs.internalTime { return true }
-        return false
+        guard lhs.internalDate == rhs.internalDate else { return lhs.internalDate > rhs.internalDate }
+        return lhs.internalTime > rhs.internalTime
     }
     
     /// Returns a Boolean value indicating whether the value of the first
