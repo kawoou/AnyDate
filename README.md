@@ -164,13 +164,13 @@ print(newDate)
 ### [CocoaPods](https://cocoapods.org):
 
 ```ruby
-pod 'AnyDate', '~> 1.0.2'
+pod 'AnyDate', '~> 1.0.3'
 ```
 
 ### [Carthage](https://github.com/Carthage/Carthage):
 
 ```
-github "Kawoou/AnyDate" ~> 1.0.2
+github "Kawoou/AnyDate" ~> 1.0.3
 ```
 
 ### [Swift Package Manager](https://swift.org/package-manager):
@@ -215,6 +215,8 @@ You can either simply drag and drop the `Sources` folder into your existing proj
   * Increase test codes.
   * Support Codable protocol in swift 4.
   * Add operators on Instant.
+* 1.0.3 - 2017/09/03
+  * Hotfix, Comparable bugs.
 
 
 
