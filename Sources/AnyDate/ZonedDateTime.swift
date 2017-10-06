@@ -24,9 +24,6 @@ public struct ZonedDateTime {
     /// - Returns: The parsed zoned date-time.
     public static func parse(_ text: String, clock: Clock = Clock.current) -> ZonedDateTime? {
         let formatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
         
         guard let date = formatter.date(from: text) else { return nil }
