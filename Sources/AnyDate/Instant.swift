@@ -86,7 +86,7 @@ public struct Instant {
     /// - Returns: The parsed instant.
     public static func parse(_ text: String, timeZone: TimeZone) -> Instant? {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
         return Instant.parse(text, formatter: formatter, timeZone: timeZone)
     }
 
