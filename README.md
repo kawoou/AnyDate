@@ -164,13 +164,13 @@ print(newDate)
 ### [CocoaPods](https://cocoapods.org):
 
 ```ruby
-pod 'AnyDate', '~> 1.0.3'
+pod 'AnyDate', '~> 1.0.4'
 ```
 
 ### [Carthage](https://github.com/Carthage/Carthage):
 
 ```
-github "Kawoou/AnyDate" ~> 1.0.3
+github "Kawoou/AnyDate" ~> 1.0.4
 ```
 
 ### [Swift Package Manager](https://swift.org/package-manager):
@@ -217,6 +217,8 @@ You can either simply drag and drop the `Sources` folder into your existing proj
   * Add operators on Instant.
 * 1.0.3 - 2017/09/03
   * Hotfix, Comparable bugs.
+* 1.0.4 - 2017/10/07
+  * Fix `Calendar(identifier: .iso8601)` crash on swift SR-3828.
 
 
 
