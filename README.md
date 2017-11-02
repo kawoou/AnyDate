@@ -137,7 +137,7 @@ let isLessThan = oldDate < newDate
 * Easy to manipulate. You can use our overridden operators to create / add / sub dates and times.
 
 ```swift
-/// 1000-01-07T11:51:18.157300000
+/// 1000-01-07T11:51:18.000001573
 let date = LocalDateTime(
     year: 1000,
     month: 1,
@@ -152,7 +152,7 @@ print(date)
 /// Period(year: 1, month: 1, day: 9, hour: 2, minute: 3, second: 4, nano: 152)
 let period = 1.year + 1.month + 1.week + 2.day + 2.hour + 3.minute + 4.second + 152.nanosecond
 
-/// 1001-03-16T13:54:22.172500000
+/// 1001-03-16T13:54:22.000001725
 let newDate = date + period
 print(newDate)
 ```
