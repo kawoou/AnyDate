@@ -42,10 +42,12 @@ class ClockTests: XCTestCase {
         let timeZone = TimeZone.current
 
         let clock1 = Clock(identifier: .americaStLucia)
-        XCTAssertEqual(clock1.offsetSecond, -14400)
+        let timeZone1 = TimeZone(identifier: "America/St_Lucia")!
+        XCTAssertEqual(clock1.offsetSecond, timeZone1.secondsFromGMT())
 
         let clock2 = Clock(identifier: "Europe/Vilnius")!
-        XCTAssertEqual(clock2.offsetSecond, 10800)
+        let timeZone2 = TimeZone(identifier: "Europe/Vilnius")!
+        XCTAssertEqual(clock2.offsetSecond, timeZone2.secondsFromGMT())
 
         let clock3 = Clock(identifier: "TEST IDENTIFIER")
         XCTAssertEqual(clock3, nil)
