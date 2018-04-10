@@ -179,9 +179,15 @@ class InstantTests: XCTestCase {
         let instant = Instant(epochSecond: 100_000, nano: 999_000_000)
         XCTAssertEqual(instant.description, "100000.999000000")
         XCTAssertEqual(instant.debugDescription, "100000.999000000")
+        #if swift(>=4.1)
+        if let description = instant.playgroundDescription as? String {
+            XCTAssertEqual(description, "100000.999000000")
+        }
+        #else
         if case .text(let text) = instant.customPlaygroundQuickLook {
             XCTAssertEqual(text, "100000.999000000")
         }
+        #endif
     }
     func testMirror() {
         let instant = Instant(epochSecond: 100_000, nano: 999_000_000)

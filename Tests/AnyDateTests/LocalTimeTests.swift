@@ -289,9 +289,15 @@ class LocalTimeTests: XCTestCase {
     }
     func testDescription() {
         let date = LocalTime(hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
+        #if swift(>=4.1)
+        if let description = date.playgroundDescription as? String {
+            XCTAssertEqual(description, "11:51:18.000001573")
+        }
+        #else
         if case .text(let text) = date.customPlaygroundQuickLook {
             XCTAssertEqual(text, "11:51:18.000001573")
         }
+        #endif
     }
     func testMirror() {
         let date = LocalTime(hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)

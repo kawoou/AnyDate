@@ -311,9 +311,15 @@ extension Period: CustomStringConvertible, CustomDebugStringConvertible {
             self.internalSecond != 0 || self.internalNano != 0 ? String(format: "%02d.%09dSec", self.internalSecond, self.internalNano) : nil
         ]
         
+        #if swift(>=4.1)
+        return list
+            .compactMap { $0 }
+            .joined()
+        #else
         return list
             .flatMap { $0 }
             .joined()
+        #endif
     }
     
     /// A textual representation of this instance, suitable for debugging.
@@ -341,6 +347,19 @@ extension Period: CustomReflectable {
     }
 
 }
+#if swift(>=4.1)
+extension Period: CustomPlaygroundDisplayConvertible {
+    
+    /// Returns the custom playground description for this instance.
+    ///
+    /// If this type has value semantics, the instance returned should be
+    /// unaffected by subsequent mutations if possible.
+    public var playgroundDescription: Any {
+        return self.description
+    }
+    
+}
+#else
 extension Period: CustomPlaygroundQuickLookable {
 
     /// A custom playground Quick Look for this instance.
@@ -352,6 +371,7 @@ extension Period: CustomPlaygroundQuickLookable {
     }
 
 }
+#endif
 
 #if swift(>=3.2)
 extension Period: Codable {

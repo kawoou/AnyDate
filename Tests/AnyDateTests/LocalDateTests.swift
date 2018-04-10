@@ -302,9 +302,15 @@ class LocalDateTests: XCTestCase {
         let date = LocalDate(year: 1969, month: 12, day: 31)
         XCTAssertEqual(date.description, "1969.12.31")
         XCTAssertEqual(date.debugDescription, "1969.12.31")
+        #if swift(>=4.1)
+        if let description = date.playgroundDescription as? String {
+            XCTAssertEqual(description, "1969.12.31")
+        }
+        #else
         if case .text(let text) = date.customPlaygroundQuickLook {
             XCTAssertEqual(text, "1969.12.31")
         }
+        #endif
     }
     func testMirror() {
         let date = LocalDate(year: 1969, month: 12, day: 31)

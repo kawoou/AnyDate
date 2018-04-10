@@ -184,6 +184,19 @@ extension Clock: CustomReflectable {
     }
 
 }
+#if swift(>=4.1)
+extension Clock: CustomPlaygroundDisplayConvertible {
+    
+    /// Returns the custom playground description for this instance.
+    ///
+    /// If this type has value semantics, the instance returned should be
+    /// unaffected by subsequent mutations if possible.
+    public var playgroundDescription: Any {
+        return self.description
+    }
+    
+}
+#else
 extension Clock: CustomPlaygroundQuickLookable {
 
     /// A custom playground Quick Look for this instance.
@@ -195,6 +208,7 @@ extension Clock: CustomPlaygroundQuickLookable {
     }
 
 }
+#endif
 
 #if swift(>=3.2)
 extension Clock: Codable {

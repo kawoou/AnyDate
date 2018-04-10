@@ -164,13 +164,13 @@ print(newDate)
 ### [CocoaPods](https://cocoapods.org):
 
 ```ruby
-pod 'AnyDate', '~> 1.0.4'
+pod 'AnyDate', '~> 1.0.5'
 ```
 
 ### [Carthage](https://github.com/Carthage/Carthage):
 
 ```
-github "Kawoou/AnyDate" ~> 1.0.4
+github "kawoou/AnyDate" ~> 1.0.5
 ```
 
 ### [Swift Package Manager](https://swift.org/package-manager):
@@ -181,7 +181,7 @@ import PackageDescription
 let package = Package(
   name: "MyAwesomeApp",
   dependencies: [
-    .Package(url: "https://github.com/Kawoou/AnyDate", majorVersion: 1),
+    .Package(url: "https://github.com/kawoou/AnyDate", majorVersion: 1),
   ]
 )
 ```
@@ -219,6 +219,8 @@ You can either simply drag and drop the `Sources` folder into your existing proj
   * Hotfix, Comparable bugs.
 * 1.0.4 - 2017/10/07
   * Fix `Calendar(identifier: .iso8601)` crash on swift SR-3828.
+* 1.0.5 - 2018/04/11
+  * Support for Swift 4.1 and Xcode 9.3.
 
 
 

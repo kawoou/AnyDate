@@ -1,13 +1,13 @@
-osx_image: xcode8.3
+osx_image: xcode9
 language: objective-c
 sudo: required
 env:
   global:
     - PROJECT="AnyDate.xcodeproj"
-    - SCHEME="AnyDate"
+    - SCHEME="AnyDate-Package"
     - FRAMEWORK="AnyDate"
   matrix:
-    - TEST=1  DESTINATION="platform=iOS Simulator,name=iPhone 7,OS=10.3.1"
+    - TEST=1  DESTINATION="platform=iOS Simulator,name=iPhone 8,OS=11.0"
     - TEST=1  DESTINATION="arch=x86_64"
     - TEST=1  DESTINATION="OS=10.2,name=Apple TV 1080p"
     - TEST=0  DESTINATION="OS=3.2,name=Apple Watch - 38mm"

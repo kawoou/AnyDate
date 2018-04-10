@@ -830,6 +830,19 @@ extension ZonedDateTime: CustomReflectable {
     }
 
 }
+#if swift(>=4.1)
+extension ZonedDateTime: CustomPlaygroundDisplayConvertible {
+    
+    /// Returns the custom playground description for this instance.
+    ///
+    /// If this type has value semantics, the instance returned should be
+    /// unaffected by subsequent mutations if possible.
+    public var playgroundDescription: Any {
+        return self.description
+    }
+    
+}
+#else
 extension ZonedDateTime: CustomPlaygroundQuickLookable {
 
     /// A custom playground Quick Look for this instance.
@@ -840,6 +853,7 @@ extension ZonedDateTime: CustomPlaygroundQuickLookable {
         return .text(self.description)
     }
 }
+#endif
 
 #if swift(>=3.2)
 extension ZonedDateTime: Codable {

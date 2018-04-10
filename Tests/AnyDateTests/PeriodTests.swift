@@ -214,14 +214,26 @@ class PeriodTests: XCTestCase {
         let period2 = Period(year: 0, month: 0, day: 0, hour: 0, minute: 0, second: 0, nano: 0)
         XCTAssertEqual(period1.description, "0001Year 01Mon 03Day 01Hour 08Min 01.000000010Sec")
         XCTAssertEqual(period1.debugDescription, "0001Year 01Mon 03Day 01Hour 08Min 01.000000010Sec")
+        #if swift(>=4.1)
+        if let description = period1.playgroundDescription as? String {
+            XCTAssertEqual(description, "0001Year 01Mon 03Day 01Hour 08Min 01.000000010Sec")
+        }
+        #else
         if case .text(let text) = period1.customPlaygroundQuickLook {
             XCTAssertEqual(text, "0001Year 01Mon 03Day 01Hour 08Min 01.000000010Sec")
         }
+        #endif
         XCTAssertEqual(period2.description, "")
         XCTAssertEqual(period2.debugDescription, "")
+        #if swift(>=4.1)
+        if let description = period2.playgroundDescription as? String {
+            XCTAssertEqual(description, "")
+        }
+        #else
         if case .text(let text) = period2.customPlaygroundQuickLook {
             XCTAssertEqual(text, "")
         }
+        #endif
     }
     func testMirror() {
         let period = Period(year: 1, month: 1, day: 3, hour: 1, minute: 8, second: 1, nano: 10)

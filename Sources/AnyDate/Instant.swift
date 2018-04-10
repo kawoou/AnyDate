@@ -456,6 +456,19 @@ extension Instant: CustomReflectable {
     }
 
 }
+#if swift(>=4.1)
+extension Instant: CustomPlaygroundDisplayConvertible {
+    
+    /// Returns the custom playground description for this instance.
+    ///
+    /// If this type has value semantics, the instance returned should be
+    /// unaffected by subsequent mutations if possible.
+    public var playgroundDescription: Any {
+        return self.description
+    }
+    
+}
+#else
 extension Instant: CustomPlaygroundQuickLookable {
 
     /// A custom playground Quick Look for this instance.
@@ -467,6 +480,7 @@ extension Instant: CustomPlaygroundQuickLookable {
     }
 
 }
+#endif
 
 #if swift(>=3.2)
 extension Instant: Codable {

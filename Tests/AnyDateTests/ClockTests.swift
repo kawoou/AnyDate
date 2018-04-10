@@ -92,9 +92,15 @@ class ClockTests: XCTestCase {
         let clock = Clock(offsetSecond: 10860)
         XCTAssertEqual(clock.description, "03:01:00.000000000")
         XCTAssertEqual(clock.debugDescription, "03:01:00.000000000")
+        #if swift(>=4.1)
+        if let description = clock.playgroundDescription as? String {
+            XCTAssertEqual(description, "03:01:00.000000000")
+        }
+        #else
         if case .text(let text) = clock.customPlaygroundQuickLook {
             XCTAssertEqual(text, "03:01:00.000000000")
         }
+        #endif
     }
     func testMirror() {
         let clock = Clock(offsetSecond: 10860)
