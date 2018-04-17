@@ -421,6 +421,17 @@ extension Instant: Comparable {
     }
     
 }
+extension Instant: Hashable {
+    
+    /// The hash value.
+    ///
+    /// Hash values are not guaranteed to be equal across different executions of
+    /// your program. Do not save hash values to use during a future execution.
+    public var hashValue: Int {
+        return second.hashValue ^ (51 &* nano.hashValue)
+    }
+    
+}
 extension Instant: Equatable {
     
     /// Returns a Boolean value indicating whether two values are equal.

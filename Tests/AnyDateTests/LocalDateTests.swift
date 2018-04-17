@@ -298,6 +298,13 @@ class LocalDateTests: XCTestCase {
         oldDate -= addDate
         XCTAssertEqual(oldDate, newDate)
     }
+    func testHashable() {
+        let date = LocalDate(year: 1969, month: 12, day: 31)
+        XCTAssertEqual(
+            date.hashValue,
+            Int(1969).hashValue ^ (51 &* Int(12).hashValue) ^ (17 &* Int(31).hashValue)
+        )
+    }
     func testDescription() {
         let date = LocalDate(year: 1969, month: 12, day: 31)
         XCTAssertEqual(date.description, "1969.12.31")

@@ -12,11 +12,22 @@ func camelcase(_ text: String) -> String {
                 return text.lowercased()
             } else {
                 let firstIndex = text.index(text.startIndex, offsetBy: 1)
-                return text.substring(to: firstIndex).capitalized +
-                    text.substring(from: firstIndex)
+                return text[..<firstIndex].capitalized +
+                    text[firstIndex...]
             }
         }
         .joined(separator: "")
+}
+
+func formatTime(_ time: Int, isOperator: Bool = true) -> String {
+    let absTime = abs(time)
+    let zeroAppend = absTime < 10 ? "0" : ""
+    if isOperator {
+        let operatorAppend = time >= 0 ? "+" : "-"
+        return "\(operatorAppend)\(zeroAppend)\(absTime)"
+    } else {
+        return "\(zeroAppend)\(absTime)"
+    }
 }
 
 func main() {
@@ -40,6 +51,15 @@ func main() {
     /// Make output text
     var fileText = "public enum ClockIdentifierName: String {\n"
     for item in caseList {
+        if let timeZone = TimeZone(identifier: item.1) {
+            let secondsFromGMT = timeZone.secondsFromGMT()
+            let minutesFromGMT = formatTime((secondsFromGMT % 3600) / 60, isOperator: false)
+            let hoursFromGMT = formatTime(secondsFromGMT / 3600)
+            
+            fileText += "\n    /// UTC \(hoursFromGMT):\(minutesFromGMT)\n"
+        } else {
+            fileText += "\n    /// Auto generated identifier\n"
+        }
         fileText += "    case \(item.0) = \"\(item.1)\"\n"
     }
     fileText += "}"
