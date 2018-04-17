@@ -760,6 +760,17 @@ extension LocalDateTime: Comparable {
     }
     
 }
+extension LocalDateTime: Hashable {
+    
+    /// The hash value.
+    ///
+    /// Hash values are not guaranteed to be equal across different executions of
+    /// your program. Do not save hash values to use during a future execution.
+    public var hashValue: Int {
+        return internalDate.hashValue ^ (13 &* internalTime.hashValue)
+    }
+    
+}
 extension LocalDateTime: Equatable {
     
     /// Returns a Boolean value indicating whether two values are equal.

@@ -175,6 +175,13 @@ class InstantTests: XCTestCase {
         XCTAssertEqual(oldInstant.second, 296)
         XCTAssertEqual(oldInstant.nano, 124_233_421)
     }
+    func testHashable() {
+        let instant = Instant(epochSecond: 100_000, nano: 999_000_000)
+        XCTAssertEqual(
+            instant.hashValue,
+            Int64(100_000).hashValue ^ (51 &* Int(999_000_000).hashValue)
+        )
+    }
     func testDescription() {
         let instant = Instant(epochSecond: 100_000, nano: 999_000_000)
         XCTAssertEqual(instant.description, "100000.999000000")
