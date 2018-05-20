@@ -841,7 +841,7 @@ extension ZonedDateTime: CustomReflectable {
     }
 
 }
-#if swift(>=4.1)
+#if swift(>=4.1) || (swift(>=3.3) && !swift(>=4.0))
 extension ZonedDateTime: CustomPlaygroundDisplayConvertible {
     
     /// Returns the custom playground description for this instance.
