@@ -1,58 +1,66 @@
-osx_image: xcode9
+osx_image: xcode9.3
 language: objective-c
 sudo: required
+branches:
+  only:
+  - master
+  - develop
+  - /^v[\d.]+$/
+  except:
+  - screenshot
+
 env:
   global:
-    - PROJECT="AnyDate.xcodeproj"
-    - SCHEME="AnyDate-Package"
-    - FRAMEWORK="AnyDate"
+  - PROJECT="AnyDate.xcodeproj"
+  - SCHEME="AnyDate-Package"
+  - FRAMEWORK="AnyDate"
   matrix:
-    - TEST=0  DESTINATION="platform=iOS Simulator,name=iPhone 8,OS=11.0"
-    - TEST=1  DESTINATION="arch=x86_64"
-    - TEST=0  DESTINATION="OS=11.0,name=Apple TV 1080p"
-    - TEST=0  DESTINATION="OS=4.0,name=Apple Watch - 38mm"
+  - TEST=1 DESTINATION="platform=iOS Simulator,name=iPhone 8,OS=11.3"
+  - TEST=1 DESTINATION="arch=x86_64"
+  - TEST=1 DESTINATION="OS=11.3,name=Apple TV"
+  - TEST=0 DESTINATION="OS=4.3,name=Apple Watch - 38mm"
 
 install:
-  - eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
-  - swift --version
+- eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
+- swift --version
 
 before_script:
-  - set -o pipefail
-  - if [ $TEST == 1 ]; then
-      TEST=1 swift package generate-xcodeproj;
-    else
-      swift package generate-xcodeproj;
-    fi
+- set -o pipefail
+- if [ $TEST == 1 ]; then
+    TEST=1 swift package generate-xcodeproj;
+  else
+    swift package generate-xcodeproj;
+  fi
 
 script:
-  - if [ $TEST == 1 ]; then
-      xcodebuild clean build test
-        -project "$PROJECT"
-        -scheme "$SCHEME"
-        -destination "$DESTINATION"
-        -configuration Debug
-        -enableCodeCoverage YES
-        CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c;
-    else
-      xcodebuild clean build
-        -project "$PROJECT"
-        -scheme "$SCHEME"
-        -destination "$DESTINATION"
-        -configuration Debug
-        CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c;
-    fi
+- if [ $TEST == 1 ]; then
+    xcodebuild clean build test
+      -project "$PROJECT"
+      -scheme "$SCHEME"
+      -destination "$DESTINATION"
+      -configuration Debug
+      -enableCodeCoverage YES
+      CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c;
+  else
+    xcodebuild clean build
+      -project "$PROJECT"
+      -scheme "$SCHEME"
+      -destination "$DESTINATION"
+      -configuration Debug
+      CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c;
+  fi
 
 after_success:
-  - if [ $TEST == 1 ]; then
-      bash <(curl -s https://codecov.io/bash) -X xcodeplist -J 'AnyDate';
-    fi
+- if [ $TEST == 1 ]; then
+    bash <(curl -s https://codecov.io/bash) -X xcodeplist -J 'AnyDate';
+  fi
 
 before_deploy:
-  - ruby ./Supports/carthage_helper.rb prepare_xcconfig
-  - TEST=0 swift package generate-xcodeproj --xcconfig-overrides Config.xcconfig
-  - carthage build --no-skip-current --verbose | xcpretty -c
-  - ruby ./Supports/carthage_helper.rb modify_info
-  - carthage archive $FRAMEWORK
+- ruby ./Supports/carthage_helper.rb prepare_xcconfig
+- TEST=0 swift package generate-xcodeproj --xcconfig-overrides Config.xcconfig
+- carthage build --no-skip-current --verbose | xcpretty -c
+- ruby ./Supports/carthage_helper.rb modify_info
+- carthage archive $FRAMEWORK
 
 deploy:
   provider: releases

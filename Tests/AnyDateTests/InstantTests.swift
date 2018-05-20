@@ -186,7 +186,7 @@ class InstantTests: XCTestCase {
         let instant = Instant(epochSecond: 100_000, nano: 999_000_000)
         XCTAssertEqual(instant.description, "100000.999000000")
         XCTAssertEqual(instant.debugDescription, "100000.999000000")
-        #if swift(>=4.1)
+        #if swift(>=4.1) || (swift(>=3.3) && !swift(>=4.0))
         if let description = instant.playgroundDescription as? String {
             XCTAssertEqual(description, "100000.999000000")
         }

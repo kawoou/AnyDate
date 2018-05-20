@@ -309,7 +309,7 @@ class LocalDateTests: XCTestCase {
         let date = LocalDate(year: 1969, month: 12, day: 31)
         XCTAssertEqual(date.description, "1969.12.31")
         XCTAssertEqual(date.debugDescription, "1969.12.31")
-        #if swift(>=4.1)
+        #if swift(>=4.1) || (swift(>=3.3) && !swift(>=4.0))
         if let description = date.playgroundDescription as? String {
             XCTAssertEqual(description, "1969.12.31")
         }
