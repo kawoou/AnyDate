@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>AnyDate  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a title="AnyDate  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html">AnyDate Docs</a> (81% documented)</p>
+        <p class="header-right"><a href="https://github.com/kawoou/AnyDate"><img src="img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html">AnyDate Reference</a>
+        <img id="carat" src="img/carat.png" />
+        AnyDate  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Enums/ClockIdentifierName.html">ClockIdentifierName</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Extensions/Int.html">Int</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Structs/Clock.html">Clock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/Instant.html">Instant</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/Instant/Component.html">– Component</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/Instant/UntilComponent.html">– UntilComponent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/LocalDate.html">LocalDate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/LocalDate/Component.html">– Component</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/LocalDate/PlusComponent.html">– PlusComponent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/LocalDate/RangeComponent.html">– RangeComponent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/LocalDate/UntilComponent.html">– UntilComponent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/LocalDateTime.html">LocalDateTime</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/LocalDateTime/Component.html">– Component</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/LocalDateTime/PlusComponent.html">– PlusComponent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/LocalDateTime/RangeComponent.html">– RangeComponent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/LocalDateTime/UntilComponent.html">– UntilComponent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/LocalTime.html">LocalTime</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/LocalTime/Component.html">– Component</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/LocalTime/PlusComponent.html">– PlusComponent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/LocalTime/RangeComponent.html">– RangeComponent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/LocalTime/UntilComponent.html">– UntilComponent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/Period.html">Period</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/ZonedDateTime.html">ZonedDateTime</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <h1 id='anydate' class='heading'>AnyDate</h1>
+
+<p><a href="https://github.com/sindresorhus/awesome"><img src="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg" alt="Awesome"></a>
+<img src="https://img.shields.io/badge/Swift-4.1-orange.svg" alt="Swift">
+<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible"></a>
+<a href="http://cocoadocs.org/docsets/AnyDate"><img src="https://img.shields.io/cocoapods/v/AnyDate.svg?style=flat" alt="Version"></a>
+<a href="https://github.com/kawoou/AnyDate/blob/master/LICENSE"><img src="https://img.shields.io/cocoapods/l/AnyDate.svg?style=flat" alt="License"></a>
+<a href="https://travis-ci.org/kawoou/AnyDate"><img src="https://travis-ci.org/kawoou/AnyDate.svg?branch=master" alt="CI Status"></a>
+<a href="https://codecov.io/gh/kawoou/AnyDate"><img src="https://img.shields.io/codecov/c/github/kawoou/AnyDate.svg" alt="Codecov"></a>
+<a href="http://cocoadocs.org/docsets/AnyDate"><img src="https://img.shields.io/cocoapods/p/AnyDate.svg?style=flat" alt="Platform"></a>
+<a href="http://kawoou.kr/AnyDate"><img src="http://kawoou.kr/AnyDate/badge.svg" alt="Jazzy"></a></p>
+
+<p>Swifty Date &amp; Time API inspired from Java 8 DateTime API.</p>
+<h2 id='background' class='heading'>Background</h2>
+
+<p>I think that date &amp; time API should be easy and accurate.</p>
+
+<p>Previous dates, times, timezones API of Swift are inconvenience to use. (It&rsquo;s very complex to create, manipulate or everything else.)</p>
+
+<p>But there&rsquo;s quite nice pioneer, <strong><em>The Brand New Time API of Java8</em></strong>.</p>
+
+<p>Java 8 introduced whole new API for handle date &amp; time more efficiently and easy a.k.a LocalDateTime, ZonedDateTime(JSR-310). The main idea that is:</p>
+
+<ul>
+<li>Immutable-value classes</li>
+<li>Domain-driven design</li>
+<li>Separation of chronologies</li>
+</ul>
+
+<p>Those ideas can be easily ported to another languages, like .Net&rsquo;s Rx ports of another languages.</p>
+
+<p>So, here&rsquo;s the AnyDate, whole new Swift date &amp; time API that has coherence between Java 8.</p>
+<h2 id='features' class='heading'>Features</h2>
+
+<ul>
+<li>[x] Convinience typed year, month, day, time.</li>
+<li>[x] Pre-defined Timezone Identifiers.</li>
+<li>[x] Null-Safe types.</li>
+<li>[x] Separation of chronologies.</li>
+<li>[x] Coherence with Java.</li>
+<li>[x] Operators supported.</li>
+<li>[x] Easy to manipulate.</li>
+</ul>
+<h2 id='faq' class='heading'>FAQ</h2>
+
+<ul>
+<li>Looks like SwiftDate?
+
+<ul>
+<li>SwiftDate is a support library for Date, AnyDate can completely replace Date.</li>
+</ul></li>
+</ul>
+<h2 id='usage' class='heading'>Usage</h2>
+
+<ul>
+<li>Convinience typed year, month, day, time.</li>
+</ul>
+<pre class="highlight swift"><code><span class="c1">/// Before</span>
+<span class="k">let</span> <span class="nv">now1</span> <span class="o">=</span> <span class="kt">Date</span><span class="p">()</span>
+<span class="k">var</span> <span class="nv">calendar</span> <span class="o">=</span> <span class="kt">Calendar</span><span class="o">.</span><span class="n">current</span>
+<span class="n">calendar</span><span class="o">.</span><span class="n">timeZone</span> <span class="o">=</span> <span class="kt">TimeZone</span><span class="p">(</span><span class="nv">identifier</span><span class="p">:</span> <span class="s">"UTC"</span><span class="p">)</span><span class="o">!</span>
+
+<span class="k">let</span> <span class="nv">day</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="nf">components</span><span class="p">(</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="n">now1</span><span class="p">)</span>
+
+<span class="c1">/// After</span>
+<span class="k">let</span> <span class="nv">now2</span> <span class="o">=</span> <span class="kt">ZonedDateTime</span><span class="p">(</span><span class="kt">Clock</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">day</span> <span class="o">=</span> <span class="n">now2</span><span class="o">.</span><span class="n">day</span>
+</code></pre>
+
+<ul>
+<li>Pre-defined Timezone Identifiers. String typed timezones are not safe from your <em>TYPING ERROR</em>. (Plz, do not belive your finger. They can always betray you.)</li>
+</ul>
+<pre class="highlight swift"><code><span class="c1">/// Before</span>
+<span class="k">let</span> <span class="nv">timeZone1</span> <span class="o">=</span> <span class="kt">TimeZone</span><span class="p">(</span><span class="nv">identifier</span><span class="p">:</span> <span class="s">"GMT+0900"</span><span class="p">)</span><span class="o">!</span>
+<span class="k">let</span> <span class="nv">timeZone2</span> <span class="o">=</span> <span class="kt">TimeZone</span><span class="p">(</span><span class="nv">identifier</span><span class="p">:</span> <span class="s">"America/Argentina/Buenos_Aires"</span><span class="p">)</span><span class="o">!</span>
+
+<span class="c1">/// After</span>
+<span class="k">let</span> <span class="nv">clock1</span> <span class="o">=</span> <span class="kt">Clock</span><span class="p">(</span><span class="nv">offsetHour</span><span class="p">:</span> <span class="mi">9</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">clock2</span> <span class="o">=</span> <span class="kt">Clock</span><span class="p">(</span><span class="nv">identifier</span><span class="p">:</span> <span class="o">.</span><span class="n">americaArgentinaBuenosAires</span><span class="p">)</span>
+</code></pre>
+
+<ul>
+<li>Null-Safe types. <strong><em>NO MORE NEEDLESS GUARD &amp; OPTIONAL AND INDENT INCRESEMENT :-D</em></strong></li>
+</ul>
+<pre class="highlight swift"><code><span class="c1">/// Before</span>
+<span class="k">var</span> <span class="nv">dateComponents</span> <span class="o">=</span> <span class="kt">DateComponents</span><span class="p">()</span>
+<span class="n">dateComponents</span><span class="o">.</span><span class="n">year</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="n">dateComponents</span><span class="o">.</span><span class="n">month</span> <span class="o">=</span> <span class="mi">11</span>
+<span class="n">dateComponents</span><span class="o">.</span><span class="n">day</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">dateComponents</span><span class="o">.</span><span class="n">hour</span> <span class="o">=</span> <span class="mi">11</span>
+<span class="n">dateComponents</span><span class="o">.</span><span class="n">minute</span> <span class="o">=</span> <span class="mi">51</span>
+<span class="n">dateComponents</span><span class="o">.</span><span class="n">second</span> <span class="o">=</span> <span class="mi">18</span>
+<span class="n">dateComponents</span><span class="o">.</span><span class="n">nanosecond</span> <span class="o">=</span> <span class="mi">1573</span>
+
+<span class="k">guard</span> <span class="k">let</span> <span class="nv">date</span> <span class="o">=</span> <span class="kt">Calendar</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="nf">date</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="n">dateComponents</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nf">assertionFailure</span><span class="p">(</span><span class="s">"Failed to create!"</span><span class="p">)</span>
+    <span class="k">return</span>
+<span class="p">}</span>
+
+<span class="c1">/// After</span>
+<span class="k">let</span> <span class="nv">date</span> <span class="o">=</span> <span class="kt">LocalDateTime</span><span class="p">(</span>
+    <span class="nv">year</span><span class="p">:</span> <span class="mi">2000</span><span class="p">,</span>
+    <span class="nv">month</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+    <span class="nv">day</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="nv">hour</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+    <span class="nv">minute</span><span class="p">:</span> <span class="mi">51</span><span class="p">,</span>
+    <span class="nv">second</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span>
+    <span class="nv">nanoOfSecond</span><span class="p">:</span> <span class="mi">1573</span>
+<span class="p">)</span>
+</code></pre>
+
+<ul>
+<li>Operators supported. Easy to compare dates, datetimes, times.</li>
+</ul>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">min</span> <span class="o">=</span> <span class="kt">ZonedDateTime</span><span class="o">.</span><span class="n">min</span>
+<span class="k">let</span> <span class="nv">max</span> <span class="o">=</span> <span class="kt">ZonedDateTime</span><span class="o">.</span><span class="n">max</span>
+
+<span class="k">let</span> <span class="nv">oldDate</span> <span class="o">=</span> <span class="kt">ZonedDateTime</span><span class="p">(</span><span class="nv">year</span><span class="p">:</span> <span class="mi">1627</span><span class="p">,</span> <span class="nv">month</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nv">day</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nv">hour</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="nv">minute</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nv">second</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="nv">nanoOfSecond</span><span class="p">:</span> <span class="mi">1573</span><span class="p">,</span> <span class="nv">clock</span><span class="p">:</span> <span class="o">.</span><span class="kt">UTC</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">newDate</span> <span class="o">=</span> <span class="kt">ZonedDateTime</span><span class="p">(</span><span class="nv">year</span><span class="p">:</span> <span class="mi">1627</span><span class="p">,</span> <span class="nv">month</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nv">day</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nv">hour</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="nv">minute</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nv">second</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="nv">nanoOfSecond</span><span class="p">:</span> <span class="mi">1574</span><span class="p">,</span> <span class="nv">clock</span><span class="p">:</span> <span class="o">.</span><span class="kt">UTC</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">equalDate</span> <span class="o">=</span> <span class="kt">ZonedDateTime</span><span class="p">(</span><span class="nv">year</span><span class="p">:</span> <span class="mi">1627</span><span class="p">,</span> <span class="nv">month</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nv">day</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nv">hour</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="nv">minute</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nv">second</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="nv">nanoOfSecond</span><span class="p">:</span> <span class="mi">1573</span><span class="p">,</span> <span class="nv">clock</span><span class="p">:</span> <span class="o">.</span><span class="kt">UTC</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="nv">isLessThan</span> <span class="o">=</span> <span class="n">min</span> <span class="o">&lt;</span> <span class="n">oldDate</span>
+<span class="k">let</span> <span class="nv">isGreaterThan</span> <span class="o">=</span> <span class="n">max</span> <span class="o">&gt;</span> <span class="n">newDate</span>
+<span class="k">let</span> <span class="nv">isLessThanOrEqual</span> <span class="o">=</span> <span class="n">oldDate</span> <span class="o">&lt;=</span> <span class="n">equalDate</span>
+<span class="k">let</span> <span class="nv">isGreaterThanOrEqual</span> <span class="o">=</span> <span class="n">oldDate</span> <span class="o">&gt;=</span> <span class="n">equalDate</span>
+<span class="k">let</span> <span class="nv">isEqual</span> <span class="o">=</span> <span class="n">oldDate</span> <span class="o">==</span> <span class="n">equalDate</span>
+<span class="k">let</span> <span class="nv">isLessThan</span> <span class="o">=</span> <span class="n">oldDate</span> <span class="o">&lt;</span> <span class="n">newDate</span>
+</code></pre>
+
+<ul>
+<li>Easy to manipulate. You can use our overridden operators to create / add / sub dates and times.</li>
+</ul>
+<pre class="highlight swift"><code><span class="c1">/// 1000-01-07T11:51:18.000001573</span>
+<span class="k">let</span> <span class="nv">date</span> <span class="o">=</span> <span class="kt">LocalDateTime</span><span class="p">(</span>
+    <span class="nv">year</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="nv">month</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nv">day</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+    <span class="nv">hour</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+    <span class="nv">minute</span><span class="p">:</span> <span class="mi">51</span><span class="p">,</span>
+    <span class="nv">second</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span>
+    <span class="nv">nanoOfSecond</span><span class="p">:</span> <span class="mi">1573</span>
+<span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+
+<span class="c1">/// Period(year: 1, month: 1, day: 9, hour: 2, minute: 3, second: 4, nano: 152)</span>
+<span class="k">let</span> <span class="nv">period</span> <span class="o">=</span> <span class="mi">1</span><span class="o">.</span><span class="n">year</span> <span class="o">+</span> <span class="mi">1</span><span class="o">.</span><span class="n">month</span> <span class="o">+</span> <span class="mi">1</span><span class="o">.</span><span class="n">week</span> <span class="o">+</span> <span class="mi">2</span><span class="o">.</span><span class="n">day</span> <span class="o">+</span> <span class="mi">2</span><span class="o">.</span><span class="n">hour</span> <span class="o">+</span> <span class="mi">3</span><span class="o">.</span><span class="n">minute</span> <span class="o">+</span> <span class="mi">4</span><span class="o">.</span><span class="n">second</span> <span class="o">+</span> <span class="mi">152</span><span class="o">.</span><span class="n">nanosecond</span>
+
+<span class="c1">/// 1001-03-16T13:54:22.000001725</span>
+<span class="k">let</span> <span class="nv">newDate</span> <span class="o">=</span> <span class="n">date</span> <span class="o">+</span> <span class="n">period</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">newDate</span><span class="p">)</span>
+</code></pre>
+<h2 id='installation' class='heading'>Installation</h2>
+<h3 id='a-href-https-cocoapods-org-cocoapods-a' class='heading'><a href="https://cocoapods.org">CocoaPods</a>:</h3>
+<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'AnyDate'</span><span class="p">,</span> <span class="s1">'~&gt; 1.0.6'</span>
+</code></pre>
+<h3 id='a-href-https-github-com-carthage-carthage-carthage-a' class='heading'><a href="https://github.com/Carthage/Carthage">Carthage</a>:</h3>
+<pre class="highlight plaintext"><code>github "kawoou/AnyDate" ~&gt; 1.0.6
+</code></pre>
+<h3 id='a-href-https-swift-org-package-manager-swift-package-manager-a' class='heading'><a href="https://swift.org/package-manager">Swift Package Manager</a>:</h3>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">PackageDescription</span>
+
+<span class="k">let</span> <span class="nv">package</span> <span class="o">=</span> <span class="kt">Package</span><span class="p">(</span>
+  <span class="nv">name</span><span class="p">:</span> <span class="s">"MyAwesomeApp"</span><span class="p">,</span>
+  <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
+    <span class="o">.</span><span class="kt">Package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/kawoou/AnyDate"</span><span class="p">,</span> <span class="nv">majorVersion</span><span class="p">:</span> <span class="mi">1</span><span class="p">),</span>
+  <span class="p">]</span>
+<span class="p">)</span>
+</code></pre>
+<h3 id='manually' class='heading'>Manually</h3>
+
+<p>You can either simply drag and drop the <code>Sources</code> folder into your existing project.</p>
+<h2 id='requirements' class='heading'>Requirements</h2>
+
+<ul>
+<li>Swift 3.1</li>
+<li>iOS 8.0+</li>
+<li>tvOS 9.0+</li>
+<li>macOS 10.10+</li>
+<li>watchOS 2.0+</li>
+<li>Virtually any platform which is compatible with Swift 3 and implements the Swift Foundation Library.</li>
+</ul>
+<h2 id='changelog' class='heading'>Changelog</h2>
+
+<ul>
+<li>1.0.0 - 2017/08/13
+
+<ul>
+<li>First release AnyDate!</li>
+</ul></li>
+<li>1.0.1 - 2017/08/16
+
+<ul>
+<li>Increase test codes.</li>
+<li>Implement CustomPlaygroundQuickLookable, CustomReflectable protocols.</li>
+</ul></li>
+<li>1.0.2 - 2017/08/26
+
+<ul>
+<li>Increase test codes.</li>
+<li>Support Codable protocol in swift 4.</li>
+<li>Add operators on Instant.</li>
+</ul></li>
+<li>1.0.3 - 2017/09/03
+
+<ul>
+<li>Hotfix, Comparable bugs.</li>
+</ul></li>
+<li>1.0.4 - 2017/10/07
+
+<ul>
+<li>Fix <code>Calendar(identifier: .iso8601)</code> crash on swift SR-3828.</li>
+</ul></li>
+<li>1.0.5 - 2018/04/11
+
+<ul>
+<li>Support for Swift 4.1 and Xcode 9.3.</li>
+</ul></li>
+<li>1.0.6 - 2018/05/20
+
+<ul>
+<li>Support Hashable.</li>
+</ul></li>
+</ul>
+<h2 id='author' class='heading'>Author</h2>
+
+<ul>
+<li>kawoou, <a href="mailto:kawoou@kawoou.kr">kawoou@kawoou.kr</a></li>
+<li>dave, <a href="mailto:dave.dev@icloud.com">dave.dev@icloud.com</a></li>
+</ul>
+<h2 id='special-thanks' class='heading'>Special Thanks</h2>
+
+<ul>
+<li>Naming by 아메바</li>
+</ul>
+<h2 id='license' class='heading'>License</h2>
+
+<p>AnyDate is under MIT license. See the LICENSE file for more info.</p>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2018 <a class="link" href="http://www.kawoou.kr" target="_blank" rel="external">Jungwon An</a>. All rights reserved. (Last updated: 2018-05-20)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

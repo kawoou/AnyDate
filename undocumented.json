@@ -1,0 +1,1300 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Clock.swift",
+      "line": null,
+      "symbol": "Clock",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Clock.swift",
+      "line": null,
+      "symbol": "Clock",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Clock.swift",
+      "line": null,
+      "symbol": "Clock",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Clock.swift",
+      "line": null,
+      "symbol": "Clock",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Clock.swift",
+      "line": null,
+      "symbol": "Clock",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Clock.swift",
+      "line": null,
+      "symbol": "Clock",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Clock.swift",
+      "line": null,
+      "symbol": "Clock",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Clock.swift",
+      "line": 3,
+      "symbol": "Clock",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ClockIdentifierName.swift",
+      "line": 1,
+      "symbol": "ClockIdentifierName",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": null,
+      "symbol": "Instant",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": null,
+      "symbol": "Instant",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": null,
+      "symbol": "Instant",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": null,
+      "symbol": "Instant",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": null,
+      "symbol": "Instant",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": null,
+      "symbol": "Instant",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": null,
+      "symbol": "Instant",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": 3,
+      "symbol": "Instant",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": 18,
+      "symbol": "Instant.Component",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": 19,
+      "symbol": "Instant.Component.second",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": 20,
+      "symbol": "Instant.Component.nanosecond",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": 23,
+      "symbol": "Instant.UntilComponent",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": 24,
+      "symbol": "Instant.UntilComponent.day",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": 25,
+      "symbol": "Instant.UntilComponent.hour",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": 26,
+      "symbol": "Instant.UntilComponent.minute",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": 27,
+      "symbol": "Instant.UntilComponent.second",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": 28,
+      "symbol": "Instant.UntilComponent.nanosecond",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": 343,
+      "symbol": "Instant.+(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": 349,
+      "symbol": "Instant.+=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": 354,
+      "symbol": "Instant.-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Instant.swift",
+      "line": 360,
+      "symbol": "Instant.-=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": null,
+      "symbol": "LocalDate",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": null,
+      "symbol": "LocalDate",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": null,
+      "symbol": "LocalDate",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": null,
+      "symbol": "LocalDate",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": null,
+      "symbol": "LocalDate",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": null,
+      "symbol": "LocalDate",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": null,
+      "symbol": "LocalDate",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 3,
+      "symbol": "LocalDate",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 35,
+      "symbol": "LocalDate.Component",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 36,
+      "symbol": "LocalDate.Component.year",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 37,
+      "symbol": "LocalDate.Component.month",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 38,
+      "symbol": "LocalDate.Component.day",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 40,
+      "symbol": "LocalDate.PlusComponent",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 41,
+      "symbol": "LocalDate.PlusComponent.year",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 42,
+      "symbol": "LocalDate.PlusComponent.month",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 43,
+      "symbol": "LocalDate.PlusComponent.weekday",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 44,
+      "symbol": "LocalDate.PlusComponent.day",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 46,
+      "symbol": "LocalDate.RangeComponent",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 47,
+      "symbol": "LocalDate.RangeComponent.era",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 48,
+      "symbol": "LocalDate.RangeComponent.year",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 49,
+      "symbol": "LocalDate.RangeComponent.month",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 50,
+      "symbol": "LocalDate.RangeComponent.weekday",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 51,
+      "symbol": "LocalDate.RangeComponent.weekOfMonth",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 53,
+      "symbol": "LocalDate.UntilComponent",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 54,
+      "symbol": "LocalDate.UntilComponent.year",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 55,
+      "symbol": "LocalDate.UntilComponent.month",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 56,
+      "symbol": "LocalDate.UntilComponent.weekday",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 57,
+      "symbol": "LocalDate.UntilComponent.day",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 558,
+      "symbol": "LocalDate.+(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 565,
+      "symbol": "LocalDate.+=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 570,
+      "symbol": "LocalDate.-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDate.swift",
+      "line": 577,
+      "symbol": "LocalDate.-=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": null,
+      "symbol": "LocalDateTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": null,
+      "symbol": "LocalDateTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": null,
+      "symbol": "LocalDateTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": null,
+      "symbol": "LocalDateTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": null,
+      "symbol": "LocalDateTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": null,
+      "symbol": "LocalDateTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": null,
+      "symbol": "LocalDateTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 3,
+      "symbol": "LocalDateTime",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 7,
+      "symbol": "LocalDateTime.Component",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 8,
+      "symbol": "LocalDateTime.Component.year",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 9,
+      "symbol": "LocalDateTime.Component.month",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 10,
+      "symbol": "LocalDateTime.Component.day",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 11,
+      "symbol": "LocalDateTime.Component.hour",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 12,
+      "symbol": "LocalDateTime.Component.minute",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 13,
+      "symbol": "LocalDateTime.Component.second",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 14,
+      "symbol": "LocalDateTime.Component.nanosecond",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 16,
+      "symbol": "LocalDateTime.PlusComponent",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 17,
+      "symbol": "LocalDateTime.PlusComponent.year",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 18,
+      "symbol": "LocalDateTime.PlusComponent.month",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 19,
+      "symbol": "LocalDateTime.PlusComponent.weekday",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 20,
+      "symbol": "LocalDateTime.PlusComponent.day",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 21,
+      "symbol": "LocalDateTime.PlusComponent.hour",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 22,
+      "symbol": "LocalDateTime.PlusComponent.minute",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 23,
+      "symbol": "LocalDateTime.PlusComponent.second",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 24,
+      "symbol": "LocalDateTime.PlusComponent.nanosecond",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 26,
+      "symbol": "LocalDateTime.RangeComponent",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 27,
+      "symbol": "LocalDateTime.RangeComponent.era",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 28,
+      "symbol": "LocalDateTime.RangeComponent.year",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 29,
+      "symbol": "LocalDateTime.RangeComponent.month",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 30,
+      "symbol": "LocalDateTime.RangeComponent.weekday",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 31,
+      "symbol": "LocalDateTime.RangeComponent.weekOfMonth",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 32,
+      "symbol": "LocalDateTime.RangeComponent.hour",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 33,
+      "symbol": "LocalDateTime.RangeComponent.minute",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 34,
+      "symbol": "LocalDateTime.RangeComponent.second",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 35,
+      "symbol": "LocalDateTime.RangeComponent.nanosecond",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 37,
+      "symbol": "LocalDateTime.UntilComponent",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 38,
+      "symbol": "LocalDateTime.UntilComponent.year",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 39,
+      "symbol": "LocalDateTime.UntilComponent.month",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 40,
+      "symbol": "LocalDateTime.UntilComponent.weekday",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 41,
+      "symbol": "LocalDateTime.UntilComponent.day",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 42,
+      "symbol": "LocalDateTime.UntilComponent.hour",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 43,
+      "symbol": "LocalDateTime.UntilComponent.minute",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 44,
+      "symbol": "LocalDateTime.UntilComponent.second",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 45,
+      "symbol": "LocalDateTime.UntilComponent.nanosecond",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 605,
+      "symbol": "LocalDateTime.+=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 609,
+      "symbol": "LocalDateTime.-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 615,
+      "symbol": "LocalDateTime.-=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 627,
+      "symbol": "LocalDateTime.+=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 630,
+      "symbol": "LocalDateTime.-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 636,
+      "symbol": "LocalDateTime.-=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 647,
+      "symbol": "LocalDateTime.+=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 650,
+      "symbol": "LocalDateTime.-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalDateTime.swift",
+      "line": 656,
+      "symbol": "LocalDateTime.-=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": null,
+      "symbol": "LocalTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": null,
+      "symbol": "LocalTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": null,
+      "symbol": "LocalTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": null,
+      "symbol": "LocalTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": null,
+      "symbol": "LocalTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": null,
+      "symbol": "LocalTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": null,
+      "symbol": "LocalTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 3,
+      "symbol": "LocalTime",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 74,
+      "symbol": "LocalTime.Component",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 75,
+      "symbol": "LocalTime.Component.hour",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 76,
+      "symbol": "LocalTime.Component.minute",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 77,
+      "symbol": "LocalTime.Component.second",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 78,
+      "symbol": "LocalTime.Component.nanosecond",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 80,
+      "symbol": "LocalTime.PlusComponent",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 81,
+      "symbol": "LocalTime.PlusComponent.hour",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 82,
+      "symbol": "LocalTime.PlusComponent.minute",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 83,
+      "symbol": "LocalTime.PlusComponent.second",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 84,
+      "symbol": "LocalTime.PlusComponent.nanosecond",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 86,
+      "symbol": "LocalTime.RangeComponent",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 87,
+      "symbol": "LocalTime.RangeComponent.hour",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 88,
+      "symbol": "LocalTime.RangeComponent.minute",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 89,
+      "symbol": "LocalTime.RangeComponent.second",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 90,
+      "symbol": "LocalTime.RangeComponent.nanosecond",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 92,
+      "symbol": "LocalTime.UntilComponent",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 93,
+      "symbol": "LocalTime.UntilComponent.day",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 94,
+      "symbol": "LocalTime.UntilComponent.hour",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 95,
+      "symbol": "LocalTime.UntilComponent.minute",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 96,
+      "symbol": "LocalTime.UntilComponent.second",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 97,
+      "symbol": "LocalTime.UntilComponent.nanosecond",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 522,
+      "symbol": "LocalTime.+(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 530,
+      "symbol": "LocalTime.+=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 536,
+      "symbol": "LocalTime.-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/LocalTime.swift",
+      "line": 544,
+      "symbol": "LocalTime.-=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Period.swift",
+      "line": null,
+      "symbol": "Period",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Period.swift",
+      "line": null,
+      "symbol": "Period",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Period.swift",
+      "line": null,
+      "symbol": "Period",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Period.swift",
+      "line": null,
+      "symbol": "Period",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Period.swift",
+      "line": null,
+      "symbol": "Period",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Period.swift",
+      "line": null,
+      "symbol": "Period",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Period.swift",
+      "line": null,
+      "symbol": "Period",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Period.swift",
+      "line": 3,
+      "symbol": "Period",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Period.swift",
+      "line": 114,
+      "symbol": "Period.+=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Period.swift",
+      "line": 123,
+      "symbol": "Period.-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Period.swift",
+      "line": 134,
+      "symbol": "Period.-=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Period.swift",
+      "line": 156,
+      "symbol": "Period.+=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Period.swift",
+      "line": 165,
+      "symbol": "Period.-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Period.swift",
+      "line": 176,
+      "symbol": "Period.-=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Period.swift",
+      "line": 199,
+      "symbol": "Period.+=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Period.swift",
+      "line": 208,
+      "symbol": "Period.-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/Period.swift",
+      "line": 220,
+      "symbol": "Period.-=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": null,
+      "symbol": "ZonedDateTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": null,
+      "symbol": "ZonedDateTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": null,
+      "symbol": "ZonedDateTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": null,
+      "symbol": "ZonedDateTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": null,
+      "symbol": "ZonedDateTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": null,
+      "symbol": "ZonedDateTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": null,
+      "symbol": "ZonedDateTime",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": 3,
+      "symbol": "ZonedDateTime",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": 576,
+      "symbol": "ZonedDateTime.+=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": 582,
+      "symbol": "ZonedDateTime.-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": 590,
+      "symbol": "ZonedDateTime.-=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": 604,
+      "symbol": "ZonedDateTime.+=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": 607,
+      "symbol": "ZonedDateTime.-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": 613,
+      "symbol": "ZonedDateTime.-=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": 624,
+      "symbol": "ZonedDateTime.+=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": 627,
+      "symbol": "ZonedDateTime.-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": 633,
+      "symbol": "ZonedDateTime.-=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": 644,
+      "symbol": "ZonedDateTime.+=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": 647,
+      "symbol": "ZonedDateTime.-(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/kawoou/GitHub/DateTime/Sources/AnyDate/ZonedDateTime.swift",
+      "line": 653,
+      "symbol": "ZonedDateTime.-=(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/kawoou/GitHub/DateTime"
+}
