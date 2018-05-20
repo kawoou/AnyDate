@@ -658,6 +658,17 @@ extension LocalTime: Comparable {
     }
     
 }
+extension LocalTime: Hashable {
+    
+    /// The hash value.
+    ///
+    /// Hash values are not guaranteed to be equal across different executions of
+    /// your program. Do not save hash values to use during a future execution.
+    public var hashValue: Int {
+        return hour.hashValue ^ (51 &* minute.hashValue) ^ (17 &* second.hashValue) ^ (13 &* nano.hashValue)
+    }
+    
+}
 extension LocalTime: Equatable {
     
     /// Returns a Boolean value indicating whether two values are equal.
@@ -705,7 +716,7 @@ extension LocalTime: CustomReflectable {
     }
 
 }
-#if swift(>=4.1)
+#if swift(>=4.1) || (swift(>=3.3) && !swift(>=4.0))
 extension LocalTime: CustomPlaygroundDisplayConvertible {
     
     /// Returns the custom playground description for this instance.

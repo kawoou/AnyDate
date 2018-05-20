@@ -493,11 +493,18 @@ class LocalDateTimeTests: XCTestCase {
         XCTAssertGreaterThanOrEqual(153_500_000, calendar.component(.nanosecond, from: date))
         XCTAssertLessThanOrEqual(152_500_000, calendar.component(.nanosecond, from: date))
     }
+    func testHashable() {
+        let date = LocalDateTime(year: 1999, month: 10, day: 31, hour: 11, minute: 51, second: 18, nanoOfSecond: 153_000_000)
+        XCTAssertEqual(
+            date.hashValue,
+            date.date.hashValue ^ (13 &* date.time.hashValue)
+        )
+    }
     func testDescription() {
         let date = LocalDateTime(year: 1999, month: 10, day: 31, hour: 11, minute: 51, second: 18, nanoOfSecond: 153_000_000)
         XCTAssertEqual(date.description, "1999.10.31T11:51:18.153000000")
         XCTAssertEqual(date.debugDescription, "1999.10.31T11:51:18.153000000")
-        #if swift(>=4.1)
+        #if swift(>=4.1) || (swift(>=3.3) && !swift(>=4.0))
         if let description = date.playgroundDescription as? String {
             XCTAssertEqual(description, "1999.10.31T11:51:18.153000000")
         }

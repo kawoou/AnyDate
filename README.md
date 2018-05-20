@@ -164,13 +164,13 @@ print(newDate)
 ### [CocoaPods](https://cocoapods.org):
 
 ```ruby
-pod 'AnyDate', '~> 1.0.5'
+pod 'AnyDate', '~> 1.0.6'
 ```
 
 ### [Carthage](https://github.com/Carthage/Carthage):
 
 ```
-github "kawoou/AnyDate" ~> 1.0.5
+github "kawoou/AnyDate" ~> 1.0.6
 ```
 
 ### [Swift Package Manager](https://swift.org/package-manager):
@@ -221,6 +221,8 @@ You can either simply drag and drop the `Sources` folder into your existing proj
   * Fix `Calendar(identifier: .iso8601)` crash on swift SR-3828.
 * 1.0.5 - 2018/04/11
   * Support for Swift 4.1 and Xcode 9.3.
+* 1.0.6 - 2018/05/20
+  * Support Hashable.
 
 
 

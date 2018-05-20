@@ -421,6 +421,17 @@ extension Instant: Comparable {
     }
     
 }
+extension Instant: Hashable {
+    
+    /// The hash value.
+    ///
+    /// Hash values are not guaranteed to be equal across different executions of
+    /// your program. Do not save hash values to use during a future execution.
+    public var hashValue: Int {
+        return second.hashValue ^ (51 &* nano.hashValue)
+    }
+    
+}
 extension Instant: Equatable {
     
     /// Returns a Boolean value indicating whether two values are equal.
@@ -456,7 +467,7 @@ extension Instant: CustomReflectable {
     }
 
 }
-#if swift(>=4.1)
+#if swift(>=4.1) || (swift(>=3.3) && !swift(>=4.0))
 extension Instant: CustomPlaygroundDisplayConvertible {
     
     /// Returns the custom playground description for this instance.

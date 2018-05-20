@@ -760,6 +760,17 @@ extension LocalDateTime: Comparable {
     }
     
 }
+extension LocalDateTime: Hashable {
+    
+    /// The hash value.
+    ///
+    /// Hash values are not guaranteed to be equal across different executions of
+    /// your program. Do not save hash values to use during a future execution.
+    public var hashValue: Int {
+        return internalDate.hashValue ^ (13 &* internalTime.hashValue)
+    }
+    
+}
 extension LocalDateTime: Equatable {
     
     /// Returns a Boolean value indicating whether two values are equal.
@@ -800,7 +811,7 @@ extension LocalDateTime: CustomReflectable {
     }
 
 }
-#if swift(>=4.1)
+#if swift(>=4.1) || (swift(>=3.3) && !swift(>=4.0))
 extension LocalDateTime: CustomPlaygroundDisplayConvertible {
     
     /// Returns the custom playground description for this instance.

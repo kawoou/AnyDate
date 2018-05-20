@@ -287,9 +287,16 @@ class LocalTimeTests: XCTestCase {
         oldTime -= addTime
         XCTAssertEqual(oldTime, newTime)
     }
+    func testHashable() {
+        let date = LocalTime(hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
+        XCTAssertEqual(
+            date.hashValue,
+            Int(11).hashValue ^ (51 &* Int(51).hashValue) ^ (17 &* Int(18).hashValue) ^ (13 &* Int(1573).hashValue)
+        )
+    }
     func testDescription() {
         let date = LocalTime(hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
-        #if swift(>=4.1)
+        #if swift(>=4.1) || (swift(>=3.3) && !swift(>=4.0))
         if let description = date.playgroundDescription as? String {
             XCTAssertEqual(description, "11:51:18.000001573")
         }

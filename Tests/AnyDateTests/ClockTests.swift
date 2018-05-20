@@ -88,11 +88,15 @@ class ClockTests: XCTestCase {
         let clock = Clock.offset(baseClock: Clock(identifier: .americaStLucia), offsetDuration: 100)
         XCTAssertEqual(clock.offsetSecond, -14300)
     }
+    func testHashable() {
+        let clock = Clock(offsetSecond: 10860)
+        XCTAssertEqual(clock.hashValue, Int(10860).hashValue)
+    }
     func testDescription() {
         let clock = Clock(offsetSecond: 10860)
         XCTAssertEqual(clock.description, "03:01:00.000000000")
         XCTAssertEqual(clock.debugDescription, "03:01:00.000000000")
-        #if swift(>=4.1)
+        #if swift(>=4.1) || (swift(>=3.3) && !swift(>=4.0))
         if let description = clock.playgroundDescription as? String {
             XCTAssertEqual(description, "03:01:00.000000000")
         }

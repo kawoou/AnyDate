@@ -209,12 +209,21 @@ class PeriodTests: XCTestCase {
         period1 -= period2
         XCTAssertEqual(period1, checkPeriod)
     }
+    func testHashable() {
+        let period = Period(year: 1, month: 1, day: 3, hour: 1, minute: 8, second: 1, nano: 10)
+        let dateHash = Int(1).hashValue ^ (51 &* Int(1).hashValue) ^ (17 &* Int(3).hashValue)
+        let timeHash = Int(1).hashValue ^ (51 &* Int(8).hashValue) ^ (17 &* Int(1).hashValue) ^ (13 &* Int(10).hashValue)
+        XCTAssertEqual(
+            period.hashValue,
+            dateHash ^ (13 &* timeHash)
+        )
+    }
     func testDescription() {
         let period1 = Period(year: 1, month: 1, day: 3, hour: 1, minute: 8, second: 1, nano: 10)
         let period2 = Period(year: 0, month: 0, day: 0, hour: 0, minute: 0, second: 0, nano: 0)
         XCTAssertEqual(period1.description, "0001Year 01Mon 03Day 01Hour 08Min 01.000000010Sec")
         XCTAssertEqual(period1.debugDescription, "0001Year 01Mon 03Day 01Hour 08Min 01.000000010Sec")
-        #if swift(>=4.1)
+        #if swift(>=4.1) || (swift(>=3.3) && !swift(>=4.0))
         if let description = period1.playgroundDescription as? String {
             XCTAssertEqual(description, "0001Year 01Mon 03Day 01Hour 08Min 01.000000010Sec")
         }
@@ -225,7 +234,7 @@ class PeriodTests: XCTestCase {
         #endif
         XCTAssertEqual(period2.description, "")
         XCTAssertEqual(period2.debugDescription, "")
-        #if swift(>=4.1)
+        #if swift(>=4.1) || (swift(>=3.3) && !swift(>=4.0))
         if let description = period2.playgroundDescription as? String {
             XCTAssertEqual(description, "")
         }
