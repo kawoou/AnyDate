@@ -1,4 +1,4 @@
-osx_image: xcode9.3
+osx_image: xcode10
 language: objective-c
 sudo: required
 branches:
@@ -15,10 +15,10 @@ env:
   - SCHEME="AnyDate-Package"
   - FRAMEWORK="AnyDate"
   matrix:
-  - TEST=1 DESTINATION="platform=iOS Simulator,name=iPhone 8,OS=11.3"
+  - TEST=1 DESTINATION="platform=iOS Simulator,name=iPhone 8,OS=12.0"
   - TEST=1 DESTINATION="arch=x86_64"
-  - TEST=1 DESTINATION="OS=11.3,name=Apple TV"
-  - TEST=0 DESTINATION="OS=4.3,name=Apple Watch - 38mm"
+  - TEST=1 DESTINATION="OS=12.0,name=Apple TV"
+  - TEST=0 DESTINATION="OS=5.0,name=Apple Watch Series 4 - 40mm"
 
 install:
 - eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
