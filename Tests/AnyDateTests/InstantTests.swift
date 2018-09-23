@@ -177,10 +177,20 @@ class InstantTests: XCTestCase {
     }
     func testHashable() {
         let instant = Instant(epochSecond: 100_000, nano: 999_000_000)
+        
+        #if swift(>=4.2)
+        var hasher = Hasher()
+        hasher.combine(100_000)
+        hasher.combine(999_000_000)
+        XCTAssertEqual(
+            instant.hashValue, hasher.finalize()
+        )
+        #else
         XCTAssertEqual(
             instant.hashValue,
             Int64(100_000).hashValue ^ (51 &* Int(999_000_000).hashValue)
         )
+        #endif
     }
     func testDescription() {
         let instant = Instant(epochSecond: 100_000, nano: 999_000_000)

@@ -300,10 +300,21 @@ class LocalDateTests: XCTestCase {
     }
     func testHashable() {
         let date = LocalDate(year: 1969, month: 12, day: 31)
+        
+        #if swift(>=4.2)
+        var hasher = Hasher()
+        hasher.combine(1969)
+        hasher.combine(12)
+        hasher.combine(31)
+        XCTAssertEqual(
+            date.hashValue, hasher.finalize()
+        )
+        #else
         XCTAssertEqual(
             date.hashValue,
             Int(1969).hashValue ^ (51 &* Int(12).hashValue) ^ (17 &* Int(31).hashValue)
         )
+        #endif
     }
     func testDescription() {
         let date = LocalDate(year: 1969, month: 12, day: 31)

@@ -489,10 +489,19 @@ class ZonedDateTimeTests: XCTestCase {
     func testHashable() {
         let date = ZonedDateTime(year: 1999, month: 10, day: 31, hour: 11, minute: 51, second: 18, nanoOfSecond: 153_000_000, clock: .UTC)
         
+        #if swift(>=4.2)
+        var hasher = Hasher()
+        hasher.combine(date.clock)
+        hasher.combine(date.localDateTime)
+        XCTAssertEqual(
+            date.hashValue, hasher.finalize()
+        )
+        #else
         XCTAssertEqual(
             date.hashValue,
             date.clock.hashValue ^ (79 &* date.localDateTime.hashValue)
         )
+        #endif
     }
     func testDescription() {
         let date = ZonedDateTime(year: 1999, month: 10, day: 31, hour: 11, minute: 51, second: 18, nanoOfSecond: 153_000_000, clock: .UTC)

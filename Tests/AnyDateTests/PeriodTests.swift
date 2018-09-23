@@ -211,12 +211,27 @@ class PeriodTests: XCTestCase {
     }
     func testHashable() {
         let period = Period(year: 1, month: 1, day: 3, hour: 1, minute: 8, second: 1, nano: 10)
+        
+        #if swift(>=4.2)
+        var hasher = Hasher()
+        hasher.combine(1)
+        hasher.combine(1)
+        hasher.combine(3)
+        hasher.combine(1)
+        hasher.combine(8)
+        hasher.combine(1)
+        hasher.combine(10)
+        XCTAssertEqual(
+            period.hashValue, hasher.finalize()
+        )
+        #else
         let dateHash = Int(1).hashValue ^ (51 &* Int(1).hashValue) ^ (17 &* Int(3).hashValue)
         let timeHash = Int(1).hashValue ^ (51 &* Int(8).hashValue) ^ (17 &* Int(1).hashValue) ^ (13 &* Int(10).hashValue)
         XCTAssertEqual(
             period.hashValue,
             dateHash ^ (13 &* timeHash)
         )
+        #endif
     }
     func testDescription() {
         let period1 = Period(year: 1, month: 1, day: 3, hour: 1, minute: 8, second: 1, nano: 10)
