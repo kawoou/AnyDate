@@ -289,10 +289,22 @@ class LocalTimeTests: XCTestCase {
     }
     func testHashable() {
         let date = LocalTime(hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)
+        
+        #if swift(>=4.2)
+        var hasher = Hasher()
+        hasher.combine(11)
+        hasher.combine(51)
+        hasher.combine(18)
+        hasher.combine(1573)
+        XCTAssertEqual(
+            date.hashValue, hasher.finalize()
+        )
+        #else
         XCTAssertEqual(
             date.hashValue,
             Int(11).hashValue ^ (51 &* Int(51).hashValue) ^ (17 &* Int(18).hashValue) ^ (13 &* Int(1573).hashValue)
         )
+        #endif
     }
     func testDescription() {
         let date = LocalTime(hour: 11, minute: 51, second: 18, nanoOfSecond: 1573)

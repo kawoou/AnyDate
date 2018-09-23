@@ -495,10 +495,20 @@ class LocalDateTimeTests: XCTestCase {
     }
     func testHashable() {
         let date = LocalDateTime(year: 1999, month: 10, day: 31, hour: 11, minute: 51, second: 18, nanoOfSecond: 153_000_000)
+        
+        #if swift(>=4.2)
+        var hasher = Hasher()
+        hasher.combine(date.date)
+        hasher.combine(date.time)
+        XCTAssertEqual(
+            date.hashValue, hasher.finalize()
+        )
+        #else
         XCTAssertEqual(
             date.hashValue,
             date.date.hashValue ^ (13 &* date.time.hashValue)
         )
+        #endif
     }
     func testDescription() {
         let date = LocalDateTime(year: 1999, month: 10, day: 31, hour: 11, minute: 51, second: 18, nanoOfSecond: 153_000_000)
