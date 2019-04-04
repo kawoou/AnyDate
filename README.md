@@ -164,13 +164,13 @@ print(newDate)
 ### [CocoaPods](https://cocoapods.org):
 
 ```ruby
-pod 'AnyDate', '~> 1.1.0'
+pod 'AnyDate', '~> 1.2.0'
 ```
 
 ### [Carthage](https://github.com/Carthage/Carthage):
 
 ```
-github "kawoou/AnyDate" ~> 1.1.0
+github "kawoou/AnyDate" ~> 1.2.0
 ```
 
 ### [Swift Package Manager](https://swift.org/package-manager):
@@ -225,6 +225,8 @@ You can either simply drag and drop the `Sources` folder into your existing proj
   * Support Hashable.
 * 1.1.0 - 2018/10/18
   * Support for Swift 4.2.
+* 1.2.0 - 2019/04/04
+  * Support for Swift 5.0.
 
 
 
