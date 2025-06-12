@@ -590,7 +590,9 @@ public struct LocalDateTime {
     /// - Returns: The formatted date string.
     public func format(_ formatter: DateFormatter) -> String? {
         guard let date = self.toDate() else { return nil }
-        return formatter.string(from: date)
+
+        let yearPrefix = year <= 0 ? "-" : ""
+        return yearPrefix + formatter.string(from: date)
     }
     
     

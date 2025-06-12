@@ -558,9 +558,11 @@ public struct ZonedDateTime {
     public func format(_ formatter: DateFormatter) -> String? {
         guard let date = self.toDate() else { return nil }
 
+        let yearPrefix = year <= 0 ? "-" : ""
+
         let formatter = formatter
         formatter.timeZone = self.internalClock.toTimeZone()
-        return formatter.string(from: date)
+        return yearPrefix + formatter.string(from: date)
     }
     
     
