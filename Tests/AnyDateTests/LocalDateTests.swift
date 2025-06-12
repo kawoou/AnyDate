@@ -135,9 +135,9 @@ class LocalDateTests: XCTestCase {
         XCTAssertEqual(newDate1.until(endDate: newDate2).day, 30)
 
         let newDate3 = LocalDate(year: 1628, month: 2, day: 13)
-        XCTAssertEqual(newDate1.until(endDate: newDate3).year, -1)
-        XCTAssertEqual(newDate1.until(endDate: newDate3).month, 11)
-        XCTAssertEqual(newDate1.until(endDate: newDate3).day, 3)
+        XCTAssertEqual(newDate1.until(endDate: newDate3).year, 0)
+        XCTAssertEqual(newDate1.until(endDate: newDate3).month, 0)
+        XCTAssertEqual(newDate1.until(endDate: newDate3).day, -28)
 
         let period = oldDate.until(endDate: newDate1)
         XCTAssertEqual(period.year, 1)

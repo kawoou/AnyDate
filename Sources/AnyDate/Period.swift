@@ -7,19 +7,19 @@ public struct Period {
     /// Gets the year field.
     public var year: Int {
         get { return self.internalYear }
-        set { self.internalYear = newValue; self.normalize() }
+        set { self.internalYear = newValue }
     }
 
     /// Gets the month-of-year field from 1 to 12.
     public var month: Int {
         get { return self.internalMonth }
-        set { self.internalMonth = newValue; self.normalize() }
+        set { self.internalMonth = newValue }
     }
 
     /// Gets the day-of-month field.
     public var day: Int {
         get { return self.internalDay }
-        set { self.internalDay = newValue; self.normalize() }
+        set { self.internalDay = newValue }
     }
 
     /// Gets the hour-of-day field.
@@ -88,12 +88,9 @@ public struct Period {
         self.internalMinute = Int(total % Int64(LocalTime.Constant.minutesPerHour))
         self.internalHour = Int(total / Int64(LocalTime.Constant.minutesPerHour))
 
-        let days = day + dayAppend
-
-        var newDate = LocalDate(year: year, month: month + 1, day: days + 1)
-        self.internalYear = newDate.year
-        self.internalMonth = newDate.month - 1
-        self.internalDay = newDate.day - 1
+        self.internalYear = year
+        self.internalMonth = month
+        self.internalDay = day + dayAppend
     }
 
     

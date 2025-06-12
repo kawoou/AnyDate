@@ -15,8 +15,8 @@ class PeriodTests: XCTestCase {
         zero.nano = -125_221
         
         XCTAssertEqual(zero.year, 100)
-        XCTAssertEqual(zero.month, 1)
-        XCTAssertEqual(zero.day, 15)
+        XCTAssertEqual(zero.month, 2)
+        XCTAssertEqual(zero.day, -13)
         XCTAssertEqual(zero.hour, 12)
         XCTAssertEqual(zero.minute, 1)
         XCTAssertEqual(zero.second, 47)
@@ -94,9 +94,9 @@ class PeriodTests: XCTestCase {
     }
     func testNormalize() {
         let period = Period(year: 0, month: 11, day: 30, hour: 23, minute: 59, second: 59, nano: 1000_000_000)
-        XCTAssertEqual(period.year, 1)
-        XCTAssertEqual(period.month, 0)
-        XCTAssertEqual(period.day, 0)
+        XCTAssertEqual(period.year, 0)
+        XCTAssertEqual(period.month, 11)
+        XCTAssertEqual(period.day, 31)
         XCTAssertEqual(period.hour, 0)
         XCTAssertEqual(period.minute, 0)
         XCTAssertEqual(period.second, 0)
@@ -203,7 +203,7 @@ class PeriodTests: XCTestCase {
         let period2 = 2.month
         
         let subtractPeriod = period1 - period2
-        let checkPeriod = Period(month: 10)
+        let checkPeriod = Period(year: 1, month: -2)
         XCTAssertEqual(subtractPeriod, checkPeriod)
         
         period1 -= period2
