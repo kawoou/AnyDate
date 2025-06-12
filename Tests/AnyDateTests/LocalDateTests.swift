@@ -218,7 +218,7 @@ class LocalDateTests: XCTestCase {
     func testToDate() {
         let calendar = Calendar.current
         let localDate = LocalDate(year: 1999, month: 10, day: 31)
-        let date = localDate.toDate(clock: .current)
+        let date = localDate.toDate(clock: .current)!
 
         XCTAssertEqual(calendar.component(.year, from: date), 1999)
         XCTAssertEqual(calendar.component(.month, from: date), 10)

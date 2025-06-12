@@ -168,14 +168,14 @@ public struct ZonedDateTime {
     /// Returns an instance of Date.
     ///
     /// - Parameters clock: The time zone information.
-    public func toDate(clock: Clock?) -> Date {
+    public func toDate(clock: Clock?) -> Date? {
         return self.toDate(timeZone: clock?.toTimeZone())
     }
 
     /// Returns an instance of Date.
     ///
     /// - Parameters timeZone: The time zone information.
-    public func toDate(timeZone: TimeZone? = nil) -> Date {
+    public func toDate(timeZone: TimeZone? = nil) -> Date? {
         /// Specify date components
         var dateComponents = DateComponents()
         dateComponents.timeZone = self.internalClock.toTimeZone()
@@ -191,7 +191,7 @@ public struct ZonedDateTime {
         var calendar = Calendar.current
         calendar.timeZone = timeZone ?? self.internalClock.toTimeZone()
         
-        return calendar.date(from: dateComponents)!
+        return calendar.date(from: dateComponents)
     }
 
     /// Returns a copy of this date-time with a different time-zone,
@@ -555,10 +555,12 @@ public struct ZonedDateTime {
     ///
     /// - Parameters formatter: The formatter to use.
     /// - Returns: The formatted date string.
-    public func format(_ formatter: DateFormatter) -> String {
+    public func format(_ formatter: DateFormatter) -> String? {
+        guard let date = self.toDate() else { return nil }
+
         let formatter = formatter
         formatter.timeZone = self.internalClock.toTimeZone()
-        return formatter.string(from: self.toDate())
+        return formatter.string(from: date)
     }
     
     

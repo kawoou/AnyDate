@@ -475,7 +475,7 @@ class ZonedDateTimeTests: XCTestCase {
         calendar.timeZone = self.utcTimeZone
 
         let localDate = ZonedDateTime(year: 1999, month: 10, day: 31, hour: 11, minute: 51, second: 18, nanoOfSecond: 153_000_000, clock: .UTC)
-        let date = localDate.toDate(clock: .UTC)
+        let date = localDate.toDate(clock: .UTC)!
 
         XCTAssertEqual(calendar.component(.year, from: date), 1999)
         XCTAssertEqual(calendar.component(.month, from: date), 10)

@@ -269,14 +269,14 @@ public struct LocalTime {
     /// Returns an instance of Date.
     ///
     /// - Parameters clock: The time zone information.
-    public func toDate(clock: Clock) -> Date {
+    public func toDate(clock: Clock) -> Date? {
         return self.toDate(timeZone: clock.toTimeZone())
     }
 
     /// Returns an instance of Date.
     ///
     /// - Parameters timeZone: The time zone information.
-    public func toDate(timeZone: TimeZone = TimeZone.current) -> Date {
+    public func toDate(timeZone: TimeZone = TimeZone.current) -> Date? {
         /// Specify date components
         var dateComponents = DateComponents()
         dateComponents.timeZone = timeZone
@@ -289,7 +289,7 @@ public struct LocalTime {
         var calendar = Calendar.current
         calendar.timeZone = timeZone
         
-        return calendar.date(from: dateComponents)!
+        return calendar.date(from: dateComponents)
     }
     
     /// Returns a copy of this time with the specified field set to a new value.
@@ -512,8 +512,9 @@ public struct LocalTime {
     ///
     /// - Parameters formatter: The formatter to use.
     /// - Returns: The formatted date string.
-    public func format(_ formatter: DateFormatter) -> String {
-        return formatter.string(from: self.toDate())
+    public func format(_ formatter: DateFormatter) -> String? {
+        guard let date = self.toDate() else { return nil }
+        return formatter.string(from: date)
     }
     
     

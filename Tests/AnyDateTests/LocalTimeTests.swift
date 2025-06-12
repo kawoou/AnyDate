@@ -239,7 +239,7 @@ class LocalTimeTests: XCTestCase {
         calendar.timeZone = TimeZone(identifier: "UTC")!
 
         let localTime = LocalTime(hour: 14, minute: 2, second: 18, nanoOfSecond: 153_000_000)
-        let date = localTime.toDate(clock: .UTC)
+        let date = localTime.toDate(clock: .UTC)!
 
         XCTAssertEqual(calendar.component(.hour, from: date), 14)
         XCTAssertEqual(calendar.component(.minute, from: date), 2)
