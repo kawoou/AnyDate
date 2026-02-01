@@ -1320,3 +1320,7 @@ public enum ClockIdentifierName: String {
     /// UTC +00:00
     case utc = "UTC"
 }
+
+#if swift(>=5.5)
+extension ClockIdentifierName: Sendable {}
+#endif

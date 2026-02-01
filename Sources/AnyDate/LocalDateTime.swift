@@ -896,3 +896,11 @@ extension LocalDateTime: Codable {
     }
 }
 #endif
+
+#if swift(>=5.5)
+extension LocalDateTime: Sendable {}
+extension LocalDateTime.Component: Sendable {}
+extension LocalDateTime.PlusComponent: Sendable {}
+extension LocalDateTime.RangeComponent: Sendable {}
+extension LocalDateTime.UntilComponent: Sendable {}
+#endif

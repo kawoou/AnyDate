@@ -281,3 +281,12 @@ extension Clock: Codable {
     }
 }
 #endif
+
+#if swift(>=5.5)
+/// Clock is marked as @unchecked Sendable because it contains a TimeZone reference.
+/// This is safe because:
+/// - TimeZone is only read after initialization (Foundation's TimeZone is thread-safe for reads)
+/// - Clock is a value type, so copies are made when passed across actor boundaries
+/// - Each copy has independent mutable state
+extension Clock: @unchecked Sendable {}
+#endif

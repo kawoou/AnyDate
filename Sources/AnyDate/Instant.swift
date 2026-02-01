@@ -6,10 +6,10 @@ public struct Instant {
 
     internal struct Constant {
         /// The minimum supported epoch second.
-        static var minSecond: Int64 = -31_557_014_167_219_200
+        static let minSecond: Int64 = -31_557_014_167_219_200
 
         /// The maximum supported epoch second.
-        static var maxSecond: Int64 = 31_556_889_864_403_199
+        static let maxSecond: Int64 = 31_556_889_864_403_199
     }
     
     
@@ -551,4 +551,11 @@ extension Instant: Codable {
         try container.encode(self.internalNano, forKey: .nano)
     }
 }
+#endif
+
+#if swift(>=5.5)
+extension Instant: Sendable {}
+extension Instant.Constant: Sendable {}
+extension Instant.Component: Sendable {}
+extension Instant.UntilComponent: Sendable {}
 #endif

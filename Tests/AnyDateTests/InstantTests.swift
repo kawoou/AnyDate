@@ -38,7 +38,7 @@ class InstantTests: XCTestCase {
         XCTAssertLessThan(test1, test3)
     }
     func testNormalize() {
-        var instant = Instant(epochSecond: -100, nano: -100)
+        let instant = Instant(epochSecond: -100, nano: -100)
         XCTAssertEqual(instant.second, -101)
         XCTAssertEqual(instant.nano, 999_999_900)
     }
@@ -155,7 +155,7 @@ class InstantTests: XCTestCase {
         var oldInstant = Instant(epochSecond: 306, nano: 124_233_521)
         let addInstant = Instant(epochSecond: 10, nano: 100)
         
-        var newInstant = oldInstant + addInstant
+        let newInstant = oldInstant + addInstant
         XCTAssertEqual(newInstant.second, 316)
         XCTAssertEqual(newInstant.nano, 124_233_621)
         
@@ -167,7 +167,7 @@ class InstantTests: XCTestCase {
         var oldInstant = Instant(epochSecond: 306, nano: 124_233_521)
         let addInstant = Instant(epochSecond: 10, nano: 100)
         
-        var newInstant = oldInstant - addInstant
+        let newInstant = oldInstant - addInstant
         XCTAssertEqual(newInstant.second, 296)
         XCTAssertEqual(newInstant.nano, 124_233_421)
         

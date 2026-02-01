@@ -862,3 +862,12 @@ extension LocalDate: Codable {
     }
 }
 #endif
+
+#if swift(>=5.5)
+extension LocalDate: Sendable {}
+extension LocalDate.Constant: Sendable {}
+extension LocalDate.Component: Sendable {}
+extension LocalDate.PlusComponent: Sendable {}
+extension LocalDate.RangeComponent: Sendable {}
+extension LocalDate.UntilComponent: Sendable {}
+#endif

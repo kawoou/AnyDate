@@ -161,7 +161,7 @@ class ZonedDateTimeTests: XCTestCase {
 
         let date = Date()
 
-        let localDate1 = ZonedDateTime(timeZone: utcCalendar.timeZone)
+        let localDate1 = ZonedDateTime(date, timeZone: utcCalendar.timeZone)
         let localDate2 = ZonedDateTime(date, timeZone: utcCalendar.timeZone)
         XCTAssertEqual(localDate2.year, utcCalendar.component(.year, from: date))
         XCTAssertEqual(localDate2.month, utcCalendar.component(.month, from: date))

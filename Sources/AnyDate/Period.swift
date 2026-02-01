@@ -470,3 +470,7 @@ extension Period: Codable {
     }
 }
 #endif
+
+#if swift(>=5.5)
+extension Period: Sendable {}
+#endif

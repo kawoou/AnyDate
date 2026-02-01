@@ -925,3 +925,7 @@ extension ZonedDateTime: Codable {
     }
 }
 #endif
+
+#if swift(>=5.5)
+extension ZonedDateTime: Sendable {}
+#endif
